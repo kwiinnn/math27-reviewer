@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Colour tokens: monochrome zinc, with emerald and cobalt reserved for
+ * difficulty badges and tip callouts. Three contrast levels per theme.
+ * Layout: fixed curriculum sidebar, quiet sticky top bar, one reading column.
+ */
+:root {
+  --font-ui: 'Inter';
+  --bg: #fafafa; --surface: #ffffff; --inset: #f4f4f5;
+  --line: #e4e4e7; --strong: #a1a1aa;
+  --ink: #18181b; --ink2: #3f3f46; --ink3: #71717a;
+  --primary: #18181b; --onprimary: #ffffff;
+  --basic: #047857; --exam: #1e47b0;
+  --overlay: rgba(24, 24, 27, 0.4);
+  color-scheme: light;
+}
+:root[data-contrast='low'] {
+  --bg: #f4f4f5; --surface: #fafafa; --inset: #ececee;
+  --line: #e4e4e7; --strong: #c4c4cb;
+  --ink: #3f3f46; --ink2: #52525b; --ink3: #71717a;
+  --primary: #52525b; --onprimary: #fafafa;
+  --basic: #2c8a6c; --exam: #4463b8;
+}
+:root[data-contrast='high'] {
+  --bg: #ffffff; --surface: #ffffff; --inset: #f4f4f5;
+  --line: #71717a; --strong: #18181b;
+  --ink: #000000; --ink2: #18181b; --ink3: #3f3f46;
+  --primary: #000000; --onprimary: #ffffff;
+  --basic: #065f46; --exam: #17357f;
+}
+
+/* Dark, before the script has run (system preference only). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #09090b; --surface: #18181b; --inset: #232326;
+    --line: #27272a; --strong: #52525b;
+    --ink: #f4f4f5; --ink2: #d4d4d8; --ink3: #a1a1aa;
+    --primary: #f4f4f5; --onprimary: #18181b;
+    --basic: #34d399; --exam: #8ea8f0;
+    --overlay: rgba(0, 0, 0, 0.6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: #09090b; --surface: #18181b; --inset: #232326;
+  --line: #27272a; --strong: #52525b;
+  --ink: #f4f4f5; --ink2: #d4d4d8; --ink3: #a1a1aa;
+  --primary: #f4f4f5; --onprimary: #18181b;
+  --basic: #34d399; --exam: #8ea8f0;
+  --overlay: rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+:root[data-theme='dark'][data-contrast='low'] {
+  --bg: #18181b; --surface: #1f1f23; --inset: #27272a;
+  --line: #2e2e33; --strong: #52525b;
+  --ink: #c8c8cf; --ink2: #b0b0b8; --ink3: #8f8f99;
+  --primary: #c8c8cf; --onprimary: #18181b;
+  --basic: #5fbf9f; --exam: #8a9fd6;
+}
+:root[data-theme='dark'][data-contrast='high'] {
+  --bg: #000000; --surface: #000000; --inset: #18181b;
+  --line: #a1a1aa; --strong: #fafafa;
+  --ink: #ffffff; --ink2: #f4f4f5; --ink3: #d4d4d8;
+  --primary: #ffffff; --onprimary: #000000;
+  --basic: #6ee7b7; --exam: #b3c5ff;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1rem;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { text-wrap: balance; }
+
+/* KaTeX inherits the surrounding text colour; keep display math compact. */
+.katex-display { margin: 0.25rem 0; }
+.katex { font-size: 1.08em; }
+
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+::selection { background: var(--ink); color: var(--bg); }
+summary::-webkit-details-marker { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+}
