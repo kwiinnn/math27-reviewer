@@ -32,3 +32,9 @@ export const TrashIcon = () => (
 export const PlayIcon = () => <Icon><path d="M5 3.5v9l7-4.5z" fill="currentColor" /></Icon>;
 export const PauseIcon = () => <Icon><path d="M5.5 3.5v9M10.5 3.5v9" strokeWidth="2" /></Icon>;
 export const ArrowIcon = () => <Icon><path d="M2.5 8h11M9.5 4l4 4-4 4" /></Icon>;
+export const ExpandIcon = () => <Icon><path d="M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10" /></Icon>;
+export const ShrinkIcon = () => <Icon><path d="M6 2.5V6H2.5M13.5 6H10V2.5M10 13.5V10h3.5M2.5 10H6v3.5" /></Icon>;
+export const RedoIcon = () => <Icon><path d="M10.5 3l3 3-3 3" /><path d="M13.5 6h-7a4 4 0 000 8h3" /></Icon>;
+export const HighlighterIcon = () => (
+  <Icon><path d="M9.5 3.5l3 3-5.5 5.5H4v-3z" /><path d="M2.5 13.5h4" /></Icon>
+);
