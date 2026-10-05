@@ -5,6 +5,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import katex from 'katex';
 import { topics } from '../src/data/registry';
+import { breakableDisplay, stackRows } from '../src/lib/math';
 import type { Figure, PlotItem } from '../src/types/figure';
 
 let checked = 0;
@@ -14,7 +15,10 @@ function math(latex: string, where: string, displayMode: boolean) {
   checked++;
   if (/[\x00-\x09\x0b-\x1f]/.test(latex)) errors.push(`${where}: control character (single-escaped backslash?)`);
   try {
-    katex.renderToString(latex, { displayMode, throwOnError: true });
+    // Display strings are rendered the way MathRenderer renders them.
+    katex.renderToString(displayMode ? breakableDisplay(latex) : latex, { displayMode: false, throwOnError: true });
+    // ...and, on narrow screens, as separate rows.
+    if (displayMode) stackRows(latex)?.forEach((row) => katex.renderToString(breakableDisplay(row), { displayMode: false, throwOnError: true }));
   } catch (e) {
     errors.push(`${where}: ${(e as Error).message}`);
   }

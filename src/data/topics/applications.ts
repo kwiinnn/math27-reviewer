@@ -413,7 +413,7 @@ export const applications: Topic = {
             x: [0, 40],
             y: [0, 0.33],
             aspect: 1.8,
-            xTicks: [10, 12, 20, 30, 40],
+            xTicks: [10, 20, 30, 40],
             yTicks: [0.1, 0.2, 0.3],
             items: [
               { type: 'fn', f: (x) => Math.atan(16 / x) - Math.atan(9 / x), from: 0.01, label: '\\theta(x)', labelAt: [30, 0.12], anchor: 'n' },

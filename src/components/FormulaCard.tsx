@@ -7,7 +7,7 @@ export function FormulaCard({ formula }: { formula: Formula }) {
     <article className={card}>
       <div className="px-5 pt-5 sm:px-6">
         <h3 className="text-sm font-semibold">{formula.name}</h3>
-        <MathRenderer latex={formula.formulaLatex} display className="my-2 text-lg" />
+        <MathRenderer latex={formula.formulaLatex} display className="my-2 sm:text-lg" />
       </div>
       <dl className="grid grid-cols-1 gap-x-5 gap-y-2 border-t border-line px-5 py-4 text-sm leading-relaxed sm:grid-cols-[6.5rem_minmax(0,1fr)] sm:px-6">
         <dt className="font-medium text-ink3">When to use</dt>

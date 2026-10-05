@@ -31,7 +31,7 @@ export const inverseTrig: Topic = {
       tip: 'Before computing anything, say the sentence "the answer is an angle between ___ and ___". It catches most range errors.',
       figure: {
         kind: 'plot',
-        caption: 'A horizontal line such as $y = \\frac12$ meets $y = \\sin x$ infinitely often. Keeping only the piece on $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$ leaves one crossing, and that piece is the graph we invert.',
+        caption: 'A horizontal line such as $y = \\frac12$ meets $y = \\sin x$ infinitely often. Keeping only the piece on $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$ leaves one crossing, at $\\frac{\\pi}{6} = \\sin^{-1}\\frac12$, and that piece is the graph we invert.',
         x: [-6.6, 6.6],
         y: [-1.5, 1.5],
         aspect: 2.3,
@@ -42,7 +42,7 @@ export const inverseTrig: Topic = {
           { type: 'fn', f: Math.sin, from: -Math.PI / 2, to: Math.PI / 2, width: 3, label: '\\text{principal piece}', labelAt: [-Math.PI / 2, -1], anchor: 'sw' },
           { type: 'hline', y: 0.5, tone: 2, dashed: false, width: 1.5, label: 'y = \\tfrac12', labelAt: [6.6, 0.5], anchor: 'nw' },
           ...[-11 * Math.PI / 6, -7 * Math.PI / 6, 5 * Math.PI / 6, 13 * Math.PI / 6].map((x) => ({ type: 'point' as const, at: [x, 0.5] as [number, number], tone: 'muted' as const, hollow: true })),
-          { type: 'point', at: [Math.PI / 6, 0.5], tone: 2, label: '\\tfrac{\\pi}{6} = \\sin^{-1}\\tfrac12', anchor: 'n' },
+          { type: 'point', at: [Math.PI / 6, 0.5], tone: 2, label: '\\tfrac{\\pi}{6}', anchor: 'nw' },
         ],
       },
     },

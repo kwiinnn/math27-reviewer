@@ -85,7 +85,6 @@ body {
 h1, h2, h3 { text-wrap: balance; }
 
 /* KaTeX inherits the surrounding text colour; keep display math compact. */
-.katex-display { margin: 0.25rem 0; }
 .katex { font-size: 1.08em; }
 
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }

@@ -21,7 +21,7 @@ export function WorkedExampleCard({ example, index }: { example: WorkedExample; 
           </span>
         </div>
         {example.prompt && <p className="mt-3 text-sm leading-relaxed text-ink2"><MathText text={example.prompt} /></p>}
-        <MathRenderer latex={example.problemLatex} display className="mt-2 text-lg" />
+        <MathRenderer latex={example.problemLatex} display className="mt-2 sm:text-lg" />
         <p className="text-sm leading-relaxed text-ink2">
           <span className="font-semibold text-ink">Key idea. </span>
           <MathText text={example.keyIdea} />

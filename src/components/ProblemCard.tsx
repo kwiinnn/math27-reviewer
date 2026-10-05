@@ -23,7 +23,7 @@ export function ProblemCard({ problem }: { problem: Problem }) {
         </header>
 
         <p className="mt-4 text-sm leading-relaxed text-ink2"><MathText text={problem.prompt} /></p>
-        <MathRenderer latex={problem.questionLatex} display className="mt-1 text-lg" />
+        <MathRenderer latex={problem.questionLatex} display className="mt-1 sm:text-lg" />
         {problem.figure && <FigureView figure={problem.figure} className="mt-2" />}
 
         <details className="group mt-3 rounded border border-line">

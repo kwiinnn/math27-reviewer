@@ -28,7 +28,7 @@ export const expLog: Topic = {
         x: [-3, 3],
         y: [-0.5, 6],
         aspect: 1.2,
-        yTicks: [1, 2, 3, 4, 5],
+        yTicks: [2, 3, 4, 5],
         items: [{ type: 'point', at: [0, 1], tone: 'ink', label: '(0, 1)', anchor: 'nw' }],
         animate: {
           param: 'a',
@@ -70,7 +70,7 @@ export const expLog: Topic = {
           { type: 'fn', f: (x) => 2 ** x, label: 'y = 2^x', labelAt: [1.9, 3.73], anchor: 'w' },
           { type: 'fn', f: (x) => Math.log2(x), from: 0.01, tone: 2, label: 'y = \\log_2 x', labelAt: [3.73, 1.9], anchor: 's' },
           { type: 'point', at: [0, 1], label: '(0, 1)', anchor: 'nw' },
-          { type: 'point', at: [1, 0], tone: 2, label: '(1, 0)', anchor: 'se' },
+          { type: 'point', at: [1, 0], tone: 2, label: '(1, 0)', anchor: 'nw' },
         ],
       },
     },
@@ -422,7 +422,7 @@ export const expLog: Topic = {
             aspect: 1.6,
             items: [
               { type: 'polygon', points: [[-3, -3], [2, -3], [2, 5], [-3, 5]], tone: 'muted' },
-              { type: 'label', at: [-0.5, -2], text: '\\text{not in domain}' },
+              { type: 'label', at: [-1.6, 1], text: '\\text{not in domain}' },
               { type: 'vline', x: 2, tone: 'muted', label: 'x = 2', labelAt: [2, -3], anchor: 'ne' },
               { type: 'fn', f: (x) => Math.log2(x) + Math.log2(x - 2), from: 2.0005, label: '\\log_2 x + \\log_2(x-2)', labelAt: [6.8, 4.55], anchor: 'nw' },
               { type: 'hline', y: 3, tone: 2, dashed: false, label: 'y = 3', labelAt: [-3, 3], anchor: 'ne' },
@@ -545,8 +545,8 @@ export const expLog: Topic = {
             items: [
               { type: 'fn', f: (x) => x, tone: 'muted', dashed: true, label: 'y = x', labelAt: [8.3, 8.3], anchor: 'nw' },
               { type: 'vline', x: 3, tone: 1, label: 'x = 3', labelAt: [3, -1], anchor: 'ne' },
-              { type: 'hline', y: 3, tone: 2, label: 'y = 3', labelAt: [-1, 3], anchor: 'se' },
-              { type: 'fn', f: (x) => Math.log2(x - 3) + 1, from: 3.0001, label: 'f', labelAt: [8, 3.32], anchor: 's' },
+              { type: 'hline', y: 3, tone: 2, label: 'y = 3', labelAt: [9, 3], anchor: 'sw' },
+              { type: 'fn', f: (x) => Math.log2(x - 3) + 1, from: 3.0001, label: 'f', labelAt: [5, 2], anchor: 'se' },
               { type: 'fn', f: (x) => 2 ** (x - 1) + 3, tone: 2, label: 'f^{-1}', labelAt: [3.6, 6.03], anchor: 'w' },
             ],
           },

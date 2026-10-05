@@ -1,30 +1,39 @@
+import { useLayoutEffect, useRef, useState } from 'react';
 import type { NoteTable as Table } from '../types/curriculum';
 import { MathText } from './MathRenderer';
 
-/** Rough rendered width of a cell in characters: each command counts as about two. */
-function width(cell: string) {
-  return cell
-    .replace(/\$|\\(left|right|displaystyle|dfrac|frac|[,;!])/g, '')
-    .replace(/\\[a-zA-Z]+/g, 'ab')
-    .replace(/[{}^_]/g, '').length;
-}
-/** Rows narrower than this fit a phone screen as an ordinary table. */
-const PHONE_ROW = 40;
-
 /**
- * A real table. On phones a table with wide rows turns each row into a small
- * card with the column names as labels, so nothing scrolls sideways.
+ * A real table when it fits the column (math in a cell never wraps, so a
+ * cramped cell counts as not fitting). When its natural width is wider than
+ * the column (usually on phones), each row becomes a small card with the
+ * column names as labels, so nothing scrolls sideways. The table stays in the
+ * layout invisibly so the fit can be re-measured when the column resizes.
  */
 export function NoteTable({ table, className = '' }: { table: Table; className?: string }) {
   const { head, rows } = table;
-  const fitsPhone = rows.every((row) => row.reduce((n, cell) => n + width(cell), 0) <= PHONE_ROW);
+  const box = useRef<HTMLDivElement>(null);
+  const tableRef = useRef<HTMLTableElement>(null);
+  const [cards, setCards] = useState(false);
+
+  useLayoutEffect(() => {
+    const measure = () => {
+      if (box.current && tableRef.current) setCards(tableRef.current.offsetWidth > box.current.clientWidth + 1);
+    };
+    measure();
+    if (!('ResizeObserver' in window) || !box.current) return;
+    const ro = new ResizeObserver(measure);
+    ro.observe(box.current);
+    return () => ro.disconnect();
+  }, []);
+
   return (
-    <div className={className}>
-      <table className={`${fitsPhone ? 'table' : 'hidden sm:table'} w-full border-collapse text-sm`}>
+    <div ref={box} className={`relative ${cards ? 'overflow-hidden' : ''} ${className}`}>
+      <table ref={tableRef} aria-hidden={cards || undefined}
+        className={`border-collapse text-sm [&_.katex]:whitespace-nowrap ${cards ? 'pointer-events-none invisible absolute left-0 top-0 w-max' : 'w-full'}`}>
         {head && (
           <thead>
             <tr className="border-b border-line text-left text-xs font-semibold uppercase tracking-wider text-ink3">
-              {head.map((h, i) => <th key={i} scope="col" className="py-2 pr-4 font-semibold"><MathText text={h} /></th>)}
+              {head.map((h, i) => <th key={i} scope="col" className="whitespace-nowrap py-2 pr-4 font-semibold"><MathText text={h} /></th>)}
             </tr>
           </thead>
         )}
@@ -41,19 +50,21 @@ export function NoteTable({ table, className = '' }: { table: Table; className?:
         </tbody>
       </table>
 
-      {!fitsPhone && <ul className="grid grid-cols-1 gap-2 text-sm sm:hidden">
-        {rows.map((row, r) => (
-          <li key={r} className="rounded bg-inset px-3 py-2.5 leading-relaxed">
-            <p className="font-medium text-ink"><MathText text={row[0]} /></p>
-            {row.slice(1).map((cell, c) => (
-              <p key={c} className="mt-1 text-ink2">
-                {head?.[c + 1] && <span className="mr-2 text-xs font-semibold uppercase tracking-wider text-ink3"><MathText text={head[c + 1]} /></span>}
-                <MathText text={cell} />
-              </p>
-            ))}
-          </li>
-        ))}
-      </ul>}
+      {cards && (
+        <ul className="grid grid-cols-1 gap-2 text-sm">
+          {rows.map((row, r) => (
+            <li key={r} className="rounded bg-inset px-3 py-2.5 leading-relaxed">
+              <p className="font-medium text-ink"><MathText text={row[0]} /></p>
+              {row.slice(1).map((cell, c) => (
+                <p key={c} className="mt-1 text-ink2">
+                  {head?.[c + 1] && <span className="mr-2 text-xs font-semibold uppercase tracking-wider text-ink3"><MathText text={head[c + 1]} /></span>}
+                  <MathText text={cell} />
+                </p>
+              ))}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
