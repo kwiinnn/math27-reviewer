@@ -20,3 +20,18 @@ The sidebar, topic pages and the Formula Reference page are generated from the r
 - Fields ending in `Latex` (and `Formula.example`) are display LaTeX.
 - Other text fields are prose; wrap inline math in single dollar signs.
 - Every backslash in a `.ts` string is double-escaped (`\\frac`).
+
+## Figures
+
+Exam notes, worked examples, problems and individual solution steps take an optional
+`figure` (see `src/types/figure.ts`), rendered by `src/components/figures/`:
+
+- `plot`: graphs, shaded areas and geometry diagrams in SVG with KaTeX labels. Labelled
+  graphs get a hover readout; an `animate` block adds a play button and a slider that
+  drive extra items through `frame(t)`.
+- `triangle`, `group`, `sequence`, `flow` and `tabular` for reference triangles, small
+  multiples, procedures, "if you see / do this" tables and the DI method.
+
+A problem's own figure is shown with the question, so it must not give the answer away;
+put solution visuals on a step. `npm run check:math` also parses every figure label and
+caption, samples each animation across its range, and flags single-escaped backslashes.

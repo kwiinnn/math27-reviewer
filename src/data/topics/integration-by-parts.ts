@@ -1,4 +1,5 @@
 import type { Topic } from '../../types/curriculum';
+import type { Vec } from '../../types/figure';
 
 /** Unit 2.2 — Integration by Parts. Source: lecture deck 2.2 (examples solved here). */
 export const integrationByParts: Topic = {
@@ -22,6 +23,32 @@ export const integrationByParts: Topic = {
         "Forgetting $+ C$ at the very end.",
       ],
       tip: "Lay out a two-by-two table every time: $u$ and $dv$ on top, $du$ and $v$ beneath. The answer is the diagonal product minus the integral of the bottom row.",
+      figure: {
+        kind: 'plot',
+        caption: 'Along a curve from $(u_1, v_1)$ to $(u_2, v_2)$, the area below it is $\\int v\\,du$ and the area to its left is $\\int u\\,dv$. Together they fill the big rectangle minus the small one: $\\int u\\,dv + \\int v\\,du = u_2v_2 - u_1v_1$. Rearranged, that is the formula.',
+        x: [0, 4.8],
+        y: [0, 4.6],
+        equal: true,
+        xTicks: [[1, 'u_1'], [4, 'u_2']],
+        yTicks: [[1.18, 'v_1'], [3.88, 'v_2']],
+        items: [
+          { type: 'area', f: (u) => 1 + 0.18 * u * u, from: 1, to: 4, tone: 1 },
+          {
+            type: 'polygon',
+            tone: 2,
+            points: [...Array.from({ length: 31 }, (_, i): Vec => [1 + (3 * i) / 30, 1 + 0.18 * (1 + (3 * i) / 30) ** 2]), [0, 3.88], [0, 1.18]],
+          },
+          { type: 'segment', from: [0, 3.88], to: [4, 3.88], tone: 'muted', dashed: true, width: 1 },
+          { type: 'segment', from: [4, 0], to: [4, 3.88], tone: 'muted', dashed: true, width: 1 },
+          { type: 'segment', from: [0, 1.18], to: [1, 1.18], tone: 'muted', dashed: true, width: 1 },
+          { type: 'segment', from: [1, 0], to: [1, 1.18], tone: 'muted', dashed: true, width: 1 },
+          { type: 'fn', f: (u) => 1 + 0.18 * u * u, from: 1, to: 4, tone: 'ink' },
+          { type: 'label', at: [2.6, 0.75], text: '\\int v\\,du' },
+          { type: 'label', at: [1.1, 2.7], text: '\\int u\\,dv' },
+          { type: 'label', at: [4.8, 0], text: 'u', anchor: 'nw' },
+          { type: 'label', at: [0, 4.6], text: 'v', anchor: 'se' },
+        ],
+      },
     },
     {
       title: 'Choosing u with LIATE',
@@ -34,6 +61,17 @@ export const integrationByParts: Topic = {
         "Treating LIATE as a law. It is a guide; the real test is whether $\\displaystyle\\int v\\,du$ is simpler than what you started with.",
       ],
       tip: "If the new integral is worse than the original, stop and swap the roles of $u$ and $dv$.",
+      figure: {
+        kind: 'sequence',
+        caption: 'Pick $u$ from as far left as possible. Functions on the left get simpler when differentiated; those on the right are easy to integrate, so they belong in $dv$.',
+        steps: [
+          { label: 'L', latex: '\\ln x', text: 'Logarithmic' },
+          { label: 'I', latex: '\\tan^{-1} x', text: 'Inverse trig' },
+          { label: 'A', latex: 'x^2', text: 'Algebraic' },
+          { label: 'T', latex: '\\sin x', text: 'Trigonometric' },
+          { label: 'E', latex: 'e^x', text: 'Exponential' },
+        ],
+      },
     },
     {
       title: 'Repeated integration by parts',
@@ -46,6 +84,13 @@ export const integrationByParts: Topic = {
         "Dropping the constant factor from a chain-rule antiderivative: $\\displaystyle\\int \\sin 3x\\,dx = -\\frac13\\cos 3x$.",
       ],
       tip: "Check a long answer by differentiating it. The product rule should make everything cancel except the original integrand.",
+      figure: {
+        kind: 'tabular',
+        caption: 'The tabular shortcut for $\\int x^3e^x\\,dx$: differentiate $u$ down the left until it reaches $0$, integrate $dv$ down the right, and multiply along each arrow with alternating signs.',
+        d: ['x^3', '3x^2', '6x', '6', '0'],
+        i: ['e^x', 'e^x', 'e^x', 'e^x', 'e^x'],
+        result: '\\int x^3e^x\\,dx = x^3e^x - 3x^2e^x + 6xe^x - 6e^x + C',
+      },
     },
     {
       title: 'Integrals that come back: solving for the integral',
@@ -58,6 +103,16 @@ export const integrationByParts: Topic = {
         "Forgetting to divide by the coefficient of $I$, or leaving out $+ C$ after solving.",
       ],
       tip: "Result worth knowing: $\\displaystyle\\int e^{ax}\\cos bx\\,dx = \\frac{e^{ax}}{a^2+b^2}(a\\cos bx + b\\sin bx) + C$.",
+      figure: {
+        kind: 'sequence',
+        caption: 'For $\\int e^x\\cos x\\,dx$: two rounds bring the integral back, then it is ordinary algebra.',
+        steps: [
+          { label: 'Name it', latex: 'I = \\int e^x\\cos x\\,dx' },
+          { label: 'Parts twice', latex: 'I = e^x\\sin x + e^x\\cos x - I' },
+          { label: 'Collect', latex: '2I = e^x(\\sin x + \\cos x)' },
+          { label: 'Solve', latex: 'I = \\tfrac12 e^x(\\sin x + \\cos x) + C' },
+        ],
+      },
     },
     {
       title: 'A single function is still a product',

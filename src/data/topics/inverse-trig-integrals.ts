@@ -21,6 +21,16 @@ export const inverseTrigIntegrals: Topic = {
         "Dropping the absolute value in the $\\sec^{-1}$ form when $u$ can be negative.",
       ],
       tip: "Identify the form by structure. Root with constant first: $\\sin^{-1}$. No root, sum of squares: $\\tan^{-1}$. Root with variable first and the same variable outside: $\\sec^{-1}$.",
+      figure: {
+        kind: 'flow',
+        head: ['Denominator looks like', 'Antiderivative'],
+        caption: 'Only three shapes produce inverse trigonometric functions. Find $a$ and $u$ first; everything else is bookkeeping.',
+        rows: [
+          { when: 'A root, constant first: $\\sqrt{a^2 - u^2}$', then: '$\\sin^{-1}\\dfrac{u}{a} + C$' },
+          { when: 'No root, a sum of squares: $a^2 + u^2$', then: '$\\dfrac1a\\tan^{-1}\\dfrac{u}{a} + C$' },
+          { when: 'A root, variable first, with $u$ outside: $u\\sqrt{u^2 - a^2}$', then: '$\\dfrac1a\\sec^{-1}\\left|\\dfrac{u}{a}\\right| + C$' },
+        ],
+      },
     },
     {
       title: 'Completing the square',
@@ -34,6 +44,20 @@ export const inverseTrigIntegrals: Topic = {
         "Back-substituting carelessly. With $u = x - \\frac13$, $\\dfrac{3u}{\\sqrt{14}} = \\dfrac{3x-1}{\\sqrt{14}}$, not $\\dfrac{3(x-1)}{\\sqrt{14}}$.",
       ],
       tip: "Expand your completed square once to confirm it reproduces the original quadratic. It takes ten seconds and catches most errors.",
+      figure: {
+        kind: 'plot',
+        caption: 'Completing the square finds the vertex. For $x^2 - 4x + 13 = (x-2)^2 + 9$ the shift gives $u = x - 2$ and the height of the vertex gives $a^2 = 9$.',
+        x: [-2, 6],
+        y: [0, 17],
+        aspect: 1.25,
+        yTicks: [5, 9, 13],
+        items: [
+          { type: 'fn', f: (x) => x * x - 4 * x + 13, label: 'y = x^2 - 4x + 13', labelAt: [-0.3, 14.3], anchor: 'e' },
+          { type: 'segment', from: [2, 0], to: [2, 9], tone: 2, dashed: true, label: 'a^2 = 9', labelAt: [2, 4.5], anchor: 'e' },
+          { type: 'segment', from: [0, 9], to: [2, 9], tone: 1, width: 3, label: 'u = x - 2', labelAt: [1, 9], anchor: 'n' },
+          { type: 'point', at: [2, 9], tone: 'ink', label: '(2, 9)', anchor: 'se' },
+        ],
+      },
     },
     {
       title: 'Making du match',
@@ -58,6 +82,17 @@ export const inverseTrigIntegrals: Topic = {
         "Splitting the denominator instead of the numerator: $\\dfrac{1}{A+B} \\ne \\dfrac1A + \\dfrac1B$.",
       ],
       tip: "Look at the numerator first. It decides the method.",
+      figure: {
+        kind: 'sequence',
+        caption: 'Split so that one piece has the derivative of the denominator on top.',
+        steps: [
+          { label: 'Start', latex: '\\int\\frac{x+3}{x^2+1}\\,dx' },
+          { label: 'Split', latex: '\\frac12\\int\\frac{2x\\,dx}{x^2+1} + 3\\int\\frac{dx}{x^2+1}' },
+          { label: 'Logarithm', latex: '\\frac12\\ln\\left(x^2+1\\right)' },
+          { label: 'Inverse tangent', latex: '3\\tan^{-1}x' },
+          { label: 'Answer', latex: '\\tfrac12\\ln\\left(x^2+1\\right) + 3\\tan^{-1}x + C' },
+        ],
+      },
     },
   ],
 
@@ -473,6 +508,21 @@ export const inverseTrigIntegrals: Topic = {
           title: 'Evaluate',
           mathLatex: "\\sin^{-1}(0) - \\sin^{-1}\\left(-\\frac{1}{2}\\right) = 0 - \\left(-\\frac{\\pi}{6}\\right) = \\frac{\\pi}{6}",
           explanation: "$\\sin^{-1}\\left(-\\frac12\\right)$ is the angle in $\\left[-\\frac\\pi2, \\frac\\pi2\\right]$ with sine $-\\frac12$. The integrand is positive, so a positive answer is expected.",
+          figure: {
+            kind: 'plot',
+            caption: 'The integrand blows up at $x = 0$ and $x = 4$, where $4x - x^2 = 0$, but the shaded area from $1$ to $2$ is finite: $\\frac{\\pi}{6} \\approx 0.52$.',
+            x: [-0.5, 4.5],
+            y: [0, 1.4],
+            aspect: 1.8,
+            xTicks: [1, 2, 3, 4],
+            yTicks: [0.5, 1],
+            items: [
+              { type: 'vline', x: 4 },
+              { type: 'area', f: (x) => 1 / Math.sqrt(4 * x - x * x), from: 1, to: 2 },
+              { type: 'fn', f: (x) => 1 / Math.sqrt(4 * x - x * x), from: 0.01, to: 3.99, label: 'y = \\frac{1}{\\sqrt{4x - x^2}}', labelAt: [3, 0.58], anchor: 'se' },
+              { type: 'label', at: [1.5, 0.22], text: '\\tfrac{\\pi}{6}' },
+            ],
+          },
           ruleApplied: 'Fundamental Theorem of Calculus',
           pitfall: "Using $\\frac{7\\pi}{6}$ or $\\frac{11\\pi}{6}$, which are outside the principal range, or dropping the double negative.",
         },

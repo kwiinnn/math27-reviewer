@@ -1,4 +1,5 @@
 import type { WorkedExample } from '../types/curriculum';
+import { FigureView } from './figures/Figure';
 import { ChevronIcon } from './Icons';
 import { MathRenderer, MathText } from './MathRenderer';
 import { StepView } from './StepView';
@@ -26,6 +27,11 @@ export function WorkedExampleCard({ example, index }: { example: WorkedExample; 
           <MathText text={example.keyIdea} />
         </p>
       </summary>
+      {example.figure && (
+        <div className="border-t border-line p-5 sm:p-6">
+          <FigureView figure={example.figure} />
+        </div>
+      )}
       <ol className="grid grid-cols-1 gap-7 border-t border-line p-5 sm:p-6">
         {example.solutionSteps.map((step) => (
           <StepView key={step.stepNumber} step={step} />

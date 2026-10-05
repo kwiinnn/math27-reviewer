@@ -1,4 +1,5 @@
 import type { Step } from '../types/curriculum';
+import { FigureView } from './figures/Figure';
 import { MathRenderer, MathText } from './MathRenderer';
 
 /** One solution step: the mathematics, then a separate "Why this step?" block. */
@@ -13,6 +14,7 @@ export function StepView({ step }: { step: Step }) {
       </div>
 
       <MathRenderer latex={step.mathLatex} display />
+      {step.figure && <FigureView figure={step.figure} className="my-1" />}
 
       <div className="rounded bg-inset px-4 py-3 text-sm leading-relaxed">
         <p className="text-xs font-semibold uppercase tracking-wider text-ink3">Why this step?</p>

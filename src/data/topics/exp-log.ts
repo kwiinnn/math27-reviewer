@@ -1,4 +1,5 @@
 import type { Topic } from '../../types/curriculum';
+import { fmt } from '../../lib/plot';
 
 /** Unit 1.2 — Exponential and Logarithmic Functions. Source: lecture deck 1.2. */
 export const expLog: Topic = {
@@ -21,6 +22,31 @@ export const expLog: Topic = {
         "Writing $a^{x+y} = a^x + a^y$. The correct law is a product: $a^{x+y} = a^x a^y$.",
       ],
       tip: "When an exponential equation can be written with one common base on both sides, equate the exponents. $a^x$ is one-to-one.",
+      figure: {
+        kind: 'plot',
+        caption: 'Every $a^x$ passes through $(0, 1)$ and stays above the $x$-axis. Slide the base past $a = 1$ to watch growth turn into decay.',
+        x: [-3, 3],
+        y: [-0.5, 6],
+        aspect: 1.2,
+        yTicks: [1, 2, 3, 4, 5],
+        items: [{ type: 'point', at: [0, 1], tone: 'ink', label: '(0, 1)', anchor: 'nw' }],
+        animate: {
+          param: 'a',
+          range: [0.25, 4],
+          initial: 2,
+          duration: 7,
+          frame: (a) => [
+            { type: 'fn', f: (x) => a ** x, label: 'y = a^x', labelAt: [a >= 1 ? 1.2 : -1.2, a ** (a >= 1 ? 1.2 : -1.2)], anchor: a >= 1 ? 'e' : 'w' },
+            { type: 'point', at: [1, a], label: '(1, a)', anchor: 'se' },
+          ],
+          readout: (a) =>
+            Math.abs(a - 1) < 0.02
+              ? '$a = 1$: the constant $1^x = 1$, which is why the base must not be $1$.'
+              : a > 1
+                ? `$a = ${fmt(a)} > 1$: the graph rises.`
+                : `$0 < a = ${fmt(a)} < 1$: the graph falls.`,
+        },
+      },
     },
     {
       title: 'The logarithm as an inverse',
@@ -33,6 +59,20 @@ export const expLog: Topic = {
         "Reading $\\log_a x$ as a product of $\\log_a$ and $x$.",
       ],
       tip: "Translate every logarithmic statement into exponential form when stuck: $\\log_9 27 = y$ means $9^y = 27$.",
+      figure: {
+        kind: 'plot',
+        caption: '$y = 2^x$ and $y = \\log_2 x$ are mirror images in $y = x$. The point $(0, 1)$ becomes $(1, 0)$, and the horizontal asymptote $y = 0$ becomes the vertical asymptote $x = 0$.',
+        x: [-3, 5],
+        y: [-3, 5],
+        equal: true,
+        items: [
+          { type: 'fn', f: (x) => x, tone: 'muted', dashed: true, label: 'y = x', labelAt: [4.2, 4.2], anchor: 'nw' },
+          { type: 'fn', f: (x) => 2 ** x, label: 'y = 2^x', labelAt: [1.9, 3.73], anchor: 'w' },
+          { type: 'fn', f: (x) => Math.log2(x), from: 0.01, tone: 2, label: 'y = \\log_2 x', labelAt: [3.73, 1.9], anchor: 's' },
+          { type: 'point', at: [0, 1], label: '(0, 1)', anchor: 'nw' },
+          { type: 'point', at: [1, 0], tone: 2, label: '(1, 0)', anchor: 'se' },
+        ],
+      },
     },
     {
       title: 'Laws of exponents',
@@ -355,6 +395,22 @@ export const expLog: Topic = {
           title: 'Reject the extraneous root',
           mathLatex: "x = 4",
           explanation: "$x = -2$ is outside the domain $x > 2$: $\\log_2(-2)$ does not exist. Check: $\\log_2 4 + \\log_2 2 = 2 + 1 = 3$.",
+          figure: {
+            kind: 'plot',
+            caption: 'The left side only exists for $x > 2$. Its graph meets $y = 3$ once, at $x = 4$; the algebraic root $x = -2$ lies in the shaded region where neither logarithm is defined.',
+            x: [-3, 7],
+            y: [-3, 5],
+            aspect: 1.6,
+            items: [
+              { type: 'polygon', points: [[-3, -3], [2, -3], [2, 5], [-3, 5]], tone: 'muted' },
+              { type: 'label', at: [-0.5, -2], text: '\\text{not in domain}' },
+              { type: 'vline', x: 2, tone: 'muted', label: 'x = 2', labelAt: [2, -3], anchor: 'ne' },
+              { type: 'fn', f: (x) => Math.log2(x) + Math.log2(x - 2), from: 2.0005, label: '\\log_2 x + \\log_2(x-2)', labelAt: [6.8, 4.55], anchor: 'nw' },
+              { type: 'hline', y: 3, tone: 2, dashed: false, label: 'y = 3', labelAt: [-3, 3], anchor: 'ne' },
+              { type: 'point', at: [4, 3], tone: 'ink', label: 'x = 4', anchor: 'se' },
+              { type: 'point', at: [-2, 3], tone: 'ink', hollow: true, label: 'x = -2', anchor: 's' },
+            ],
+          },
           ruleApplied: 'Domain check',
           pitfall: "Reporting both roots.",
         },
@@ -459,6 +515,22 @@ export const expLog: Topic = {
           title: 'Domain and range of the inverse',
           mathLatex: "\\text{Domain of } f^{-1}: \\mathbb{R}, \\qquad \\text{Range of } f^{-1}: (3, +\\infty)",
           explanation: "They are the range and domain of $f$, interchanged. Consistent with $2^{x-1} > 0$.",
+          figure: {
+            kind: 'plot',
+            caption: 'Reflection in $y = x$ turns the vertical asymptote $x = 3$ of $f$ into the horizontal asymptote $y = 3$ of $f^{-1}$.',
+            x: [-1, 9],
+            y: [-1, 9],
+            equal: true,
+            xTicks: [3, 6, 9],
+            yTicks: [3, 6, 9],
+            items: [
+              { type: 'fn', f: (x) => x, tone: 'muted', dashed: true, label: 'y = x', labelAt: [8.3, 8.3], anchor: 'nw' },
+              { type: 'vline', x: 3, tone: 1, label: 'x = 3', labelAt: [3, -1], anchor: 'ne' },
+              { type: 'hline', y: 3, tone: 2, label: 'y = 3', labelAt: [-1, 3], anchor: 'se' },
+              { type: 'fn', f: (x) => Math.log2(x - 3) + 1, from: 3.0001, label: 'f', labelAt: [8, 3.32], anchor: 's' },
+              { type: 'fn', f: (x) => 2 ** (x - 1) + 3, tone: 2, label: 'f^{-1}', labelAt: [3.6, 6.03], anchor: 'w' },
+            ],
+          },
           ruleApplied: 'Domain and range interchange',
         },
       ],

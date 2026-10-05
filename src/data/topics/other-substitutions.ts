@@ -22,6 +22,16 @@ export const otherSubstitutions: Topic = {
         "Leaving the answer in $z$. Return with $z = x^{1/n}$.",
       ],
       tip: "Write a small dictionary before substituting: $x = z^6$, $\\sqrt x = z^3$, $\\sqrt[3]x = z^2$, $dx = 6z^5\\,dz$.",
+      figure: {
+        kind: 'flow',
+        head: ['In $x$', 'In $z$, with $x = z^6$'],
+        caption: 'Write every exponent over the common denominator $6$; then each root becomes a whole power of $z$.',
+        rows: [
+          { when: '$\\sqrt{x} = x^{3/6}$', then: '$z^3$' },
+          { when: '$\\sqrt[3]{x} = x^{2/6}$', then: '$z^2$' },
+          { when: '$dx$', then: '$6z^5\\,dz$' },
+        ],
+      },
     },
     {
       title: 'A root of a linear expression',
@@ -46,6 +56,16 @@ export const otherSubstitutions: Topic = {
         "Writing $dx = z\\,dz$ instead of $x\\,dx = z\\,dz$.",
       ],
       tip: "Count the powers: $x^5\\,dx = x^4\\cdot x\\,dx$. If an even power is left after sparing one $x$, this substitution will work.",
+      figure: {
+        kind: 'sequence',
+        caption: 'For $\\int x^5\\sqrt{x^2+4}\\,dx$ (Worked Example 2): one $x$ pairs with $dx$, the rest is written in $z$.',
+        steps: [
+          { label: 'Let $z$', latex: 'z^2 = x^2 + 4,\\quad x\\,dx = z\\,dz' },
+          { label: 'Split off $x\\,dx$', latex: '(x^2)^2\\sqrt{x^2+4};x\\,dx' },
+          { label: 'Convert', latex: '(z^2 - 4)^2\\,z\\cdot z\\,dz' },
+          { label: 'Polynomial', latex: '\\int \\left(z^6 - 8z^4 + 16z^2\\right)dz' },
+        ],
+      },
     },
     {
       title: 'After the substitution',
@@ -58,6 +78,16 @@ export const otherSubstitutions: Topic = {
         "Simplifying $\\dfrac{z^8}{z^2+1}$ as $z^6$.",
       ],
       tip: "The substitution is only the first half of the problem. Budget time for the algebra that follows.",
+      figure: {
+        kind: 'flow',
+        head: ['The integrand has', 'Substitute'],
+        caption: 'Each choice turns every radical into a whole power of $z$, leaving a polynomial or rational function.',
+        rows: [
+          { when: 'Several fractional powers of $x$, such as $\\sqrt{x}$ and $\\sqrt[3]{x}$', then: '$x = z^n$, with $n$ the lowest common denominator of the exponents' },
+          { when: 'One root of a linear expression, $\\sqrt[n]{ax + b}$', then: '$z = \\sqrt[n]{ax + b}$, so $x = \\dfrac{z^n - b}{a}$ and $dx = \\dfrac{n}{a}z^{n-1}\\,dz$' },
+          { when: 'An odd power of $x$ times $\\sqrt{x^2 + c}$', then: '$z = \\sqrt{x^2 + c}$, so $x\\,dx = z\\,dz$ and $x^2 = z^2 - c$' },
+        ],
+      },
     },
   ],
 

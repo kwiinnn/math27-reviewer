@@ -1,4 +1,5 @@
 import type { Topic } from '../../types/curriculum';
+import { fmt } from '../../lib/plot';
 
 /** Unit 1.1 — Inverse Functions. Source: lecture deck 1.1. */
 export const inverseFunctions: Topic = {
@@ -22,6 +23,51 @@ export const inverseFunctions: Topic = {
         "Checking a few points and concluding one-to-one. A finite check can only ever disprove.",
       ],
       tip: "To show a function is not one-to-one, write two explicit numbers: $f(0) = f(4) = 0$. That single line is a complete answer.",
+      figure: {
+        kind: 'group',
+        caption: 'Sweep the line $y = c$ up and down. It cuts $y = x^2$ twice for every $c > 0$, so $x^2$ fails the test. It cuts $y = x^3$ exactly once for every $c$, so $x^3$ passes.',
+        figures: [
+          {
+            kind: 'plot',
+            title: 'Fails: $y = x^2$',
+            x: [-2.5, 2.5],
+            y: [-1.5, 4.5],
+            aspect: 1.15,
+            items: [{ type: 'fn', f: (x) => x * x, label: 'x^2', labelAt: [-1.75, 3.06], anchor: 'e' }],
+            animate: {
+              param: 'c',
+              range: [-1, 4],
+              initial: 2.25,
+              frame: (c) => [
+                { type: 'hline', y: c, tone: 2, dashed: false, width: 2 },
+                ...(c > 0
+                  ? ([[-Math.sqrt(c), c], [Math.sqrt(c), c]] as [number, number][]).map((at) => ({ type: 'point' as const, at, tone: 2 as const }))
+                  : []),
+              ],
+              readout: (c) => (c > 0 ? `Two points: $x = \\pm ${fmt(Math.sqrt(c))}$` : c < -0.02 ? 'No points' : 'One point, at the vertex'),
+            },
+          },
+          {
+            kind: 'plot',
+            title: 'Passes: $y = x^3$',
+            x: [-2.5, 2.5],
+            y: [-4, 4],
+            aspect: 1.15,
+            yTicks: [-4, -2, 2, 4],
+            items: [{ type: 'fn', f: (x) => x ** 3, label: 'x^3', labelAt: [1.3, 2.2], anchor: 'w' }],
+            animate: {
+              param: 'c',
+              range: [-3.5, 3.5],
+              initial: 2,
+              frame: (c) => [
+                { type: 'hline', y: c, tone: 2, dashed: false, width: 2 },
+                { type: 'point', at: [Math.cbrt(c), c], tone: 2 },
+              ],
+              readout: (c) => `One point: $x = ${fmt(Math.cbrt(c))}$`,
+            },
+          },
+        ],
+      },
     },
     {
       title: 'Monotonic implies one-to-one',
@@ -35,6 +81,20 @@ export const inverseFunctions: Topic = {
         "Forgetting to state the domain before testing intervals.",
       ],
       tip: "Write the derivative in a form whose sign is obvious, such as a negative constant over a square. Then the conclusion needs no test points.",
+      figure: {
+        kind: 'plot',
+        caption: "$f(x) = x^3 - 3x$ has $f' = 3(x-1)(x+1)$. Each piece where $f'$ keeps one sign is one-to-one; the whole graph is not.",
+        x: [-2.4, 2.4],
+        y: [-3, 3],
+        aspect: 1.2,
+        items: [
+          { type: 'fn', f: (x) => x ** 3 - 3 * x, to: -1, label: "f' > 0", labelAt: [-1.75, 0.2], anchor: 'w' },
+          { type: 'fn', f: (x) => x ** 3 - 3 * x, from: -1, to: 1, tone: 2, label: "f' < 0", labelAt: [0.1, -0.3], anchor: 'e' },
+          { type: 'fn', f: (x) => x ** 3 - 3 * x, from: 1, label: "f' > 0", labelAt: [1.75, -0.2], anchor: 'e' },
+          { type: 'point', at: [-1, 2], tone: 'ink', label: "f' = 0", anchor: 'n' },
+          { type: 'point', at: [1, -2], tone: 'ink', label: "f' = 0", anchor: 's' },
+        ],
+      },
     },
     {
       title: 'Finding an inverse',
@@ -48,6 +108,32 @@ export const inverseFunctions: Topic = {
         "Choosing the wrong branch when solving a quadratic. The branch must reproduce the restricted domain of $f$.",
       ],
       tip: "Verify with one point: if $f(2) = 6$ then your formula must give $f^{-1}(6) = 2$.",
+      figure: {
+        kind: 'plot',
+        caption: '$f(x) = x^3 + 1$ and $f^{-1}(x) = \\sqrt[3]{x - 1}$. Every point $(a, b)$ on $f$ has its mirror image $(b, a)$ on $f^{-1}$, directly across the line $y = x$.',
+        x: [-3, 3],
+        y: [-3, 3],
+        equal: true,
+        items: [
+          { type: 'fn', f: (x) => x, tone: 'muted', dashed: true, label: 'y = x', labelAt: [2.2, 2.2], anchor: 'nw' },
+          { type: 'fn', f: (x) => x ** 3 + 1, label: 'f', labelAt: [1.1, 2.33], anchor: 'w' },
+          { type: 'fn', f: (x) => Math.cbrt(x - 1), tone: 2, label: 'f^{-1}', labelAt: [2.33, 1.1], anchor: 's' },
+        ],
+        animate: {
+          param: 'a',
+          range: [-1.45, 1.2],
+          initial: 0.8,
+          frame: (a) => {
+            const b = a ** 3 + 1;
+            return [
+              { type: 'segment', from: [a, b], to: [b, a], tone: 'muted', dashed: true, width: 1.5 },
+              { type: 'point', at: [a, b] },
+              { type: 'point', at: [b, a], tone: 2 },
+            ];
+          },
+          readout: (a) => `$(${fmt(a)}, ${fmt(a ** 3 + 1)})$ on $f$ reflects to $(${fmt(a ** 3 + 1)}, ${fmt(a)})$ on $f^{-1}$`,
+        },
+      },
     },
     {
       title: 'Derivative of an inverse',
@@ -61,6 +147,36 @@ export const inverseFunctions: Topic = {
         "Trying to solve a cubic or a mixed equation for $f^{-1}(x)$ when the question says without finding the formula.",
       ],
       tip: "Lay the work out in three lines: find $a$ with $f(a) = b$; compute $f'(a)$; take the reciprocal.",
+      figure: {
+        kind: 'plot',
+        caption: "$f(x) = x^2$ for $x \\ge 0$ and $f^{-1}(x) = \\sqrt{x}$. Reflection swaps rise and run, so the two tangent slopes are always reciprocals.",
+        x: [0, 3.2],
+        y: [0, 3.2],
+        equal: true,
+        items: [
+          { type: 'fn', f: (x) => x, tone: 'muted', dashed: true },
+          { type: 'fn', f: (x) => x * x, label: 'f', labelAt: [1.68, 2.82], anchor: 'w' },
+          { type: 'fn', f: (x) => Math.sqrt(x), tone: 2, label: 'f^{-1}', labelAt: [2.82, 1.68], anchor: 's' },
+        ],
+        animate: {
+          param: 'a',
+          range: [0.45, 1.6],
+          initial: Math.SQRT2,
+          frame: (a) => {
+            const b = a * a;
+            const m = 2 * a;
+            const d = 0.85 / Math.sqrt(1 + m * m);
+            const e = 0.85 / Math.sqrt(1 + 1 / (m * m));
+            return [
+              { type: 'segment', from: [a - d, b - m * d], to: [a + d, b + m * d], tone: 'ink', width: 1.5 },
+              { type: 'segment', from: [b - e, a - e / m], to: [b + e, a + e / m], tone: 'ink', width: 1.5 },
+              { type: 'point', at: [a, b], tone: 'ink' },
+              { type: 'point', at: [b, a], tone: 'ink' },
+            ];
+          },
+          readout: (a) => `Slope of $f$ at $(${fmt(a)}, ${fmt(a * a)})$ is $${fmt(2 * a)}$; slope of $f^{-1}$ at $(${fmt(a * a)}, ${fmt(a)})$ is $\\tfrac{1}{${fmt(2 * a)}} = ${fmt(1 / (2 * a))}$`,
+        },
+      },
     },
   ],
 
@@ -404,6 +520,22 @@ export const inverseFunctions: Topic = {
           explanation: "$f$ is monotonic on each of the three intervals. It is not one-to-one on $\\mathbb{R}$: for example $f(2) = \\frac{2}{5} = f\\!\\left(\\frac12\\right)$.",
           ruleApplied: 'Monotonic implies one-to-one',
           pitfall: "Concluding $f$ is one-to-one on $\\mathbb{R}$ because it is monotonic on each piece. Separate pieces can repeat values, as $f(2) = f\\!\\left(\\frac12\\right)$ shows.",
+          figure: {
+            kind: 'plot',
+            caption: 'The line $y = \\frac{2}{5}$ meets the graph at $x = \\frac12$ and at $x = 2$, which is why $f$ fails on $\\mathbb{R}$.',
+            x: [-5, 5],
+            y: [-0.7, 0.7],
+            aspect: 1.8,
+            yTicks: [-0.5, 0.5],
+            items: [
+              { type: 'fn', f: (x) => x / (x * x + 1), to: -1, tone: 2 },
+              { type: 'fn', f: (x) => x / (x * x + 1), from: -1, to: 1, label: 'f', labelAt: [0, 0], anchor: 'nw' },
+              { type: 'fn', f: (x) => x / (x * x + 1), from: 1, tone: 2 },
+              { type: 'hline', y: 0.4, tone: 'muted', label: 'y = \\tfrac25', labelAt: [5, 0.4], anchor: 'nw' },
+              { type: 'point', at: [0.5, 0.4], tone: 'ink' },
+              { type: 'point', at: [2, 0.4], tone: 'ink' },
+            ],
+          },
         },
       ],
     },
@@ -500,6 +632,20 @@ export const inverseFunctions: Topic = {
           mathLatex: "y - 1 = \\frac{1}{6}(x - 2) \\quad\\Longleftrightarrow\\quad y = \\frac{1}{6}x + \\frac{2}{3}",
           explanation: "Point-slope form with the point and slope found above.",
           ruleApplied: 'Point-slope form',
+          figure: {
+            kind: 'plot',
+            caption: 'The inverse of $f(x) = x^5 + x$ has no formula, but it can still be drawn by swapping coordinates, and its tangent at $(2, 1)$ has slope $\\frac16$.',
+            x: [-1, 4],
+            y: [-0.5, 2],
+            equal: true,
+            xTicks: [1, 2, 3, 4],
+            yTicks: [1, 2],
+            items: [
+              { type: 'curve', x: (t) => t ** 5 + t, y: (t) => t, t: [-0.75, 1.3], tone: 2, label: 'y = f^{-1}(x)', labelAt: [3.4, 1.2], anchor: 's' },
+              { type: 'fn', f: (x) => x / 6 + 2 / 3, tone: 1, label: 'y = \\tfrac16 x + \\tfrac23', labelAt: [0, 0.67], anchor: 'nw' },
+              { type: 'point', at: [2, 1], tone: 'ink', label: '(2, 1)', anchor: 'nw' },
+            ],
+          },
         },
       ],
     },

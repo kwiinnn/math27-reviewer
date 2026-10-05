@@ -1,4 +1,6 @@
 import type { Topic } from '../../types/curriculum';
+import type { Vec } from '../../types/figure';
+import { fmt } from '../../lib/plot';
 
 /** Unit 1.6 — Hyperbolic and Inverse Hyperbolic Functions. Source: lecture deck 1.6. */
 export const hyperbolic: Topic = {
@@ -22,6 +24,20 @@ export const hyperbolic: Topic = {
         "Swapping the signs in the definitions. $\\sinh 0 = 0$ needs the minus; $\\cosh 0 = 1$ needs the plus.",
       ],
       tip: "When a hyperbolic function is composed with a logarithm, go back to the definition: $\\cosh(\\ln x) = \\frac12\\left(x + \\frac1x\\right)$. The exponentials cancel the logarithm.",
+      figure: {
+        kind: 'plot',
+        caption: '$\\cosh x$ is the average of $e^x$ and $e^{-x}$ (dashed), so it is even with minimum $1$. $\\sinh x$ is half their difference, so it is odd and passes through the origin.',
+        x: [-3, 3],
+        y: [-4, 5],
+        aspect: 1.15,
+        items: [
+          { type: 'fn', f: (x) => Math.exp(x) / 2, tone: 'muted', dashed: true, label: '\\tfrac12 e^x', labelAt: [2.3, 4.99], anchor: 'sw' },
+          { type: 'fn', f: (x) => Math.exp(-x) / 2, tone: 'muted', dashed: true, label: '\\tfrac12 e^{-x}', labelAt: [-2.3, 4.99], anchor: 'se' },
+          { type: 'fn', f: Math.cosh, label: '\\cosh x', labelAt: [-1.9, 3.42], anchor: 'e' },
+          { type: 'fn', f: Math.sinh, tone: 2, label: '\\sinh x', labelAt: [1.6, 2.38], anchor: 'e' },
+          { type: 'point', at: [0, 1], tone: 'ink', label: '(0, 1)', anchor: 'se' },
+        ],
+      },
     },
     {
       title: 'Identities: trigonometry with sign changes',
@@ -34,6 +50,36 @@ export const hyperbolic: Topic = {
         "Writing $\\cosh(x+y)$ with a minus sign, as for cosine.",
       ],
       tip: "Any hyperbolic identity can be proved in three lines by substituting the exponential definitions. If you are unsure of a sign, test it at $x = 0$ or derive it.",
+      figure: {
+        kind: 'plot',
+        caption: 'As $(\\cos t, \\sin t)$ runs round the circle $x^2 + y^2 = 1$, the point $(\\cosh t, \\sinh t)$ runs along the hyperbola $x^2 - y^2 = 1$. In both cases the shaded sector has area $\\frac{t}{2}$.',
+        x: [-1.5, 3.9],
+        y: [-2.6, 2.6],
+        equal: true,
+        xTicks: [1, 2, 3],
+        yTicks: [-2, -1, 1, 2],
+        items: [
+          { type: 'curve', x: Math.cos, y: Math.sin, t: [0, 2 * Math.PI], tone: 'muted', dashed: true, width: 1.5 },
+          { type: 'curve', x: Math.cosh, y: Math.sinh, t: [-2.1, 2.1], label: 'x^2 - y^2 = 1', labelAt: [2.46, -2.25], anchor: 'e' },
+        ],
+        animate: {
+          param: 't',
+          range: [-1.5, 1.5],
+          initial: 1,
+          duration: 7,
+          frame: (t) => {
+            const arc: Vec[] = Array.from({ length: 41 }, (_, i) => [Math.cosh((t * i) / 40), Math.sinh((t * i) / 40)]);
+            const P: Vec = [Math.cosh(t), Math.sinh(t)];
+            return [
+              { type: 'polygon', points: [[0, 0], ...arc], tone: 2 },
+              { type: 'segment', from: [0, 0], to: P, tone: 2, width: 1.5 },
+              { type: 'segment', from: [P[0], 0], to: P, tone: 'ink', dashed: true, width: 1.5 },
+              { type: 'point', at: P, tone: 2, label: '(\\cosh t, \\sinh t)', anchor: 'e' },
+            ];
+          },
+          readout: (t) => `$\\cosh t = ${fmt(Math.cosh(t))}$, $\\sinh t = ${fmt(Math.sinh(t))}$, and $${fmt(Math.cosh(t))}^2 - (${fmt(Math.sinh(t))})^2 = 1$. Shaded area $= \\frac{t}{2} = ${fmt(t / 2)}$.`,
+        },
+      },
     },
     {
       title: 'Derivatives and integrals of hyperbolic functions',
@@ -59,6 +105,42 @@ export const hyperbolic: Topic = {
         "Using $\\tanh^{-1}$ where $|u| > 1$. $\\tanh^{-1}$ and $\\coth^{-1}$ have the same derivative formula on different domains.",
       ],
       tip: "Not in the deck, but useful as a check: each inverse is a logarithm, for example $\\sinh^{-1} x = \\ln\\left(x + \\sqrt{x^2+1}\\right)$ and $\\tanh^{-1} x = \\frac12\\ln\\frac{1+x}{1-x}$.",
+      figure: {
+        kind: 'group',
+        caption: 'Domains at a glance: $\\sinh^{-1}$ takes every real number, $\\cosh^{-1}$ starts at $1$ (the minimum of $\\cosh$), and $\\tanh^{-1}$ lives between the asymptotes $x = \\pm 1$.',
+        figures: [
+          {
+            kind: 'plot',
+            title: '$y = \\sinh^{-1} x$',
+            x: [-5, 5],
+            y: [-2.6, 2.6],
+            aspect: 1.1,
+            xTicks: [-4, -2, 2, 4],
+            yTicks: [-2, -1, 1, 2],
+            items: [{ type: 'fn', f: Math.asinh }],
+          },
+          {
+            kind: 'plot',
+            title: '$y = \\cosh^{-1} x$',
+            x: [-1, 5],
+            y: [-0.5, 2.6],
+            aspect: 1.1,
+            xTicks: [1, 2, 3, 4],
+            yTicks: [1, 2],
+            items: [{ type: 'fn', f: Math.acosh, from: 1 }, { type: 'point', at: [1, 0] }],
+          },
+          {
+            kind: 'plot',
+            title: '$y = \\tanh^{-1} x$',
+            x: [-1.6, 1.6],
+            y: [-2.6, 2.6],
+            aspect: 1.1,
+            xTicks: [-1, 1],
+            yTicks: [-2, -1, 1, 2],
+            items: [{ type: 'vline', x: -1 }, { type: 'vline', x: 1 }, { type: 'fn', f: Math.atanh, from: -0.9999, to: 0.9999 }],
+          },
+        ],
+      },
     },
     {
       title: 'Derivatives and integrals of the inverses',
@@ -71,6 +153,18 @@ export const hyperbolic: Topic = {
         "Choosing $\\tanh^{-1}$ without checking $u^2 < a^2$ on the interval of integration.",
       ],
       tip: "Make one table with two columns, inverse trig and inverse hyperbolic, and five rows of radicand shapes. Every problem in Units 1.5 and 1.6 is a lookup in that table after completing the square.",
+      figure: {
+        kind: 'flow',
+        head: ['Integrand', 'Antiderivative'],
+        caption: 'The radicand decides the family. A minus sign in front of $u^2$ means trigonometric; a plus sign, or $u^2$ first, means hyperbolic.',
+        rows: [
+          { when: '$\\dfrac{1}{\\sqrt{a^2 - u^2}}$', then: '$\\sin^{-1}\\dfrac ua + C$ (trigonometric)' },
+          { when: '$\\dfrac{1}{\\sqrt{a^2 + u^2}}$', then: '$\\sinh^{-1}\\dfrac ua + C$' },
+          { when: '$\\dfrac{1}{\\sqrt{u^2 - a^2}}$', then: '$\\cosh^{-1}\\dfrac ua + C$, for $u > a > 0$' },
+          { when: '$\\dfrac{1}{a^2 + u^2}$', then: '$\\dfrac1a\\tan^{-1}\\dfrac ua + C$ (trigonometric)' },
+          { when: '$\\dfrac{1}{a^2 - u^2}$', then: '$\\dfrac1a\\tanh^{-1}\\dfrac ua + C$ if $|u| < a$; $\\dfrac1a\\coth^{-1}\\dfrac ua + C$ if $|u| > a$' },
+        ],
+      },
     },
   ],
 

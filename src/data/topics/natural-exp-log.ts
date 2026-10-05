@@ -1,4 +1,5 @@
 import type { Topic } from '../../types/curriculum';
+import { fmt } from '../../lib/plot';
 
 /** Unit 1.3 — Other Exponential and Logarithmic Functions. Source: lecture deck 1.3. */
 export const naturalExpLog: Topic = {
@@ -21,6 +22,20 @@ export const naturalExpLog: Topic = {
         "Writing $e^{\\ln x + \\ln y} = x + y$. It equals $e^{\\ln xy} = xy$.",
       ],
       tip: "The third definition of $e$ is the reason $D_x(e^x) = e^x$: the slope of $e^x$ at $0$ is exactly $1$.",
+      figure: {
+        kind: 'plot',
+        caption: 'Compounding more and more often: $\\left(1 + \\frac1h\\right)^h$ climbs from $2$ at $h = 1$ towards $e \\approx 2.718$ but never passes it. Hover to read values.',
+        x: [0, 30],
+        y: [1, 3],
+        aspect: 1.6,
+        yTicks: [1, 1.5, 2, 2.5, [Math.E, 'e'], 3],
+        items: [
+          { type: 'hline', y: Math.E, tone: 2 },
+          { type: 'fn', f: (h) => (1 + 1 / h) ** h, from: 0.05, label: '(1 + \\tfrac1h)^h', labelAt: [12, 2.62], anchor: 's' },
+          { type: 'point', at: [1, 2], tone: 'ink', label: 'h = 1', anchor: 'se' },
+          { type: 'point', at: [10, (1 + 1 / 10) ** 10], tone: 'ink', label: 'h = 10', anchor: 'se' },
+        ],
+      },
     },
     {
       title: 'Derivatives of exponential functions',
@@ -34,6 +49,31 @@ export const naturalExpLog: Topic = {
         "Lowering the exponent: $D_x\\left(e^{x^2}\\right) \\ne e^{2x}$.",
       ],
       tip: "Ask where the variable is. In the base only: power rule. In the exponent only: exponential rule. In both: logarithmic differentiation.",
+      figure: {
+        kind: 'plot',
+        caption: 'On $y = e^x$ the slope at every point equals the height. That is why the tangent always meets the $x$-axis exactly one unit to the left.',
+        x: [-3.2, 2],
+        y: [-0.5, 5],
+        aspect: 1.15,
+        items: [
+          { type: 'fn', f: Math.exp, label: 'y = e^x', labelAt: [1.55, 4.71], anchor: 'w' },
+        ],
+        animate: {
+          param: 'a',
+          range: [-2, 1.4],
+          initial: 1,
+          frame: (a) => {
+            const h = Math.exp(a);
+            return [
+              { type: 'fn', f: (x) => h + h * (x - a), tone: 2 },
+              { type: 'segment', from: [a, 0], to: [a, h], tone: 'muted', dashed: true, width: 1.5, label: '\\text{height}', anchor: 'e', labelAt: [a, h / 2] },
+              { type: 'segment', from: [a - 1, 0], to: [a, 0], tone: 'ink', width: 3, label: '1', anchor: 's' },
+              { type: 'point', at: [a, h], tone: 'ink' },
+            ];
+          },
+          readout: (a) => `At $x = ${fmt(a)}$: height $= e^{${fmt(a)}} = ${fmt(Math.exp(a))}$ and slope $= ${fmt(Math.exp(a))}$.`,
+        },
+      },
     },
     {
       title: 'Derivatives of logarithmic functions and change of base',
@@ -59,6 +99,16 @@ export const naturalExpLog: Topic = {
         "Forgetting the product rule on $(2x+3)\\ln x$.",
       ],
       tip: "The four steps never change: take $\\ln$, bring down, differentiate, multiply by $y$.",
+      figure: {
+        kind: 'sequence',
+        caption: 'The four moves applied to $y = x^{2x+3}$ (Worked Example 3).',
+        steps: [
+          { label: 'Take $\\ln$', latex: '\\ln y = (2x+3)\\ln x' },
+          { label: 'Differentiate', latex: "\\frac{y'}{y} = 2\\ln x + \\frac{2x+3}{x}" },
+          { label: 'Multiply by $y$', latex: "y' = y\\left(2\\ln x + \\frac{2x+3}{x}\\right)" },
+          { label: 'Replace $y$', latex: "y' = x^{2x+3}\\left(2\\ln x + \\frac{2x+3}{x}\\right)" },
+        ],
+      },
     },
     {
       title: 'Integrals: exponentials and the missing power rule case',
@@ -72,6 +122,30 @@ export const naturalExpLog: Topic = {
         "Missing a simplification: $5^{\\log_5 w} = w$ and $7^{\\ln x}$ is not $x$. Only matching bases cancel.",
       ],
       tip: "For a quotient, differentiate the denominator in your head. If the numerator is a constant multiple of that, the answer is a logarithm.",
+      figure: {
+        kind: 'plot',
+        caption: '$\\ln x$ is the area under $y = \\frac1t$ from $1$ to $x$, counted negative when $x < 1$. The height of the orange curve always equals the shaded area. This is the $n = -1$ case the power rule misses.',
+        x: [0, 4.6],
+        y: [-1.6, 3.2],
+        aspect: 1.2,
+        yTicks: [-1, 1, 2, 3],
+        items: [
+          { type: 'fn', f: (t) => 1 / t, from: 0.05, label: 'y = \\tfrac1t', labelAt: [0.42, 2.38], anchor: 'e' },
+          { type: 'fn', f: Math.log, from: 0.01, tone: 2, label: 'y = \\ln x', labelAt: [4.3, 1.46], anchor: 'n' },
+        ],
+        animate: {
+          param: 'x',
+          range: [0.3, 4.5],
+          initial: Math.E,
+          duration: 7,
+          frame: (x) => [
+            { type: 'area', f: (t) => 1 / t, from: Math.min(1, x), to: Math.max(1, x), tone: x >= 1 ? 1 : 2 },
+            { type: 'segment', from: [x, 0], to: [x, Math.log(x)], tone: 2, width: 3 },
+            { type: 'point', at: [x, Math.log(x)], tone: 2 },
+          ],
+          readout: (x) => `$\\displaystyle\\int_1^{${fmt(x)}} \\frac{dt}{t} = \\ln ${fmt(x)} = ${fmt(Math.log(x))}$${x < 1 ? ' (negative: the interval runs backwards)' : ''}`,
+        },
+      },
     },
   ],
 
@@ -531,6 +605,20 @@ export const naturalExpLog: Topic = {
           title: 'Evaluate',
           mathLatex: "\\ln 2 - \\ln 1 = \\ln 2",
           explanation: "$\\ln 1 = 0$.",
+          figure: {
+            kind: 'plot',
+            caption: 'The shaded area under $y = \\frac{1}{x\\ln x}$ from $e$ to $e^2$ is exactly $\\ln 2 \\approx 0.69$.',
+            x: [1.5, 9],
+            y: [0, 0.6],
+            aspect: 1.8,
+            xTicks: [[Math.E, 'e'], [Math.E ** 2, 'e^2']],
+            yTicks: [0.2, 0.4],
+            items: [
+              { type: 'area', f: (x) => 1 / (x * Math.log(x)), from: Math.E, to: Math.E ** 2 },
+              { type: 'fn', f: (x) => 1 / (x * Math.log(x)), from: 1.55, label: 'y = \\frac{1}{x\\ln x}', labelAt: [2.5, 0.44], anchor: 'ne' },
+              { type: 'label', at: [4.9, 0.08], text: '\\ln 2' },
+            ],
+          },
           ruleApplied: 'Fundamental Theorem of Calculus',
         },
       ],

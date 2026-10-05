@@ -29,3 +29,6 @@ export const UndoIcon = () => <Icon><path d="M5.5 3L2.5 6l3 3" /><path d="M2.5 6
 export const TrashIcon = () => (
   <Icon><path d="M2.5 4h11M6.5 4V2.5h3V4M4 4l.7 9.5h6.6L12 4" /></Icon>
 );
+export const PlayIcon = () => <Icon><path d="M5 3.5v9l7-4.5z" fill="currentColor" /></Icon>;
+export const PauseIcon = () => <Icon><path d="M5.5 3.5v9M10.5 3.5v9" strokeWidth="2" /></Icon>;
+export const ArrowIcon = () => <Icon><path d="M2.5 8h11M9.5 4l4 4-4 4" /></Icon>;
