@@ -36,7 +36,7 @@ export function ProblemCard({ problem }: { problem: Problem }) {
               <span className="font-semibold">Hint. </span>
               <MathText text={problem.hint} />
             </p>
-            <Scratchpad id={problem.id} problemNumber={problem.problemNumber} />
+            <Scratchpad problem={problem} />
           </div>
         </details>
       </div>
