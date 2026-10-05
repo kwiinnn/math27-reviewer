@@ -57,15 +57,16 @@ export function Header(p: HeaderProps) {
       </div>
 
       {route.page === 'topic' && topic && (
-        <div role="tablist" aria-label="Topic views" className="-mb-px flex gap-1 overflow-x-auto px-4">
+        <div role="tablist" aria-label="Topic views" className="-mb-px flex gap-1 px-2 sm:px-4">
           {TOPIC_VIEWS.map((v) => {
             const selected = route.view === v.id;
             return (
               <a key={v.id} role="tab" aria-selected={selected} href={topicHref(topic.slug, v.id)}
-                className={`flex items-baseline gap-2 whitespace-nowrap border-b-2 px-3 py-2.5 text-sm transition-colors ${
+                className={`flex flex-1 items-baseline justify-center gap-1.5 whitespace-nowrap border-b-2 px-2 py-2.5 text-sm transition-colors sm:flex-none sm:justify-start sm:gap-2 sm:px-3 ${
                   selected ? 'border-primary font-medium text-ink' : 'border-transparent text-ink3 hover:text-ink'
                 }`}>
-                {v.label}
+                <span className="sm:hidden">{v.short}</span>
+                <span className="hidden sm:inline">{v.label}</span>
                 <span className="text-xs tabular-nums text-ink3">{count(topic, v.id)}</span>
               </a>
             );

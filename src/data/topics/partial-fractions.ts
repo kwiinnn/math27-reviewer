@@ -171,7 +171,7 @@ export const partialFractions: Topic = {
               { type: 'vline', x: -2 },
               { type: 'fn', f: (x) => 4 / (x - 3), tone: 2, dashed: true, label: '\\frac{4}{x-3}', labelAt: [3.9, 4.44], anchor: 'e' },
               { type: 'fn', f: (x) => 3 / (x + 2), tone: 3, dashed: true, label: '\\frac{3}{x+2}', labelAt: [-2.8, -3.75], anchor: 'w' },
-              { type: 'fn', f: (x) => (7 * x - 1) / ((x - 3) * (x + 2)), label: '\\frac{7x-1}{x^2-x-6}', labelAt: [5.5, 2], anchor: 'n' },
+              { type: 'fn', f: (x) => (7 * x - 1) / ((x - 3) * (x + 2)), label: '\\frac{7x-1}{x^2-x-6}', labelAt: [7, 1.33], anchor: 'nw' },
             ],
           },
           explanation: "Each root makes one term vanish, isolating the other constant.",
@@ -254,7 +254,7 @@ export const partialFractions: Topic = {
         {
           stepNumber: 4,
           title: 'Integrate',
-          mathLatex: "\\int \\left(\\frac{1}{x+1} - \\frac{1}{x+2} - \\frac{1}{(x+2)^2}\\right)dx = \\ln|x+1| - \\ln|x+2| + \\frac{1}{x+2} + C",
+          mathLatex: "\\int \\biggl(\\frac{1}{x+1} - \\frac{1}{x+2} - \\frac{1}{(x+2)^2}\\biggr)dx = \\ln|x+1| - \\ln|x+2| + \\frac{1}{x+2} + C",
           explanation: "The last term is a power rule: $-\\int (x+2)^{-2}dx = +(x+2)^{-1}$.",
           ruleApplied: 'Power rule',
           pitfall: "Integrating $\\frac{1}{(x+2)^2}$ as $\\ln(x+2)^2$.",

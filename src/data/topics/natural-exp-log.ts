@@ -39,7 +39,7 @@ export const naturalExpLog: Topic = {
         yTicks: [1, 1.5, 2, 2.5, [Math.E, 'e'], 3],
         items: [
           { type: 'hline', y: Math.E, tone: 2 },
-          { type: 'fn', f: (h) => (1 + 1 / h) ** h, from: 0.05, label: '(1 + \\tfrac1h)^h', labelAt: [12, 2.62], anchor: 's' },
+          { type: 'fn', f: (h) => (1 + 1 / h) ** h, from: 0.05, label: '(1 + \\tfrac1h)^h', labelAt: [22, 2.66], anchor: 's' },
           { type: 'point', at: [1, 2], tone: 'ink', label: 'h = 1', anchor: 'se' },
           { type: 'point', at: [10, (1 + 1 / 10) ** 10], tone: 'ink', label: 'h = 10', anchor: 'se' },
         ],
@@ -571,7 +571,7 @@ export const naturalExpLog: Topic = {
         {
           stepNumber: 3,
           title: 'Multiply by y',
-          mathLatex: "y' = \\frac{\\left(x^2+1\\right)^3\\sqrt{x-1}}{(x+2)^5}\\left[\\frac{6x}{x^2+1} + \\frac{1}{2(x-1)} - \\frac{5}{x+2}\\right]",
+          mathLatex: "y' = \\frac{\\left(x^2+1\\right)^3\\sqrt{x-1}}{(x+2)^5}\\biggl[\\frac{6x}{x^2+1} + \\frac{1}{2(x-1)} - \\frac{5}{x+2}\\biggr]",
           explanation: "This factored form is a complete answer. Expanding it gains nothing.",
           ruleApplied: 'Substitution',
         },

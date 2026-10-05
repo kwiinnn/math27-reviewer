@@ -76,11 +76,13 @@ function Flow({ fig }: { fig: FlowFigure }) {
       <div className="hidden grid-cols-[minmax(0,1fr)_1.25rem_minmax(0,1.25fr)] gap-3 text-xs font-semibold uppercase tracking-wider text-ink3 sm:grid">
         <span><MathText text={when} /></span><span /><span><MathText text={then} /></span>
       </div>
+      {/* On phones each row is one card, condition above and action below, so the pairs stay together. */}
       {fig.rows.map((row, i) => (
-        <div key={i} className="grid grid-cols-1 items-center gap-1.5 sm:grid-cols-[minmax(0,1fr)_1.25rem_minmax(0,1.25fr)] sm:gap-3">
-          <div className="rounded bg-inset px-3 py-2 leading-relaxed"><MathText text={row.when} /></div>
+        <div key={i}
+          className="grid grid-cols-1 items-center overflow-hidden rounded border border-line sm:grid-cols-[minmax(0,1fr)_1.25rem_minmax(0,1.25fr)] sm:gap-3 sm:overflow-visible sm:rounded-none sm:border-0">
+          <div className="bg-inset px-3 py-2 leading-relaxed sm:rounded"><MathText text={row.when} /></div>
           <span className="hidden justify-center text-ink3 sm:flex" aria-hidden="true"><ArrowIcon /></span>
-          <div className="border-l-2 py-1 pl-3 leading-relaxed text-ink2"
+          <div className="mx-3 my-2.5 border-l-2 pl-3 leading-relaxed text-ink2 sm:mx-0 sm:my-0 sm:py-1"
             style={{ borderColor: `var(--viz${(i % 3) + 1})` }}>
             <MathText text={row.then} />
           </div>

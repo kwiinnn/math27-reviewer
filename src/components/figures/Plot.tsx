@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useRef, useState, type CSSProperties, type PointerEvent, type ReactNode, type RefObject, type SVGProps } from 'react';
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent, type ReactNode, type RefObject, type SVGProps } from 'react';
 import type { Anchor, PlotAnimation, PlotFigure, PlotItem, Tick, Tone, Vec } from '../../types/figure';
 import { fmt, niceTicks } from '../../lib/plot';
 import { PauseIcon, PlayIcon } from '../Icons';
@@ -49,16 +49,27 @@ interface Scale {
   ix: (px: number) => number;
 }
 
+/** Rough width of a tick label in viewBox units. */
+const tickWidth = ([, text, latex]: [number, string, boolean]) =>
+  (latex ? text.replace(/\\[a-zA-Z]+/g, 'a').replace(/[{}^_]/g, '') : text).length * 8;
+
 function makeScale(fig: PlotFigure): Scale {
   const [x0, x1] = fig.x;
   const [y0, y1] = fig.y;
-  const iw = W - 2 * PAD;
-  const ih = fig.equal ? (iw * (y1 - y0)) / (x1 - x0) : W / (fig.aspect ?? 1.5) - 2 * PAD;
+  // An axis running along the left or bottom edge has its tick labels outside
+  // the plot area, so make room for them.
+  const axes = fig.axes ?? true;
+  const yTicks = axes && !(x0 < 0 && x1 > 0) ? tickList(fig.yTicks, y0, y1) : [];
+  const xTicks = axes && !(y0 < 0 && y1 > 0) ? tickList(fig.xTicks, x0, x1) : [];
+  const left = PAD + (yTicks.length ? 8 + Math.max(...yTicks.map(tickWidth)) : 0);
+  const bottom = PAD + (xTicks.length ? 16 : 0);
+  const iw = W - left - PAD;
+  const ih = fig.equal ? (iw * (y1 - y0)) / (x1 - x0) : W / (fig.aspect ?? 1.5) - PAD - bottom;
   return {
-    h: ih + 2 * PAD,
-    sx: (x) => PAD + ((x - x0) / (x1 - x0)) * iw,
+    h: ih + PAD + bottom,
+    sx: (x) => left + ((x - x0) / (x1 - x0)) * iw,
     sy: (y) => PAD + ((y1 - y) / (y1 - y0)) * ih,
-    ix: (px) => x0 + ((px - PAD) / iw) * (x1 - x0),
+    ix: (px) => x0 + ((px - left) / iw) * (x1 - x0),
   };
 }
 
@@ -329,6 +340,19 @@ function usePlayback(anim: PlotAnimation | undefined, inView: boolean) {
   return { t, playing, setPlaying, scrub };
 }
 
+/** Shift each label so it lies within the overlay box. Uses `translate`, which adds to the anchor transform. */
+function keepInside(box: HTMLElement | null) {
+  if (!box) return;
+  const b = box.getBoundingClientRect();
+  for (const el of Array.from(box.children) as HTMLElement[]) {
+    el.style.translate = '';
+    const r = el.getBoundingClientRect();
+    const dx = r.width > b.width ? 0 : r.left < b.left ? b.left - r.left : r.right > b.right ? b.right - r.right : 0;
+    const dy = r.top < b.top ? b.top - r.top : r.bottom > b.bottom ? b.bottom - r.bottom : 0;
+    if (dx || dy) el.style.translate = `${dx}px ${dy}px`;
+  }
+}
+
 interface Hover {
   px: number;
   x: number;
@@ -336,6 +360,7 @@ interface Hover {
 
 export function Plot({ fig }: { fig: PlotFigure }) {
   const wrap = useRef<HTMLDivElement>(null);
+  const overlay = useRef<HTMLDivElement>(null);
   const inView = useInView(wrap);
   const { t, playing, setPlaying, scrub } = usePlayback(fig.animate, inView);
   const [hover, setHover] = useState<Hover | null>(null);
@@ -364,6 +389,17 @@ export function Plot({ fig }: { fig: PlotFigure }) {
         .map((it) => ({ it, y: it.f(hover.x) }))
         .filter(({ y }) => Number.isFinite(y))
     : [];
+
+  // Nudge any label that would stick out of the figure back inside it, after
+  // every render and whenever the figure is resized.
+  useLayoutEffect(() => keepInside(overlay.current));
+  useEffect(() => {
+    const el = overlay.current;
+    if (!el || !('ResizeObserver' in window)) return;
+    const ro = new ResizeObserver(() => keepInside(el));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const pct = (v: number, of: number) => `${(v / of) * 100}%`;
   const labelStyle = (l: Label): CSSProperties => ({
@@ -394,7 +430,7 @@ export function Plot({ fig }: { fig: PlotFigure }) {
             </g>
           )}
         </svg>
-        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div ref={overlay} className="pointer-events-none absolute inset-0" aria-hidden="true">
           {labels.map((l, i) => (
             <span key={i} style={labelStyle(l)}
               className={`fig-label absolute whitespace-nowrap leading-none ${l.small ? 'text-[0.7rem] tabular-nums text-ink3' : 'text-[0.85rem] text-ink'}`}>
