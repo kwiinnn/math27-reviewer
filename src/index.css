@@ -5,6 +5,8 @@
 /*
  * Colour tokens: monochrome zinc, with emerald and cobalt reserved for
  * difficulty badges and tip callouts. Three contrast levels per theme.
+ * --viz1..3 are the figure hues (blue, orange, aqua), validated as a set for
+ * colour-blind separation on each surface; figures always label them too.
  * Layout: fixed curriculum sidebar, quiet sticky top bar, one reading column.
  */
 :root {
@@ -14,6 +16,7 @@
   --ink: #18181b; --ink2: #3f3f46; --ink3: #71717a;
   --primary: #18181b; --onprimary: #ffffff;
   --basic: #047857; --exam: #1e47b0;
+  --viz1: #2a78d6; --viz2: #eb6834; --viz3: #1baf7a;
   --overlay: rgba(24, 24, 27, 0.4);
   color-scheme: light;
 }
@@ -30,6 +33,7 @@
   --ink: #000000; --ink2: #18181b; --ink3: #3f3f46;
   --primary: #000000; --onprimary: #ffffff;
   --basic: #065f46; --exam: #17357f;
+  --viz1: #1c5cab; --viz2: #c2410c; --viz3: #0f7a55;
 }
 
 /* Dark, before the script has run (system preference only). */
@@ -40,6 +44,7 @@
     --ink: #f4f4f5; --ink2: #d4d4d8; --ink3: #a1a1aa;
     --primary: #f4f4f5; --onprimary: #18181b;
     --basic: #34d399; --exam: #8ea8f0;
+    --viz1: #3987e5; --viz2: #d95926; --viz3: #199e70;
     --overlay: rgba(0, 0, 0, 0.6);
     color-scheme: dark;
   }
@@ -50,6 +55,7 @@
   --ink: #f4f4f5; --ink2: #d4d4d8; --ink3: #a1a1aa;
   --primary: #f4f4f5; --onprimary: #18181b;
   --basic: #34d399; --exam: #8ea8f0;
+  --viz1: #3987e5; --viz2: #d95926; --viz3: #199e70;
   --overlay: rgba(0, 0, 0, 0.6);
   color-scheme: dark;
 }
@@ -86,6 +92,9 @@ h1, h2, h3 { text-wrap: balance; }
 ::selection { background: var(--ink); color: var(--bg); }
 summary::-webkit-details-marker { display: none; }
 
+/* Figure labels are HTML over the SVG, so they keep the reading font and KaTeX. */
+.fig-label .katex { font-size: 1em; }
+
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; scroll-behavior: auto !important; }
+  * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }

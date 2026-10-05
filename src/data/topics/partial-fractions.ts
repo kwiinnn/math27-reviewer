@@ -21,6 +21,18 @@ export const partialFractions: Topic = {
         "Forgetting to integrate the quotient.",
       ],
       tip: "Compare degrees before anything else. It takes two seconds.",
+      figure: {
+        kind: 'sequence',
+        caption: 'The whole method. Steps 1 and 2 are skipped only when the fraction is already proper.',
+        steps: [
+          { label: 'Compare degrees', text: 'Is $\\deg P \\ge \\deg Q$?' },
+          { label: 'Divide', text: 'Long division if so' },
+          { label: 'Factor', text: 'Factor $Q(x)$ completely' },
+          { label: 'Set up', text: 'One term per factor (and per power)' },
+          { label: 'Solve', text: 'Clear denominators, find the constants' },
+          { label: 'Integrate', text: '$\\ln$, powers, $\\tan^{-1}$' },
+        ],
+      },
     },
     {
       title: 'Distinct linear factors',
@@ -34,6 +46,16 @@ export const partialFractions: Topic = {
         "For a factor $ax + b$ with $a \\ne 1$: $\\displaystyle\\int\\frac{dx}{ax+b} = \\frac1a\\ln|ax+b| + C$.",
       ],
       tip: "Check a decomposition by recombining it, or by substituting one easy value of $x$ such as $0$ into both sides.",
+      figure: {
+        kind: 'flow',
+        head: ['Factor of $Q(x)$', 'Terms it contributes'],
+        caption: 'One unknown constant per degree of the denominator: the count always matches.',
+        rows: [
+          { when: 'Distinct linear $(x - r)$', then: '$\\dfrac{A}{x - r}$' },
+          { when: 'Repeated linear $(x - r)^k$', then: '$\\dfrac{A_1}{x - r} + \\dfrac{A_2}{(x - r)^2} + \\cdots + \\dfrac{A_k}{(x - r)^k}$' },
+          { when: 'Irreducible quadratic $x^2 + bx + c$', then: '$\\dfrac{Ax + B}{x^2 + bx + c}$' },
+        ],
+      },
     },
     {
       title: 'Repeated linear factors',
@@ -137,6 +159,21 @@ export const partialFractions: Topic = {
           stepNumber: 3,
           title: 'Substitute the roots',
           mathLatex: "x = 3:\\; 20 = 5A \\Rightarrow A = 4 \\qquad x = -2:\\; -15 = -5B \\Rightarrow B = 3",
+          figure: {
+            kind: 'plot',
+            caption: 'Each term accounts for one vertical asymptote. Near $x = 3$ the graph of $\\frac{7x-1}{x^2-x-6}$ follows $\\frac{4}{x-3}$; near $x = -2$ it follows $\\frac{3}{x+2}$.',
+            x: [-6, 7],
+            y: [-10, 10],
+            aspect: 1.3,
+            yTicks: [-10, -5, 5, 10],
+            items: [
+              { type: 'vline', x: 3 },
+              { type: 'vline', x: -2 },
+              { type: 'fn', f: (x) => 4 / (x - 3), tone: 2, dashed: true, label: '\\frac{4}{x-3}', labelAt: [3.9, 4.44], anchor: 'e' },
+              { type: 'fn', f: (x) => 3 / (x + 2), tone: 3, dashed: true, label: '\\frac{3}{x+2}', labelAt: [-2.8, -3.75], anchor: 'w' },
+              { type: 'fn', f: (x) => (7 * x - 1) / ((x - 3) * (x + 2)), label: '\\frac{7x-1}{x^2-x-6}', labelAt: [5.5, 2], anchor: 'n' },
+            ],
+          },
           explanation: "Each root makes one term vanish, isolating the other constant.",
           ruleApplied: 'Substitution of roots',
         },

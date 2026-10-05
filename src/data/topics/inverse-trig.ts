@@ -1,4 +1,5 @@
 import type { Topic } from '../../types/curriculum';
+import { piTicks } from '../../lib/plot';
 
 /**
  * Unit 1.4 — Inverse Trigonometric Functions.
@@ -28,6 +29,22 @@ export const inverseTrig: Topic = {
         'Evaluating $\\sin^{-1} 2$ or $\\sec^{-1}\\tfrac12$. Neither exists: the input is outside the domain.',
       ],
       tip: 'Before computing anything, say the sentence "the answer is an angle between ___ and ___". It catches most range errors.',
+      figure: {
+        kind: 'plot',
+        caption: 'A horizontal line such as $y = \\frac12$ meets $y = \\sin x$ infinitely often. Keeping only the piece on $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$ leaves one crossing, and that piece is the graph we invert.',
+        x: [-6.6, 6.6],
+        y: [-1.5, 1.5],
+        aspect: 2.3,
+        xTicks: piTicks(-4, 4),
+        yTicks: [-1, 1],
+        items: [
+          { type: 'fn', f: Math.sin, tone: 'muted', width: 1.5 },
+          { type: 'fn', f: Math.sin, from: -Math.PI / 2, to: Math.PI / 2, width: 3, label: '\\text{principal piece}', labelAt: [-Math.PI / 2, -1], anchor: 'sw' },
+          { type: 'hline', y: 0.5, tone: 2, dashed: false, width: 1.5, label: 'y = \\tfrac12', labelAt: [6.6, 0.5], anchor: 'nw' },
+          ...[-11 * Math.PI / 6, -7 * Math.PI / 6, 5 * Math.PI / 6, 13 * Math.PI / 6].map((x) => ({ type: 'point' as const, at: [x, 0.5] as [number, number], tone: 'muted' as const, hollow: true })),
+          { type: 'point', at: [Math.PI / 6, 0.5], tone: 2, label: '\\tfrac{\\pi}{6} = \\sin^{-1}\\tfrac12', anchor: 'n' },
+        ],
+      },
     },
     {
       title: 'The six principal ranges (deck convention)',
@@ -41,6 +58,70 @@ export const inverseTrig: Topic = {
         'Using a different textbook\'s $\\sec^{-1}$ range. Some books send $x \\le -1$ to $\\left[\\pi, \\frac{3\\pi}{2}\\right)$; that changes the derivative formula (no absolute value). This course uses the range above, so the derivative carries $|u|$.',
       ],
       tip: 'Memorise two ranges only: $\\sin^{-1}$ gives $\\left[-\\frac{\\pi}{2},\\frac{\\pi}{2}\\right]$, $\\cos^{-1}$ gives $[0,\\pi]$. The other four copy one of these and delete the endpoints where the original function is undefined.',
+      figure: {
+        kind: 'group',
+        caption: 'Each graph is the restricted trigonometric function reflected in $y = x$. Read the range off the vertical axis: that is where the answer must land.',
+        figures: [
+          {
+            kind: 'plot',
+            title: '$y = \\sin^{-1} x$',
+            x: [-1.6, 1.6],
+            y: [-1.9, 1.9],
+            aspect: 1.25,
+            xTicks: [-1, 1],
+            yTicks: piTicks(-1, 1),
+            items: [
+              { type: 'fn', f: Math.asin, from: -1, to: 1 },
+              { type: 'point', at: [-1, -Math.PI / 2] },
+              { type: 'point', at: [1, Math.PI / 2] },
+            ],
+          },
+          {
+            kind: 'plot',
+            title: '$y = \\cos^{-1} x$',
+            x: [-1.6, 1.6],
+            y: [-0.4, 3.5],
+            aspect: 1.25,
+            xTicks: [-1, 1],
+            yTicks: piTicks(1, 2),
+            items: [
+              { type: 'fn', f: Math.acos, from: -1, to: 1 },
+              { type: 'point', at: [-1, Math.PI] },
+              { type: 'point', at: [1, 0] },
+            ],
+          },
+          {
+            kind: 'plot',
+            title: '$y = \\tan^{-1} x$',
+            x: [-6, 6],
+            y: [-1.9, 1.9],
+            aspect: 1.25,
+            xTicks: [-4, 4],
+            yTicks: piTicks(-1, 1),
+            items: [
+              { type: 'hline', y: Math.PI / 2 },
+              { type: 'hline', y: -Math.PI / 2 },
+              { type: 'fn', f: Math.atan },
+            ],
+          },
+          {
+            kind: 'plot',
+            title: '$y = \\sec^{-1} x$',
+            x: [-5, 5],
+            y: [-0.4, 3.5],
+            aspect: 1.25,
+            xTicks: [-1, 1],
+            yTicks: piTicks(1, 2),
+            items: [
+              { type: 'hline', y: Math.PI / 2 },
+              { type: 'fn', f: (x) => Math.acos(1 / x), from: 1 },
+              { type: 'fn', f: (x) => Math.acos(1 / x), to: -1 },
+              { type: 'point', at: [1, 0] },
+              { type: 'point', at: [-1, Math.PI] },
+            ],
+          },
+        ],
+      },
     },
     {
       title: 'Cancellation works in one direction only',
@@ -53,6 +134,20 @@ export const inverseTrig: Topic = {
         'Writing $\\cos^{-1}(\\cos(-x)) = -x$. Cosine is even and the range is $[0,\\pi]$, so for $0 \\le x \\le \\pi$ the value is $x$.',
       ],
       tip: 'For mixed compositions such as $\\cos(\\sin^{-1} x)$, let $\\theta = \\sin^{-1} x$, draw a right triangle with opposite $x$ and hypotenuse $1$, and read off $\\cos\\theta = \\sqrt{1-x^2}$. The root is positive because $\\cos\\theta \\ge 0$ on $\\left[-\\frac{\\pi}{2},\\frac{\\pi}{2}\\right]$.',
+      figure: {
+        kind: 'plot',
+        caption: '$y = \\sin^{-1}(\\sin x)$ agrees with $y = x$ only on $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$. Everywhere else it folds back into that band, giving a zigzag.',
+        x: [-6.6, 6.6],
+        y: [-2.2, 2.2],
+        aspect: 2.1,
+        xTicks: piTicks(-4, 4),
+        yTicks: piTicks(-1, 1),
+        items: [
+          { type: 'polygon', points: [[-Math.PI / 2, -2.2], [Math.PI / 2, -2.2], [Math.PI / 2, 2.2], [-Math.PI / 2, 2.2]], tone: 'muted' },
+          { type: 'fn', f: (x) => x, tone: 2, dashed: true, label: 'y = x', labelAt: [2, 2], anchor: 'w' },
+          { type: 'fn', f: (x) => Math.asin(Math.sin(x)), label: 'y = \\sin^{-1}(\\sin x)', labelAt: [4.2, -1.1], anchor: 's' },
+        ],
+      },
     },
     {
       title: 'Where the derivative formulas come from',
@@ -65,6 +160,14 @@ export const inverseTrig: Topic = {
         'Being unable to rebuild a forgotten formula. If you blank, set $y = \\tan^{-1} x$, write $\\tan y = x$, differentiate implicitly: $\\sec^2 y \\, y\' = 1$, so $y\' = \\dfrac{1}{1+\\tan^2 y} = \\dfrac{1}{1+x^2}$.',
       ],
       tip: 'The implicit-differentiation derivation takes four lines. Practise it once for each of $\\sin^{-1}$, $\\tan^{-1}$, $\\sec^{-1}$ so the table is recoverable under pressure.',
+      figure: {
+        kind: 'triangle',
+        caption: 'Let $\\theta = \\sin^{-1} x$, so $\\sin\\theta = \\frac{x}{1}$. Pythagoras gives the third side, and $\\cos\\theta = \\sqrt{1-x^2}$ with no $\\pm$ because $\\theta$ lies in $\\left[-\\frac{\\pi}{2},\\frac{\\pi}{2}\\right]$.',
+        opposite: 'x',
+        hypotenuse: '1',
+        adjacent: '\\sqrt{1-x^2}',
+        highlight: 'adjacent',
+      },
     },
     {
       title: 'The derivative table and its chain-rule factor',
@@ -708,6 +811,20 @@ export const inverseTrig: Topic = {
           title: 'Assemble',
           mathLatex: 'y\' = \\frac{1}{|x|}\\cdot\\frac{-x}{\\sqrt{1-x^2}} = \\frac{-x}{|x|\\sqrt{1-x^2}}',
           explanation: 'The ratio $\\frac{x}{|x|}$ is $+1$ for positive $x$ and $-1$ for negative $x$, so the derivative changes sign across $0$.',
+          figure: {
+            kind: 'plot',
+            caption: 'The function equals $\\cos^{-1}|x|$: a peak with a corner at $x = 0$. The slope is positive on the left, negative on the right, and undefined at $0$.',
+            x: [-1.3, 1.3],
+            y: [-0.25, 1.9],
+            aspect: 1.6,
+            xTicks: [-1, 1],
+            yTicks: piTicks(1, 1),
+            items: [
+              { type: 'fn', f: (x) => Math.asin(Math.sqrt(1 - x * x)), from: -1, to: 0, tone: 2, label: "y' > 0", labelAt: [-0.55, 1], anchor: 'w' },
+              { type: 'fn', f: (x) => Math.asin(Math.sqrt(1 - x * x)), from: 0, to: 1, label: "y' < 0", labelAt: [0.55, 1], anchor: 'e' },
+              { type: 'point', at: [0, Math.PI / 2], tone: 'ink', hollow: true, label: '\\text{corner}', anchor: 'ne' },
+            ],
+          },
           ruleApplied: '$D_x(\\sin^{-1}u) = \\dfrac{1}{\\sqrt{1-u^2}}\\,D_x u$',
         },
         {
@@ -752,6 +869,20 @@ export const inverseTrig: Topic = {
           title: 'Evaluate',
           mathLatex: '= \\frac{1}{3}\\left(\\tan^{-1}1 - \\tan^{-1}0\\right) = \\frac{1}{3}\\left(\\frac{\\pi}{4} - 0\\right) = \\frac{\\pi}{12}',
           explanation: '$\\tan^{-1}1$ is the angle in $\\left(-\\frac{\\pi}{2},\\frac{\\pi}{2}\\right)$ whose tangent is $1$, namely $\\frac{\\pi}{4}$. Angles are in radians.',
+          figure: {
+            kind: 'plot',
+            caption: 'The value $\\frac{\\pi}{12} \\approx 0.262$ is the shaded area under $y = \\frac{1}{9 + x^2}$ from $0$ to $3$.',
+            x: [-1, 7],
+            y: [0, 0.13],
+            aspect: 1.9,
+            xTicks: [1, 2, 3, 4, 5, 6],
+            yTicks: [0.05, 0.1],
+            items: [
+              { type: 'area', f: (x) => 1 / (9 + x * x), from: 0, to: 3 },
+              { type: 'fn', f: (x) => 1 / (9 + x * x), label: 'y = \\frac{1}{9+x^2}', labelAt: [3.6, 0.046], anchor: 'ne' },
+              { type: 'label', at: [1.5, 0.04], text: '\\tfrac{\\pi}{12}' },
+            ],
+          },
           ruleApplied: 'Fundamental Theorem of Calculus',
           pitfall: 'Writing $\\tan^{-1}1 = 45$. Degrees have no place in a calculus answer.',
         },

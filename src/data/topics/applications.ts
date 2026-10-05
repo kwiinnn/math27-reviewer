@@ -1,4 +1,5 @@
 import type { Topic } from '../../types/curriculum';
+import { fmt } from '../../lib/plot';
 
 /** Unit 1.7 — Applications. Source: lecture deck 1.7. */
 export const applications: Topic = {
@@ -21,6 +22,23 @@ export const applications: Topic = {
         "Rounding $k$ early. Keep $k$ exact, such as $\\frac{\\ln 4}{3}$, until the last step.",
       ],
       tip: "Every problem has the same two stages. Use a second data point to find $k$. Then use $k$ to answer the question.",
+      figure: {
+        kind: 'plot',
+        caption: 'Every solution of $\\frac{dy}{dt} = ky$ starts at $y_0$ (here $1$). The sign of $k$ decides growth or decay; its size decides how fast.',
+        x: [0, 5],
+        y: [0, 5],
+        aspect: 1.3,
+        items: [{ type: 'point', at: [0, 1], tone: 'ink', label: 'y_0', anchor: 'ne' }],
+        animate: {
+          param: 'k',
+          range: [-1, 1],
+          initial: 0.5,
+          duration: 7,
+          frame: (k) => [{ type: 'fn', f: (t) => Math.exp(k * t), tone: k >= 0 ? 1 : 2, label: 'y = y_0 e^{kt}', labelAt: [4.1, Math.min(4.6, Math.exp(k * 4.1))], anchor: k > 0.3 ? 'w' : 'n' }],
+          readout: (k) =>
+            Math.abs(k) < 0.01 ? '$k = 0$: no change at all.' : k > 0 ? `$k = ${fmt(k)} > 0$: growth.` : `$k = ${fmt(k)} < 0$: decay towards $0$.`,
+        },
+      },
     },
     {
       title: 'Compound interest',
@@ -34,6 +52,27 @@ export const applications: Topic = {
         "Computing $\\left(1 + \\frac rn\\right)^{t}$ and forgetting the exponent is $nt$.",
       ],
       tip: "The exponent $nt$ is the total number of compounding periods. For $42$ months compounded quarterly that is $14$ periods.",
+      figure: {
+        kind: 'plot',
+        caption: 'Interest credited $n$ times a year makes the balance a staircase. More, smaller steps hug the continuous curve $P_0e^{rt}$ ever more closely. The rate is exaggerated to $100\\%$ so the gap is visible.',
+        x: [0, 3.2],
+        y: [0, 22],
+        aspect: 1.4,
+        xTicks: [1, 2, 3],
+        yTicks: [5, 10, 15, 20],
+        items: [{ type: 'fn', f: Math.exp, tone: 2, dashed: true, label: 'P_0 e^{rt}', labelAt: [2.55, Math.exp(2.55)], anchor: 'nw' }],
+        animate: {
+          param: 'n',
+          range: [1, 24],
+          initial: 1,
+          step: 1,
+          duration: 8,
+          frame: (n) => [
+            { type: 'fn', f: (t) => (1 + 1 / n) ** Math.floor(n * t + 1e-9), label: 'P(t)', labelAt: [3.2, (1 + 1 / n) ** Math.floor(n * 3.2)], anchor: 'sw' },
+          ],
+          readout: (n) => `$n = ${n}$: after $3$ years, $\\left(1 + \\frac{1}{${n}}\\right)^{${3 * n}} = ${fmt((1 + 1 / n) ** (3 * n))}$, against $e^3 = ${fmt(Math.exp(3))}$.`,
+        },
+      },
     },
     {
       title: 'Finding k, doubling time and half-life',
@@ -46,6 +85,23 @@ export const applications: Topic = {
         "For cooling, applying the model to the temperature itself. The quantity that decays exponentially is the difference between the object and its surroundings.",
       ],
       tip: "$e^{kt}$ with $k = \\frac{\\ln 4}{3}$ is the same as $4^{t/3}$. Writing it that way often makes the arithmetic exact.",
+      figure: {
+        kind: 'plot',
+        caption: 'Every doubling takes the same time $T = \\frac{\\ln 2}{k}$, whatever the starting value. Here $T = 1.5$.',
+        x: [0, 6.6],
+        y: [0, 18],
+        aspect: 1.4,
+        xTicks: [[1.5, 'T'], [3, '2T'], [4.5, '3T'], [6, '4T']],
+        yTicks: [[2, '2y_0'], [4, '4y_0'], [8, '8y_0'], [16, '16y_0']],
+        items: [
+          ...[1, 2, 3, 4].flatMap((i) => [
+            { type: 'segment' as const, from: [1.5 * i, 0] as [number, number], to: [1.5 * i, 2 ** i] as [number, number], tone: 'muted' as const, dashed: true, width: 1.5 },
+            { type: 'segment' as const, from: [0, 2 ** i] as [number, number], to: [1.5 * i, 2 ** i] as [number, number], tone: 'muted' as const, dashed: true, width: 1.5 },
+          ]),
+          { type: 'fn', f: (t) => 2 ** (t / 1.5), label: 'y = y_0 e^{kt}', labelAt: [5.2, 11.1], anchor: 'nw' },
+          ...[1, 2, 3, 4].map((i) => ({ type: 'point' as const, at: [1.5 * i, 2 ** i] as [number, number] })),
+        ],
+      },
     },
     {
       title: 'Angles as inverse trigonometric functions',
@@ -59,6 +115,26 @@ export const applications: Topic = {
         "Giving an answer in degrees for a rate. Derivative formulas assume radians.",
       ],
       tip: "$D_x\\left(\\tan^{-1}\\dfrac{c}{x}\\right) = \\dfrac{-c}{x^2+c^2}$. Deriving this once saves the algebra in every viewing-angle problem.",
+      figure: {
+        kind: 'plot',
+        caption: 'Seen from distance $x$, the object subtends $\\theta = \\beta - \\alpha$, where $\\tan\\beta = \\frac{\\text{top}}{x}$ and $\\tan\\alpha = \\frac{\\text{bottom}}{x}$.',
+        axes: false,
+        equal: true,
+        x: [-0.8, 9],
+        y: [-1, 5.8],
+        items: [
+          { type: 'segment', from: [6, -0.6], to: [6, 5.8], tone: 'muted', width: 3 },
+          { type: 'segment', from: [0, 0], to: [6, 0], tone: 'muted', dashed: true, width: 1.5, label: 'x', anchor: 's' },
+          { type: 'segment', from: [6, 2], to: [6, 5], tone: 2, width: 5 },
+          { type: 'segment', from: [0, 0], to: [6, 2], tone: 'ink', width: 1.5 },
+          { type: 'segment', from: [0, 0], to: [6, 5], tone: 'ink', width: 1.5 },
+          { type: 'angle', at: [0, 0], a: [6, 0], b: [6, 2], label: '\\alpha', radius: 80 },
+          { type: 'angle', at: [0, 0], a: [6, 2], b: [6, 5], label: '\\theta', radius: 130, tone: 2 },
+          { type: 'point', at: [0, 0], tone: 'ink', label: '\\text{eye}', anchor: 'w' },
+          { type: 'label', at: [6, 5], text: '\\text{top}', anchor: 'e' },
+          { type: 'label', at: [6, 2], text: '\\text{bottom}', anchor: 'e' },
+        ],
+      },
     },
     {
       title: 'Related rates with an inverse trigonometric function',
@@ -218,6 +294,27 @@ export const applications: Topic = {
       title: 'Setting up a viewing angle',
       prompt: "You sit next to the side wall of a classroom, looking at the blackboard on the front wall. The blackboard is 12 ft long and starts 3 ft from the wall you sit against. Find your viewing angle when you are $x$ ft from the front wall.",
       problemLatex: "\\theta(x) = \\beta - \\alpha",
+      figure: {
+        kind: 'plot',
+        title: 'Top view of the classroom',
+        caption: 'You sit against the side wall, $x$ ft from the front wall. The board occupies $3$ to $15$ ft along the front wall.',
+        axes: false,
+        equal: true,
+        x: [-3.5, 17],
+        y: [-9.5, 2],
+        items: [
+          { type: 'segment', from: [0, 1], to: [16.5, 1], tone: 'muted', width: 3, label: '\\text{front wall}', labelAt: [16.5, 1], anchor: 'nw' },
+          { type: 'segment', from: [0, -9.5], to: [0, 1], tone: 'muted', width: 3 },
+          { type: 'segment', from: [0, 0.6], to: [3, 0.6], tone: 'ink', width: 1.5, label: '3', anchor: 's' },
+          { type: 'segment', from: [3, 0.6], to: [15, 0.6], tone: 2, width: 5, label: '12', anchor: 's' },
+          { type: 'segment', from: [0.4, -8], to: [0.4, 0.6], tone: 'muted', dashed: true, width: 1.5, label: 'x', anchor: 'e' },
+          { type: 'segment', from: [0.4, -8], to: [3, 0.6], tone: 'ink', width: 1.5 },
+          { type: 'segment', from: [0.4, -8], to: [15, 0.6], tone: 'ink', width: 1.5 },
+          { type: 'angle', at: [0.4, -8], a: [0.4, 0.6], b: [3, 0.6], label: '\\alpha', radius: 40 },
+          { type: 'angle', at: [0.4, -8], a: [0.4, 0.6], b: [15, 0.6], label: '\\beta', radius: 62 },
+          { type: 'point', at: [0.4, -8], tone: 'ink', label: '\\text{you}', anchor: 'w' },
+        ],
+      },
       keyIdea: "The viewing angle is the difference of two angles measured from the side wall.",
       solutionSteps: [
         {
@@ -242,6 +339,37 @@ export const applications: Topic = {
       title: 'Best distance to view a frame',
       prompt: "A frame 7 ft high is placed on a wall with its base 9 ft above the eye level of an observer. How far from the wall should the observer stand so that the angle subtended by the frame is a maximum?",
       problemLatex: "\\text{bottom: } 9 \\text{ ft}, \\qquad \\text{top: } 9 + 7 = 16 \\text{ ft}",
+      figure: {
+        kind: 'plot',
+        caption: 'Walk towards or away from the wall. Close up the frame is seen almost edge-on; far away it shrinks. The angle peaks in between.',
+        axes: false,
+        equal: true,
+        x: [-3, 31],
+        y: [-2.5, 17.5],
+        items: [
+          { type: 'segment', from: [0, -2.5], to: [0, 17.5], tone: 'muted', width: 3 },
+          { type: 'segment', from: [-2, -2.5], to: [31, -2.5], tone: 'muted', width: 1 },
+          { type: 'segment', from: [0, 9], to: [0, 16], tone: 2, width: 6, label: '7', anchor: 'w' },
+          { type: 'segment', from: [-0.6, 0], to: [-0.6, 9], tone: 'muted', width: 1.5, label: '9', anchor: 'w' },
+        ],
+        animate: {
+          param: 'x',
+          range: [2, 30],
+          initial: 12,
+          duration: 9,
+          frame: (x) => [
+            { type: 'segment', from: [x, 0], to: [0, 0], tone: 'muted', dashed: true, width: 1.5, label: 'x', anchor: 's' },
+            { type: 'segment', from: [x, 0], to: [0, 9], tone: 'ink', width: 1.5 },
+            { type: 'segment', from: [x, 0], to: [0, 16], tone: 'ink', width: 1.5 },
+            { type: 'angle', at: [x, 0], a: [0, 9], b: [0, 16], label: '\\theta', radius: 44, tone: 2 },
+            { type: 'point', at: [x, 0], tone: 'ink', label: '\\text{eye}', anchor: 's' },
+          ],
+          readout: (x) => {
+            const th = Math.atan(16 / x) - Math.atan(9 / x);
+            return `$x = ${fmt(x, 1)}$ ft: $\\theta = ${fmt(th, 3)}$ rad $\\approx ${fmt((th * 180) / Math.PI, 1)}^\\circ$${Math.abs(x - 12) < 0.35 ? ', the largest it gets' : ''}`;
+          },
+        },
+      },
       keyIdea: "Write the subtended angle as a difference of inverse tangents, differentiate, and solve $\\theta' = 0$.",
       solutionSteps: [
         {
@@ -271,6 +399,20 @@ export const applications: Topic = {
           title: 'Confirm the maximum',
           mathLatex: "\\theta'(x) > 0 \\text{ for } 0 < x < 12, \\qquad \\theta'(x) < 0 \\text{ for } x > 12",
           explanation: "$\\theta$ increases and then decreases, so $x = 12$ ft gives the maximum, about $16.3^\\circ$. Note $12 = \\sqrt{9\\cdot 16}$.",
+          figure: {
+            kind: 'plot',
+            caption: 'The graph of $\\theta(x)$ rises steeply, peaks at $x = 12$, then decays slowly.',
+            x: [0, 40],
+            y: [0, 0.33],
+            aspect: 1.8,
+            xTicks: [10, 12, 20, 30, 40],
+            yTicks: [0.1, 0.2, 0.3],
+            items: [
+              { type: 'fn', f: (x) => Math.atan(16 / x) - Math.atan(9 / x), from: 0.01, label: '\\theta(x)', labelAt: [30, 0.12], anchor: 'n' },
+              { type: 'segment', from: [12, 0], to: [12, Math.atan(4 / 3) - Math.atan(3 / 4)], tone: 'muted', dashed: true, width: 1.5 },
+              { type: 'point', at: [12, Math.atan(4 / 3) - Math.atan(3 / 4)], tone: 2, label: '(12,\\ 0.284)', anchor: 'ne' },
+            ],
+          },
           ruleApplied: 'First derivative test',
         },
       ],
@@ -485,6 +627,23 @@ export const applications: Topic = {
       difficulty: 'Exam-Level',
       prompt: 'A ladder 10 ft long leans against a vertical wall. The bottom slides away from the wall at 2 ft/s. How fast is the angle between the ladder and the wall changing when the bottom is 6 ft from the wall?',
       questionLatex: "L = 10, \\qquad \\frac{dx}{dt} = 2, \\qquad x = 6",
+      figure: {
+        kind: 'plot',
+        caption: '$\\theta$ is measured at the top, between the ladder and the wall.',
+        axes: false,
+        equal: true,
+        x: [-1.5, 10.5],
+        y: [-1.4, 9.2],
+        items: [
+          { type: 'segment', from: [0, 0], to: [0, 9.2], tone: 'muted', width: 3 },
+          { type: 'segment', from: [-1, 0], to: [10.5, 0], tone: 'muted', width: 3 },
+          { type: 'segment', from: [6, 0], to: [0, 8], width: 3, label: '10', anchor: 'ne' },
+          { type: 'segment', from: [0, -0.5], to: [6, -0.5], tone: 'ink', width: 1.5, label: 'x', anchor: 's' },
+          { type: 'segment', from: [6.6, 0.5], to: [8.8, 0.5], tone: 2, width: 2, arrow: true, label: '2\\text{ ft/s}', anchor: 'n' },
+          { type: 'angle', at: [0, 0], a: [1, 0], b: [0, 1], right: true },
+          { type: 'angle', at: [0, 8], a: [0, 0], b: [6, 0], label: '\\theta', radius: 36, tone: 2 },
+        ],
+      },
       hint: "The angle is at the top of the ladder. Which side of the triangle is opposite it?",
       steps: [
         {
@@ -519,6 +678,25 @@ export const applications: Topic = {
       difficulty: 'Exam-Level',
       prompt: 'A camera on the ground is 3000 ft from a launch pad. A rocket rises vertically at 600 ft/s. How fast is the camera\'s angle of elevation changing when the rocket is 4000 ft high?',
       questionLatex: "\\theta = \\tan^{-1}\\frac{h}{3000}, \\qquad \\frac{dh}{dt} = 600, \\qquad h = 4000",
+      figure: {
+        kind: 'plot',
+        caption: 'The camera is fixed; only $h$ and $\\theta$ change.',
+        axes: false,
+        equal: true,
+        x: [-0.8, 4.6],
+        y: [-0.7, 4.8],
+        items: [
+          { type: 'segment', from: [-0.6, 0], to: [4.4, 0], tone: 'muted', width: 3 },
+          { type: 'segment', from: [0, -0.25], to: [3, -0.25], tone: 'ink', width: 1.5, label: '3000\\text{ ft}', anchor: 's' },
+          { type: 'segment', from: [3, 0], to: [3, 4], tone: 'muted', dashed: true, width: 1.5, label: 'h', anchor: 'e' },
+          { type: 'segment', from: [0, 0], to: [3, 4], tone: 'ink', width: 1.5 },
+          { type: 'segment', from: [3.6, 3.1], to: [3.6, 4.3], tone: 2, width: 2, arrow: true, label: '600\\text{ ft/s}', anchor: 'e' },
+          { type: 'angle', at: [3, 0], a: [0, 0], b: [3, 1], right: true },
+          { type: 'angle', at: [0, 0], a: [3, 0], b: [3, 4], label: '\\theta', radius: 34, tone: 2 },
+          { type: 'point', at: [3, 4], tone: 2, label: '\\text{rocket}', anchor: 'w' },
+          { type: 'point', at: [0, 0], tone: 'ink', label: '\\text{camera}', anchor: 'w' },
+        ],
+      },
       hint: "Differentiate with respect to $t$, then simplify the fraction before substituting.",
       steps: [
         {
@@ -584,6 +762,23 @@ export const applications: Topic = {
       difficulty: 'Challenge',
       prompt: 'The slant height of a cone is 3 m. How large should the angle $\\theta$ between the axis and the slant edge be to maximise the volume?',
       questionLatex: "V = \\frac{1}{3}\\pi r^2h, \\qquad \\text{slant height } 3",
+      figure: {
+        kind: 'plot',
+        caption: 'The slant edge, the axis and a radius form a right triangle with hypotenuse $3$.',
+        axes: false,
+        equal: true,
+        x: [-2.6, 2.6],
+        y: [-0.4, 3.2],
+        items: [
+          { type: 'curve', x: (s) => 1.72 * Math.cos(s), y: (s) => 2.46 + 0.35 * Math.sin(s), t: [0, 2 * Math.PI], tone: 'ink', width: 1.5 },
+          { type: 'polygon', points: [[0, 0], [-1.72, 2.46], [1.72, 2.46]], tone: 1 },
+          { type: 'segment', from: [0, 0], to: [-1.72, 2.46], tone: 'ink', width: 2 },
+          { type: 'segment', from: [0, 0], to: [1.72, 2.46], width: 3, label: '3', anchor: 'e' },
+          { type: 'segment', from: [0, 0], to: [0, 2.46], tone: 'muted', dashed: true, width: 1.5, label: 'h', labelAt: [0, 1.4], anchor: 'w' },
+          { type: 'segment', from: [0, 2.46], to: [1.72, 2.46], tone: 2, width: 2, label: 'r', anchor: 'n' },
+          { type: 'angle', at: [0, 0], a: [0, 1], b: [1.72, 2.46], label: '\\theta', radius: 30, tone: 2 },
+        ],
+      },
       hint: "Express $r$ and $h$ in terms of $\\theta$ using the right triangle with hypotenuse 3.",
       steps: [
         {

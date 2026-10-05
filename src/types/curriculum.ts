@@ -8,6 +8,10 @@
  *  - Inside .ts files every LaTeX backslash is double-escaped ("\\frac").
  */
 
+import type { Figure } from './figure';
+
+export type { Figure } from './figure';
+
 export type Difficulty = 'Basic' | 'Exam-Level' | 'Challenge';
 
 export interface Step {
@@ -25,6 +29,8 @@ export interface Step {
   ruleApplied: string;
   /** The error students most often make at this exact point. */
   pitfall?: string;
+  /** Shown under this step's mathematics once the step is revealed. */
+  figure?: Figure;
 }
 
 export interface Formula {
@@ -43,6 +49,7 @@ export interface ExamNote {
   conditions: string;
   commonTraps: string[];
   tip: string;
+  figure?: Figure;
 }
 
 export interface WorkedExample {
@@ -52,6 +59,8 @@ export interface WorkedExample {
   prompt?: string;
   problemLatex: string;
   keyIdea: string;
+  /** Shown at the top of the solution. */
+  figure?: Figure;
   solutionSteps: Step[];
 }
 
@@ -64,6 +73,8 @@ export interface Problem {
   questionLatex: string;
   /** A nudge shown in the expandable scratchpad, without giving the answer. */
   hint: string;
+  /** A setup diagram shown with the question, so it must not give the answer away. */
+  figure?: Figure;
   steps: Step[];
 }
 

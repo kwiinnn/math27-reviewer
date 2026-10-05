@@ -1,4 +1,5 @@
 import type { Topic } from '../../types/curriculum';
+import { piTicks } from '../../lib/plot';
 
 /** Unit 2.3 — Trigonometric Integrals. Source: lecture deck 2.3 (examples solved here). */
 export const trigIntegrals: Topic = {
@@ -22,6 +23,16 @@ export const trigIntegrals: Topic = {
         "Writing $\\displaystyle\\int \\cos^3 x\\,dx = \\frac{\\cos^4 x}{4}$. The power rule needs $du$, which is not present.",
       ],
       tip: "If both powers are odd, split the smaller one. The polynomial to integrate is shorter.",
+      figure: {
+        kind: 'flow',
+        head: ['In $\\int \\sin^n x\\cos^m x\\,dx$', 'Do this'],
+        caption: 'The odd power pays for $du$. Only when every power is even do you need the half-angle identities.',
+        rows: [
+          { when: 'Power of $\\sin x$ is odd', then: 'Save one $\\sin x$, turn the rest into cosines with $\\sin^2 x = 1 - \\cos^2 x$, let $u = \\cos x$.' },
+          { when: 'Power of $\\cos x$ is odd', then: 'Save one $\\cos x$, turn the rest into sines with $\\cos^2 x = 1 - \\sin^2 x$, let $u = \\sin x$.' },
+          { when: 'Both powers even (including $0$)', then: 'Lower the powers: $\\sin^2 x = \\frac{1 - \\cos 2x}{2}$, $\\cos^2 x = \\frac{1 + \\cos 2x}{2}$. Repeat if needed.' },
+        ],
+      },
     },
     {
       title: 'Powers of sine and cosine: all even',
@@ -35,6 +46,20 @@ export const trigIntegrals: Topic = {
         "Squaring $\\dfrac{1 + \\cos 2x}{2}$ and losing the $\\frac14$ or the middle term $2\\cos 2x$.",
       ],
       tip: "$\\displaystyle\\int \\cos^4 u\\,du = \\frac{3u}{8} + \\frac{\\sin 2u}{4} + \\frac{\\sin 4u}{32} + C$. Derive it once slowly; the same steps reappear in every even-power problem.",
+      figure: {
+        kind: 'plot',
+        caption: '$\\sin^2 x$ and $\\cos^2 x$ are waves of twice the frequency, centred on $\\frac12$: exactly $\\frac12 \\mp \\frac12\\cos 2x$. They also add to $1$ everywhere.',
+        x: [0, 2 * Math.PI],
+        y: [0, 1.25],
+        aspect: 2.2,
+        xTicks: piTicks(1, 4),
+        yTicks: [[0.5, '\\tfrac12'], 1],
+        items: [
+          { type: 'hline', y: 0.5, label: 'y = \\tfrac12', labelAt: [2 * Math.PI, 0.5], anchor: 'sw' },
+          { type: 'fn', f: (x) => Math.sin(x) ** 2, label: '\\sin^2 x', labelAt: [Math.PI / 2, 1], anchor: 'n' },
+          { type: 'fn', f: (x) => Math.cos(x) ** 2, tone: 2, dashed: true, label: '\\cos^2 x', labelAt: [Math.PI, 1], anchor: 'n' },
+        ],
+      },
     },
     {
       title: 'Powers of tangent and cotangent',
@@ -59,6 +84,16 @@ export const trigIntegrals: Topic = {
         "When both conditions hold, mixing the two methods in one solution. Choose one.",
       ],
       tip: "Ask which $du$ you can afford. Even power of secant: you can pay for $\\sec^2 x$. Odd power of tangent with at least one secant: you can pay for $\\sec x\\tan x$.",
+      figure: {
+        kind: 'flow',
+        head: ['In $\\int \\tan^n x\\sec^m x\\,dx$', 'Do this'],
+        caption: 'Same idea as sine and cosine: set aside the piece that becomes $du$, convert everything else.',
+        rows: [
+          { when: 'Power of $\\sec x$ is even', then: 'Save $\\sec^2 x$, convert the other secants with $\\sec^2 x = \\tan^2 x + 1$, let $u = \\tan x$.' },
+          { when: 'Power of $\\tan x$ is odd (and $m \\ge 1$)', then: 'Save $\\sec x\\tan x$, convert the other tangents with $\\tan^2 x = \\sec^2 x - 1$, let $u = \\sec x$.' },
+          { when: '$\\tan$ even and $\\sec$ odd', then: 'Convert all tangents to secants, then use integration by parts on each odd power of $\\sec x$.' },
+        ],
+      },
     },
     {
       title: 'When substitution cannot work: integration by parts',
@@ -530,6 +565,20 @@ export const trigIntegrals: Topic = {
           stepNumber: 3,
           title: 'Evaluate',
           mathLatex: "\\left[\\frac{u^3}{3} - \\frac{u^5}{5}\\right]_0^1 = \\frac{1}{3} - \\frac{1}{5} = \\frac{2}{15}",
+          figure: {
+            kind: 'plot',
+            caption: 'The shaded area under $y = \\sin^3 x\\cos^2 x$ on $\\left[0, \\frac{\\pi}{2}\\right]$ is $\\frac{2}{15} \\approx 0.133$.',
+            x: [0, Math.PI / 2 + 0.1],
+            y: [0, 0.45],
+            aspect: 1.8,
+            xTicks: piTicks(1, 2, 4),
+            yTicks: [0.2, 0.4],
+            items: [
+              { type: 'area', f: (x) => Math.sin(x) ** 3 * Math.cos(x) ** 2, from: 0, to: Math.PI / 2 },
+              { type: 'fn', f: (x) => Math.sin(x) ** 3 * Math.cos(x) ** 2, from: 0, to: Math.PI / 2, label: 'y = \\sin^3 x\\cos^2 x', labelAt: [0.95, 0.31], anchor: 'ne' },
+              { type: 'label', at: [0.95, 0.1], text: '\\tfrac{2}{15}' },
+            ],
+          },
           explanation: "The integrand is non-negative on the interval, so a positive answer is expected.",
           ruleApplied: 'Fundamental Theorem of Calculus',
         },

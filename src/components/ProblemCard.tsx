@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Problem } from '../types/curriculum';
 import { DifficultyBadge } from './DifficultyBadge';
+import { FigureView } from './figures/Figure';
 import { ChevronIcon } from './Icons';
 import { MathRenderer, MathText } from './MathRenderer';
 import { Scratchpad } from './Scratchpad';
@@ -23,6 +24,7 @@ export function ProblemCard({ problem }: { problem: Problem }) {
 
         <p className="mt-4 text-sm leading-relaxed text-ink2"><MathText text={problem.prompt} /></p>
         <MathRenderer latex={problem.questionLatex} display className="mt-1 text-lg" />
+        {problem.figure && <FigureView figure={problem.figure} className="mt-2" />}
 
         <details className="group mt-3 rounded border border-line">
           <summary className="flex cursor-pointer select-none list-none items-center gap-2 px-3 py-2 text-sm font-medium text-ink2 hover:text-ink">
