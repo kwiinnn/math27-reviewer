@@ -14,7 +14,15 @@ export const naturalExpLog: Topic = {
     {
       title: 'The number e and the natural functions',
       concept:
-        "$e \\approx 2.71828$ is irrational. It can be defined by $\\displaystyle\\lim_{h\\to\\infty}\\left(1+\\frac1h\\right)^h = e$, by $\\displaystyle\\lim_{h\\to 0}(1+h)^{1/h} = e$, or as the unique positive number with $\\displaystyle\\lim_{h\\to 0}\\frac{e^h-1}{h} = 1$. $f(x) = e^x$ is the natural exponential function. $\\ln x = \\log_e x$ for $x > 0$ is the natural logarithm. $\\log x$ with no base means $\\log_{10} x$.",
+        "$e \\approx 2.71828$ is irrational and has three equivalent definitions, below. $f(x) = e^x$ is the natural exponential function, and $\\ln x = \\log_e x$ for $x > 0$ is the natural logarithm. $\\log x$ with no base means $\\log_{10} x$.",
+      table: {
+        head: ["Definition", "What it says"],
+        rows: [
+          ["$\\displaystyle\\lim_{h\\to\\infty}\\left(1+\\frac1h\\right)^h = e$", "Compounding more and more often"],
+          ["$\\displaystyle\\lim_{h\\to 0}(1+h)^{1/h} = e$", "The same limit with $h$ replaced by $\\frac1h$"],
+          ["$\\displaystyle\\lim_{h\\to 0}\\frac{e^h-1}{h} = 1$", "The slope of $e^x$ at $x = 0$ is $1$"],
+        ],
+      },
       conditions: "$\\ln e = 1$, $\\ln 1 = 0$, $\\ln e^x = x$ for all $x$, and $e^{\\ln x} = x$ for $x > 0$. Every law of logarithms from Unit 1.2 holds for $\\ln$.",
       commonTraps: [
         "Treating $e$ as a variable. It is a constant, so $D_x(e^2) = 0$.",
@@ -78,7 +86,15 @@ export const naturalExpLog: Topic = {
     {
       title: 'Derivatives of logarithmic functions and change of base',
       concept:
-        "Change of base: $\\log_a x = \\dfrac{\\log_b x}{\\log_b a}$, in particular $\\log_a x = \\dfrac{\\ln x}{\\ln a}$. If $u(x) > 0$ is differentiable: $D_x(\\log_a u) = \\dfrac{1}{u\\ln a}\\,D_x u$ and $D_x(\\ln u) = \\dfrac{1}{u}\\,D_x u$.",
+        "Any logarithm can be rewritten with $\\ln$, so its derivative follows from the derivative of $\\ln$. Below, $u(x) > 0$ is differentiable.",
+      table: {
+        head: ["Rule", "Formula"],
+        rows: [
+          ["Change of base", "$\\log_a x = \\dfrac{\\log_b x}{\\log_b a} = \\dfrac{\\ln x}{\\ln a}$"],
+          ["Natural logarithm", "$D_x(\\ln u) = \\dfrac{1}{u}\\,D_x u$"],
+          ["Base $a$", "$D_x(\\log_a u) = \\dfrac{1}{u\\ln a}\\,D_x u$"],
+        ],
+      },
       conditions: "Expand with the laws of logarithms before differentiating whenever the argument is a product, quotient or power. It replaces product and quotient rules by a sum of simple terms.",
       commonTraps: [
         "Writing $D_x(\\ln u) = \\frac{1}{u}$ with no $D_x u$.",
@@ -113,7 +129,16 @@ export const naturalExpLog: Topic = {
     {
       title: 'Integrals: exponentials and the missing power rule case',
       concept:
-        "$\\displaystyle\\int a^u\\,du = \\frac{a^u}{\\ln a} + C$ for $a > 0$, $a \\ne 1$, and $\\displaystyle\\int e^u\\,du = e^u + C$. The power rule $\\displaystyle\\int u^n\\,du = \\frac{u^{n+1}}{n+1} + C$ fails for $n = -1$; that case is $\\displaystyle\\int \\frac{du}{u} = \\ln|u| + C$.",
+        "Exponentials integrate to themselves, up to a constant factor. The power rule covers every power of $u$ except $n = -1$, and that gap is exactly where the natural logarithm comes in.",
+      table: {
+        head: ["Integral", "Result", "When"],
+        rows: [
+          ["$\\displaystyle\\int a^u\\,du$", "$\\dfrac{a^u}{\\ln a} + C$", "$a > 0$, $a \\ne 1$"],
+          ["$\\displaystyle\\int e^u\\,du$", "$e^u + C$", "Always"],
+          ["$\\displaystyle\\int u^n\\,du$", "$\\dfrac{u^{n+1}}{n+1} + C$", "$n \\ne -1$"],
+          ["$\\displaystyle\\int \\frac{du}{u}$", "$\\ln|u| + C$", "The missing case $n = -1$"],
+        ],
+      },
       conditions: "In each case the integrand must contain $du$, the derivative of the exponent or of the denominator, up to a constant factor.",
       commonTraps: [
         "Multiplying by $\\ln a$ when integrating $a^u$. Differentiation multiplies; integration divides.",

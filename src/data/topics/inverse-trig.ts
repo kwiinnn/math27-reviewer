@@ -49,7 +49,18 @@ export const inverseTrig: Topic = {
     {
       title: 'The six principal ranges (deck convention)',
       concept:
-        '$\\sin^{-1} x$: domain $[-1,1]$, range $\\left[-\\frac{\\pi}{2},\\frac{\\pi}{2}\\right]$. $\\cos^{-1} x$: domain $[-1,1]$, range $[0,\\pi]$. $\\tan^{-1} x$: domain $\\mathbb{R}$, range $\\left(-\\frac{\\pi}{2},\\frac{\\pi}{2}\\right)$. $\\cot^{-1} x$: domain $\\mathbb{R}$, range $(0,\\pi)$. $\\sec^{-1} x$: domain $|x|\\ge 1$, range $\\left[0,\\frac{\\pi}{2}\\right)$ for $x \\ge 1$ and $\\left(\\frac{\\pi}{2},\\pi\\right]$ for $x \\le -1$. $\\csc^{-1} x$: domain $|x|\\ge 1$, range $\\left(0,\\frac{\\pi}{2}\\right]$ for $x \\ge 1$ and $\\left[-\\frac{\\pi}{2},0\\right)$ for $x \\le -1$.',
+        "Each inverse trigonometric function returns an angle from a fixed principal range, chosen so that the restricted function is one-to-one. This course uses the ranges below.",
+      table: {
+        head: ["Function", "Domain", "Range"],
+        rows: [
+          ["$\\sin^{-1} x$", "$[-1, 1]$", "$\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$"],
+          ["$\\cos^{-1} x$", "$[-1, 1]$", "$[0, \\pi]$"],
+          ["$\\tan^{-1} x$", "$\\mathbb{R}$", "$\\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$"],
+          ["$\\cot^{-1} x$", "$\\mathbb{R}$", "$(0, \\pi)$"],
+          ["$\\sec^{-1} x$", "$|x| \\ge 1$", "$\\left[0, \\frac{\\pi}{2}\\right)$ for $x \\ge 1$; $\\left(\\frac{\\pi}{2}, \\pi\\right]$ for $x \\le -1$"],
+          ["$\\csc^{-1} x$", "$|x| \\ge 1$", "$\\left(0, \\frac{\\pi}{2}\\right]$ for $x \\ge 1$; $\\left[-\\frac{\\pi}{2}, 0\\right)$ for $x \\le -1$"],
+        ],
+      },
       conditions:
         'Sine-type inverses ($\\sin^{-1}$, $\\tan^{-1}$, $\\csc^{-1}$) live in quadrants I and IV, around $0$. Cosine-type inverses ($\\cos^{-1}$, $\\cot^{-1}$, $\\sec^{-1}$) live in quadrants I and II, between $0$ and $\\pi$.',
       commonTraps: [
@@ -152,7 +163,8 @@ export const inverseTrig: Topic = {
     {
       title: 'Where the derivative formulas come from',
       concept:
-        'By the theorem on derivatives of inverses, $(f^{-1})\'(x) = \\dfrac{1}{f\'(f^{-1}(x))}$. With $f = \\sin$: $D_x(\\sin^{-1} x) = \\dfrac{1}{\\cos(\\sin^{-1} x)} = \\dfrac{1}{\\sqrt{1 - [\\sin(\\sin^{-1}x)]^2}} = \\dfrac{1}{\\sqrt{1-x^2}}$. The step $\\cos = +\\sqrt{1-\\sin^2}$ is legal because cosine is non-negative on the principal range of $\\sin^{-1}$.',
+        "Apply the theorem on derivatives of inverses, $(f^{-1})'(x) = \\dfrac{1}{f'(f^{-1}(x))}$, with $f = \\sin$. Replacing $\\cos$ by $+\\sqrt{1 - \\sin^2}$ is legal because cosine is non-negative on the principal range of $\\sin^{-1}$.",
+      display: "\\begin{aligned} D_x\\left(\\sin^{-1} x\\right) &= \\frac{1}{\\cos\\left(\\sin^{-1} x\\right)} \\\\ &= \\frac{1}{\\sqrt{1 - \\left[\\sin\\left(\\sin^{-1} x\\right)\\right]^2}} \\\\ &= \\frac{1}{\\sqrt{1 - x^2}} \\end{aligned}",
       conditions:
         '$\\sin^{-1}$ and $\\cos^{-1}$ are differentiable only on the open interval $(-1,1)$: at $x = \\pm 1$ the denominator is $0$ and the tangent line is vertical. $\\sec^{-1}$ and $\\csc^{-1}$ are differentiable only for $|x| > 1$.',
       commonTraps: [
@@ -172,7 +184,15 @@ export const inverseTrig: Topic = {
     {
       title: 'The derivative table and its chain-rule factor',
       concept:
-        'There are three shapes: $\\dfrac{1}{\\sqrt{1-u^2}}$ for $\\sin^{-1} u$, $\\dfrac{1}{1+u^2}$ for $\\tan^{-1} u$, and $\\dfrac{1}{|u|\\sqrt{u^2-1}}$ for $\\sec^{-1} u$. Each "co" function ($\\cos^{-1}$, $\\cot^{-1}$, $\\csc^{-1}$) has the same shape with a minus sign. Every one is multiplied by $D_x u$.',
+        "There are only three shapes. Each co-function has the same shape with a minus sign, and every derivative is multiplied by $D_x u$.",
+      table: {
+        head: ["Function", "Derivative", "Co-function"],
+        rows: [
+          ["$\\sin^{-1} u$", "$\\dfrac{D_x u}{\\sqrt{1-u^2}}$", "$\\cos^{-1} u$: $\\;-\\dfrac{D_x u}{\\sqrt{1-u^2}}$"],
+          ["$\\tan^{-1} u$", "$\\dfrac{D_x u}{1+u^2}$", "$\\cot^{-1} u$: $\\;-\\dfrac{D_x u}{1+u^2}$"],
+          ["$\\sec^{-1} u$", "$\\dfrac{D_x u}{|u|\\sqrt{u^2-1}}$", "$\\csc^{-1} u$: $\\;-\\dfrac{D_x u}{|u|\\sqrt{u^2-1}}$"],
+        ],
+      },
       conditions:
         'The cofunction pairs differ by a sign because they add to a constant: $\\sin^{-1}x + \\cos^{-1}x = \\tan^{-1}x + \\cot^{-1}x = \\sec^{-1}x + \\csc^{-1}x = \\frac{\\pi}{2}$ on their common domains.',
       commonTraps: [
@@ -187,7 +207,15 @@ export const inverseTrig: Topic = {
     {
       title: 'Direct integrals: reading the table backwards',
       concept:
-        'Only three antiderivatives are needed: $\\displaystyle\\int \\frac{du}{\\sqrt{1-u^2}} = \\sin^{-1}u + C$, $\\displaystyle\\int \\frac{du}{1+u^2} = \\tan^{-1}u + C$, $\\displaystyle\\int \\frac{du}{u\\sqrt{u^2-1}} = \\sec^{-1}|u| + C$. The derivatives of $\\cos^{-1}$, $\\cot^{-1}$, $\\csc^{-1}$ are just the negatives of these, so they give nothing new. With a constant $a > 0$ the forms become $\\sin^{-1}\\frac{u}{a}$, $\\frac{1}{a}\\tan^{-1}\\frac{u}{a}$ and $\\frac{1}{a}\\sec^{-1}\\left|\\frac{u}{a}\\right|$.',
+        "Read the derivative table backwards. Only three antiderivatives are needed: the derivatives of $\\cos^{-1}$, $\\cot^{-1}$ and $\\csc^{-1}$ are the negatives of these, so they give nothing new.",
+      table: {
+        head: ["Integral", "Antiderivative", "With $a^2$ in place of $1$"],
+        rows: [
+          ["$\\displaystyle\\int \\frac{du}{\\sqrt{1-u^2}}$", "$\\sin^{-1} u + C$", "$\\sin^{-1}\\dfrac{u}{a} + C$"],
+          ["$\\displaystyle\\int \\frac{du}{1+u^2}$", "$\\tan^{-1} u + C$", "$\\dfrac1a\\tan^{-1}\\dfrac{u}{a} + C$"],
+          ["$\\displaystyle\\int \\frac{du}{u\\sqrt{u^2-1}}$", "$\\sec^{-1}|u| + C$", "$\\dfrac1a\\sec^{-1}\\left|\\dfrac{u}{a}\\right| + C$"],
+        ],
+      },
       conditions:
         'The numerator must be exactly $du$ (up to a constant factor). $\\sin^{-1}$ form needs $|u| < a$; $\\sec^{-1}$ form needs $|u| > a$; $\\tan^{-1}$ form has no restriction on $u$.',
       commonTraps: [

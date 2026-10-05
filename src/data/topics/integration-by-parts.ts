@@ -14,7 +14,8 @@ export const integrationByParts: Topic = {
     {
       title: 'Where the formula comes from',
       concept:
-        "Start from the product rule, $D_x[f(x)g(x)] = f'(x)g(x) + f(x)g'(x)$. Integrate both sides and rearrange: $\\displaystyle\\int f(x)g'(x)\\,dx = f(x)g(x) - \\int f'(x)g(x)\\,dx$. With $u = f(x)$ and $v = g(x)$, so that $du = f'(x)\\,dx$ and $dv = g'(x)\\,dx$, this is $\\displaystyle\\int u\\,dv = uv - \\int v\\,du$.",
+        "Start from the product rule, integrate both sides, and rearrange. Renaming $u = f(x)$ and $v = g(x)$, so that $du = f'(x)\\,dx$ and $dv = g'(x)\\,dx$, gives the last line.",
+      display: "\\begin{aligned} D_x[f(x)g(x)] &= f'(x)g(x) + f(x)g'(x) \\\\ f(x)g(x) &= \\int f'(x)g(x)\\,dx + \\int f(x)g'(x)\\,dx \\\\ \\int f(x)g'(x)\\,dx &= f(x)g(x) - \\int f'(x)g(x)\\,dx \\\\ \\int u\\,dv &= uv - \\int v\\,du \\end{aligned}",
       conditions: "The integrand must be split completely into $u$ and $dv$, and $dv$ must include $dx$. You differentiate $u$ and integrate $dv$.",
       commonTraps: [
         "Writing $\\displaystyle\\int u\\,dv = uv - \\int u\\,dv$ or $uv + \\int v\\,du$. The sign is minus and the new integrand is $v\\,du$.",

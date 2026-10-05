@@ -76,7 +76,7 @@ export const trigIntegrals: Topic = {
     {
       title: 'Tangent with secant, cotangent with cosecant',
       concept:
-        "For $\\int \\tan^n x\\sec^m x\\,dx$. If $m$ is even: set aside $\\sec^2 x$, convert the other secants with $\\sec^2 x = \\tan^2 x + 1$, and let $u = \\tan x$. If $n$ is odd and $m \\ge 1$: set aside $\\sec x\\tan x$, convert the remaining tangents with $\\tan^2 x = \\sec^2 x - 1$, and let $u = \\sec x$. The cotangent and cosecant versions are the same with $\\csc^2 x = \\cot^2 x + 1$ and extra minus signs.",
+        "For $\\int \\tan^n x\\sec^m x\\,dx$, set aside the factor that will become $du$ and convert everything else; the chart below says which factor to save. The cotangent and cosecant versions work the same way with $\\csc^2 x = \\cot^2 x + 1$ and extra minus signs.",
       conditions: "$\\int \\sec^m x\\,dx$ with $m$ even is the first case with $n = 0$.",
       commonTraps: [
         "Setting aside the wrong factor: $u = \\tan x$ needs $\\sec^2 x\\,dx$; $u = \\sec x$ needs $\\sec x\\tan x\\,dx$.",

@@ -99,7 +99,16 @@ export const inverseFunctions: Topic = {
     {
       title: 'Finding an inverse',
       concept:
-        "If $f$ is one-to-one, $f^{-1}$ is defined by $x = f^{-1}(y)$ if and only if $y = f(x)$. Procedure: write $y = f(x)$, interchange $x$ and $y$, solve for $y$, and name the result $f^{-1}(x)$. The domain of $f^{-1}$ is the range of $f$, and the range of $f^{-1}$ is the domain of $f$. The graph of $f^{-1}$ is the reflection of the graph of $f$ in the line $y = x$.",
+        "If $f$ is one-to-one, $f^{-1}$ is defined by $x = f^{-1}(y)$ if and only if $y = f(x)$. Domain and range swap, and the graph of $f^{-1}$ is the reflection of the graph of $f$ in the line $y = x$. To find a formula:",
+      table: {
+        head: ["Step", "Do this"],
+        rows: [
+          ["1", "Write $y = f(x)$."],
+          ["2", "Interchange $x$ and $y$."],
+          ["3", "Solve for $y$."],
+          ["4", "Rename $y$ as $f^{-1}(x)$. Its domain is the range of $f$."],
+        ],
+      },
       conditions:
         "$f^{-1}(f(x)) = x$ for every $x$ in the domain of $f$, and $f(f^{-1}(x)) = x$ for every $x$ in the domain of $f^{-1}$.",
       commonTraps: [
@@ -138,7 +147,14 @@ export const inverseFunctions: Topic = {
     {
       title: 'Derivative of an inverse',
       concept:
-        "If $f$ is one-to-one and differentiable with $f'(f^{-1}(x)) \\ne 0$, then $(f^{-1})'(x) = \\dfrac{1}{f'(f^{-1}(x))}$. In point form: if $b = f(a)$, then $(f^{-1})'(b) = \\dfrac{1}{f'(a)}$. The slopes of $f$ at $(a,b)$ and of $f^{-1}$ at $(b,a)$ are reciprocals, which is what reflection in $y = x$ does to a slope.",
+        "If $f$ is one-to-one and differentiable with $f'(f^{-1}(x)) \\ne 0$, then $f^{-1}$ is differentiable and its slopes are the reciprocals of the slopes of $f$: the slope of $f$ at $(a,b)$ and of $f^{-1}$ at $(b,a)$ multiply to $1$, which is what reflection in $y = x$ does to a slope.",
+      table: {
+        head: ["Form", "Formula"],
+        rows: [
+          ["General", "$\\left(f^{-1}\\right)'(x) = \\dfrac{1}{f'\\left(f^{-1}(x)\\right)}$"],
+          ["At a point, where $b = f(a)$", "$\\left(f^{-1}\\right)'(b) = \\dfrac{1}{f'(a)}$"],
+        ],
+      },
       conditions:
         "You do not need a formula for $f^{-1}$. You need the number $a$ with $f(a) = b$, usually found by inspection, and $f'(a) \\ne 0$.",
       commonTraps: [

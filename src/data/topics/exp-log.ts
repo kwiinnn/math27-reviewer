@@ -77,7 +77,16 @@ export const expLog: Topic = {
     {
       title: 'Laws of exponents',
       concept:
-        "For $a, b > 0$ and real $x, y$: $a^{x+y} = a^x a^y$, $\\;a^{x-y} = \\dfrac{a^x}{a^y}$, $\\;(a^x)^y = a^{xy}$, $\\;(ab)^x = a^x b^x$.",
+        "For $a, b > 0$ and any real $x, y$:",
+      table: {
+        head: ["Law", "Rule"],
+        rows: [
+          ["Product", "$a^{x+y} = a^x a^y$"],
+          ["Quotient", "$a^{x-y} = \\dfrac{a^x}{a^y}$"],
+          ["Power of a power", "$(a^x)^y = a^{xy}$"],
+          ["Power of a product", "$(ab)^x = a^x b^x$"],
+        ],
+      },
       conditions: "The bases must be positive for these laws to hold for all real exponents.",
       commonTraps: [
         "$(a^x)^2 = a^{2x}$, not $a^{x^2}$.",
@@ -89,7 +98,17 @@ export const expLog: Topic = {
     {
       title: 'Laws of logarithms',
       concept:
-        "For $a > 0$, $a \\ne 1$, and $u, v > 0$: $\\log_a 1 = 0$, $\\;\\log_a a = 1$, $\\;\\log_a a^x = x$, $\\;a^{\\log_a x} = x$, $\\;\\log_a uv = \\log_a u + \\log_a v$, $\\;\\log_a \\dfrac{u}{v} = \\log_a u - \\log_a v$, $\\;\\log_a u^b = b\\log_a u$.",
+        "For $a > 0$, $a \\ne 1$, and $u, v > 0$. Each law is a law of exponents read through $\\log_a$.",
+      table: {
+        head: ["Law", "Rule"],
+        rows: [
+          ["Special values", "$\\log_a 1 = 0, \\quad \\log_a a = 1$"],
+          ["Inverse pair", "$\\log_a a^x = x, \\quad a^{\\log_a x} = x$"],
+          ["Product", "$\\log_a uv = \\log_a u + \\log_a v$"],
+          ["Quotient", "$\\log_a \\dfrac{u}{v} = \\log_a u - \\log_a v$"],
+          ["Power", "$\\log_a u^b = b\\log_a u$"],
+        ],
+      },
       conditions: "Products become sums, quotients become differences, powers become coefficients. Nothing happens to sums.",
       commonTraps: [
         "$\\log_a(u + v) \\ne \\log_a u + \\log_a v$. There is no law for the logarithm of a sum.",

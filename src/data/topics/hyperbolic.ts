@@ -15,9 +15,20 @@ export const hyperbolic: Topic = {
     {
       title: 'Definitions through the exponential',
       concept:
-        "$\\sinh x = \\dfrac{e^x - e^{-x}}{2}$ and $\\cosh x = \\dfrac{e^x + e^{-x}}{2}$. They are the odd and even parts of $e^x$, so $\\cosh x + \\sinh x = e^x$ and $\\cosh x - \\sinh x = e^{-x}$. The other four are built as in trigonometry: $\\tanh x = \\dfrac{\\sinh x}{\\cosh x}$, $\\coth x = \\dfrac{\\cosh x}{\\sinh x}$, $\\operatorname{sech} x = \\dfrac{1}{\\cosh x}$, $\\operatorname{csch} x = \\dfrac{1}{\\sinh x}$.",
+        "$\\sinh x$ and $\\cosh x$ are the odd and even parts of $e^x$, so $\\cosh x + \\sinh x = e^x$ and $\\cosh x - \\sinh x = e^{-x}$. The other four are built from them exactly as in trigonometry.",
+      table: {
+        head: ["Function", "Definition", "Domain", "Range"],
+        rows: [
+          ["$\\sinh x$", "$\\dfrac{e^x - e^{-x}}{2}$", "$\\mathbb{R}$", "$\\mathbb{R}$"],
+          ["$\\cosh x$", "$\\dfrac{e^x + e^{-x}}{2}$", "$\\mathbb{R}$", "$[1, +\\infty)$"],
+          ["$\\tanh x$", "$\\dfrac{\\sinh x}{\\cosh x}$", "$\\mathbb{R}$", "$(-1, 1)$"],
+          ["$\\coth x$", "$\\dfrac{\\cosh x}{\\sinh x}$", "$x \\ne 0$", "$|y| > 1$"],
+          ["$\\operatorname{sech} x$", "$\\dfrac{1}{\\cosh x}$", "$\\mathbb{R}$", "$(0, 1]$"],
+          ["$\\operatorname{csch} x$", "$\\dfrac{1}{\\sinh x}$", "$x \\ne 0$", "$y \\ne 0$"],
+        ],
+      },
       conditions:
-        "$\\sinh$: domain $\\mathbb{R}$, range $\\mathbb{R}$. $\\cosh$: domain $\\mathbb{R}$, range $[1, +\\infty)$. $\\tanh$: domain $\\mathbb{R}$, range $(-1, 1)$. $\\coth$: domain $x \\ne 0$, range $|y| > 1$. $\\operatorname{sech}$: domain $\\mathbb{R}$, range $(0, 1]$. $\\operatorname{csch}$: domain $x \\ne 0$, range $y \\ne 0$.",
+        "Domains and ranges are in the table. Only $\\coth$ and $\\operatorname{csch}$ exclude a point, $x = 0$, where $\\sinh x = 0$. $\\cosh x \\ge 1$ always, and $\\tanh$ and $\\operatorname{sech}$ are bounded.",
       commonTraps: [
         "Thinking hyperbolic functions are periodic or bounded like sine and cosine. $\\sinh$ and $\\cosh$ grow like $\\frac12 e^x$.",
         "Forgetting that $\\cosh x \\ge 1$ for every $x$, so $\\cosh x$ is never zero or negative.",
@@ -42,7 +53,19 @@ export const hyperbolic: Topic = {
     {
       title: 'Identities: trigonometry with sign changes',
       concept:
-        "$\\cosh^2 x - \\sinh^2 x = 1$, $\\;1 - \\tanh^2 x = \\operatorname{sech}^2 x$, $\\;\\coth^2 x - 1 = \\operatorname{csch}^2 x$. Also $\\sinh(x+y) = \\sinh x\\cosh y + \\cosh x\\sinh y$, $\\;\\cosh(x+y) = \\cosh x\\cosh y + \\sinh x\\sinh y$, $\\;\\sinh 2x = 2\\sinh x\\cosh x$, $\\;\\cosh 2x = \\cosh^2 x + \\sinh^2 x$.",
+        "Every identity has a trigonometric twin of the same shape. Compare them line by line to see where the signs change.",
+      table: {
+        head: ["Hyperbolic", "Trigonometric twin"],
+        rows: [
+          ["$\\cosh^2 x - \\sinh^2 x = 1$", "$\\cos^2 x + \\sin^2 x = 1$"],
+          ["$1 - \\tanh^2 x = \\operatorname{sech}^2 x$", "$1 + \\tan^2 x = \\sec^2 x$"],
+          ["$\\coth^2 x - 1 = \\operatorname{csch}^2 x$", "$1 + \\cot^2 x = \\csc^2 x$"],
+          ["$\\sinh(x+y) = \\sinh x\\cosh y + \\cosh x\\sinh y$", "$\\sin(x+y) = \\sin x\\cos y + \\cos x\\sin y$"],
+          ["$\\cosh(x+y) = \\cosh x\\cosh y + \\sinh x\\sinh y$", "$\\cos(x+y) = \\cos x\\cos y - \\sin x\\sin y$"],
+          ["$\\sinh 2x = 2\\sinh x\\cosh x$", "$\\sin 2x = 2\\sin x\\cos x$"],
+          ["$\\cosh 2x = \\cosh^2 x + \\sinh^2 x$", "$\\cos 2x = \\cos^2 x - \\sin^2 x$"],
+        ],
+      },
       conditions: "Compared with the trigonometric identity of the same shape, the sign changes wherever a product of two hyperbolic sines appears, including $\\sinh^2 x$.",
       commonTraps: [
         "Writing $\\cosh^2 x + \\sinh^2 x = 1$. The sum is $\\cosh 2x$; the difference is $1$.",
@@ -84,7 +107,18 @@ export const hyperbolic: Topic = {
     {
       title: 'Derivatives and integrals of hyperbolic functions',
       concept:
-        "$D_x(\\sinh u) = \\cosh u\\,D_x u$, $\\;D_x(\\cosh u) = \\sinh u\\,D_x u$, $\\;D_x(\\tanh u) = \\operatorname{sech}^2 u\\,D_x u$, $\\;D_x(\\coth u) = -\\operatorname{csch}^2 u\\,D_x u$, $\\;D_x(\\operatorname{sech} u) = -\\operatorname{sech} u\\tanh u\\,D_x u$, $\\;D_x(\\operatorname{csch} u) = -\\operatorname{csch} u\\coth u\\,D_x u$. The integral formulas are these read backwards.",
+        "Every rule carries the chain-rule factor $D_x u$. The integral formulas are these read backwards.",
+      table: {
+        head: ["Function", "Derivative"],
+        rows: [
+          ["$\\sinh u$", "$\\cosh u\\,D_x u$"],
+          ["$\\cosh u$", "$\\sinh u\\,D_x u$"],
+          ["$\\tanh u$", "$\\operatorname{sech}^2 u\\,D_x u$"],
+          ["$\\coth u$", "$-\\operatorname{csch}^2 u\\,D_x u$"],
+          ["$\\operatorname{sech} u$", "$-\\operatorname{sech} u\\tanh u\\,D_x u$"],
+          ["$\\operatorname{csch} u$", "$-\\operatorname{csch} u\\coth u\\,D_x u$"],
+        ],
+      },
       conditions: "Differences from trigonometry: the derivative of $\\cosh$ is $+\\sinh$, and the derivative of $\\operatorname{sech}$ is negative. The reciprocal group carries the minus signs: $\\coth$, $\\operatorname{sech}$, $\\operatorname{csch}$.",
       commonTraps: [
         "Writing $D_x(\\cosh u) = -\\sinh u\\,D_x u$ by analogy with cosine.",
@@ -97,7 +131,18 @@ export const hyperbolic: Topic = {
     {
       title: 'Inverse hyperbolic functions',
       concept:
-        "$y = \\sinh^{-1} x$ if and only if $x = \\sinh y$, for all real $x$. $y = \\cosh^{-1} x$ if and only if $x = \\cosh y$ with $y \\ge 0$; domain $[1, +\\infty)$, range $[0, +\\infty)$. $y = \\tanh^{-1} x$: domain $(-1, 1)$, range $\\mathbb{R}$. $y = \\coth^{-1} x$: domain $|x| > 1$, range $y \\ne 0$. $y = \\operatorname{sech}^{-1} x$ with $y \\ge 0$: domain $(0, 1]$, range $[0, +\\infty)$. $y = \\operatorname{csch}^{-1} x$: domain $x \\ne 0$, range $y \\ne 0$.",
+        "Each inverse undoes its hyperbolic function, for example $y = \\sinh^{-1} x$ if and only if $x = \\sinh y$. For $\\cosh^{-1}$ and $\\operatorname{sech}^{-1}$ the value is the one with $y \\ge 0$.",
+      table: {
+        head: ["Function", "Domain", "Range"],
+        rows: [
+          ["$\\sinh^{-1} x$", "$\\mathbb{R}$", "$\\mathbb{R}$"],
+          ["$\\cosh^{-1} x$", "$[1, +\\infty)$", "$[0, +\\infty)$"],
+          ["$\\tanh^{-1} x$", "$(-1, 1)$", "$\\mathbb{R}$"],
+          ["$\\coth^{-1} x$", "$|x| > 1$", "$y \\ne 0$"],
+          ["$\\operatorname{sech}^{-1} x$", "$(0, 1]$", "$[0, +\\infty)$"],
+          ["$\\operatorname{csch}^{-1} x$", "$x \\ne 0$", "$y \\ne 0$"],
+        ],
+      },
       conditions: "Only $\\cosh$ and $\\operatorname{sech}$ need a restriction ($y \\ge 0$) to become one-to-one, because they are even. The course concentrates on $\\sinh^{-1}$, $\\cosh^{-1}$, $\\tanh^{-1}$ and $\\coth^{-1}$.",
       commonTraps: [
         "Evaluating $\\cosh^{-1}$ of a number less than $1$, or $\\tanh^{-1}$ of a number outside $(-1, 1)$.",
@@ -145,8 +190,17 @@ export const hyperbolic: Topic = {
     {
       title: 'Derivatives and integrals of the inverses',
       concept:
-        "$D_x(\\sinh^{-1} u) = \\dfrac{D_x u}{\\sqrt{1+u^2}}$, $\\;D_x(\\cosh^{-1} u) = \\dfrac{D_x u}{\\sqrt{u^2-1}}$ for $u > 1$, $\\;D_x(\\tanh^{-1} u) = \\dfrac{D_x u}{1-u^2}$ for $|u| < 1$, $\\;D_x(\\coth^{-1} u) = \\dfrac{D_x u}{1-u^2}$ for $|u| > 1$. Read backwards: $\\displaystyle\\int\\frac{du}{\\sqrt{a^2+u^2}} = \\sinh^{-1}\\frac ua + C$, $\\displaystyle\\int\\frac{du}{\\sqrt{u^2-a^2}} = \\cosh^{-1}\\frac ua + C$ for $u > a > 0$, and $\\displaystyle\\int\\frac{du}{a^2-u^2} = \\frac1a\\tanh^{-1}\\frac ua + C$ if $u^2 < a^2$ or $\\frac1a\\coth^{-1}\\frac ua + C$ if $u^2 > a^2$.",
-      conditions: "Compare with Unit 1.5. $\\sqrt{a^2 - u^2}$ gives $\\sin^{-1}$; $\\sqrt{a^2 + u^2}$ gives $\\sinh^{-1}$; $\\sqrt{u^2 - a^2}$ gives $\\cosh^{-1}$. $a^2 + u^2$ with no root gives $\\tan^{-1}$; $a^2 - u^2$ with no root gives $\\tanh^{-1}$ or $\\coth^{-1}$.",
+        "Each derivative carries the chain-rule factor $D_x u$. Read backwards, they give the integrals sorted by integrand in the chart below.",
+      table: {
+        head: ["Function", "Derivative", "Valid for"],
+        rows: [
+          ["$\\sinh^{-1} u$", "$\\dfrac{D_x u}{\\sqrt{1+u^2}}$", "All $u$"],
+          ["$\\cosh^{-1} u$", "$\\dfrac{D_x u}{\\sqrt{u^2-1}}$", "$u > 1$"],
+          ["$\\tanh^{-1} u$", "$\\dfrac{D_x u}{1-u^2}$", "$|u| < 1$"],
+          ["$\\coth^{-1} u$", "$\\dfrac{D_x u}{1-u^2}$", "$|u| > 1$"],
+        ],
+      },
+      conditions: "Compare with Unit 1.5. Under a root, $a^2 - u^2$ is trigonometric while $a^2 + u^2$ and $u^2 - a^2$ are hyperbolic. With no root, $a^2 + u^2$ gives $\\tan^{-1}$ and $a^2 - u^2$ gives $\\tanh^{-1}$ or $\\coth^{-1}$.",
       commonTraps: [
         "Confusing $\\displaystyle\\int\\frac{du}{\\sqrt{a^2+u^2}}$ (inverse hyperbolic sine) with $\\displaystyle\\int\\frac{du}{a^2+u^2}$ (inverse tangent). The root decides.",
         "Putting $\\frac1a$ in front of $\\sinh^{-1}$ or $\\cosh^{-1}$. Only the forms without a root carry $\\frac1a$.",

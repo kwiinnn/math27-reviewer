@@ -90,6 +90,12 @@ for (const t of topics) {
   t.examNotes.forEach((n, i) => {
     const w = `${t.id}.note[${i}]`;
     prose(n.concept, w); prose(n.conditions, w); prose(n.tip, w); figure(n.figure, w);
+    if (n.display) math(n.display, `${w}.display`, true);
+    n.table?.head?.forEach((h) => prose(h, `${w}.table`));
+    n.table?.rows.forEach((row) => {
+      row.forEach((cell) => prose(cell, `${w}.table`));
+      if (n.table?.head && row.length !== n.table.head.length) errors.push(`${w}.table: row has ${row.length} cells, head has ${n.table.head.length}`);
+    });
     n.commonTraps.forEach((c) => prose(c, w));
   });
   t.keyFormulas.forEach((f) => {
