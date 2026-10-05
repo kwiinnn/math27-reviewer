@@ -3,6 +3,7 @@ import type { Problem } from '../types/curriculum';
 import { DifficultyBadge } from './DifficultyBadge';
 import { ChevronIcon } from './Icons';
 import { MathRenderer, MathText } from './MathRenderer';
+import { Scratchpad } from './Scratchpad';
 import { StepView } from './StepView';
 import { btnPrimary, btnQuiet, card } from './ui';
 
@@ -33,13 +34,7 @@ export function ProblemCard({ problem }: { problem: Problem }) {
               <span className="font-semibold">Hint. </span>
               <MathText text={problem.hint} />
             </p>
-            <textarea
-              id={`${problem.id}-scratch`}
-              aria-label={`Scratchpad for problem ${problem.problemNumber}`}
-              placeholder="Work it out here before revealing any steps."
-              rows={4}
-              className="w-full resize-y rounded border border-line bg-bg p-2 font-mono text-sm text-ink placeholder:text-ink3"
-            />
+            <Scratchpad id={problem.id} problemNumber={problem.problemNumber} />
           </div>
         </details>
       </div>

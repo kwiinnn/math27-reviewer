@@ -21,3 +21,11 @@ export const SettingsIcon = () => (
     <circle cx="9" cy="4" r="1.6" /><circle cx="6" cy="8" r="1.6" /><circle cx="11" cy="12" r="1.6" />
   </Icon>
 );
+export const PenIcon = () => <Icon><path d="M10.5 2.5l3 3-8 8H2.5v-3z" /><path d="M9 4l3 3" /></Icon>;
+export const EraserIcon = () => (
+  <Icon><path d="M6 13.5h7.5M6 13.5L2.5 10l7-7 4.5 4.5-6 6" /><path d="M6 6.5l4.5 4.5" /></Icon>
+);
+export const UndoIcon = () => <Icon><path d="M5.5 3L2.5 6l3 3" /><path d="M2.5 6h7a4 4 0 010 8h-3" /></Icon>;
+export const TrashIcon = () => (
+  <Icon><path d="M2.5 4h11M6.5 4V2.5h3V4M4 4l.7 9.5h6.6L12 4" /></Icon>
+);
