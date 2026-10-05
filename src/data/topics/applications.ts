@@ -77,7 +77,15 @@ export const applications: Topic = {
     {
       title: 'Finding k, doubling time and half-life',
       concept:
-        "From $y(t_1) = y_1$: $e^{kt_1} = \\dfrac{y_1}{y_0}$, so $k = \\dfrac{1}{t_1}\\ln\\dfrac{y_1}{y_0}$. Setting $y = 2y_0$ gives the doubling time $t = \\dfrac{\\ln 2}{k}$; setting $y = \\frac12y_0$ gives the half-life $t = \\dfrac{\\ln 2}{|k|}$. Neither depends on $y_0$.",
+        "A second reading of the quantity fixes $k$; doubling time and half-life then follow from $k$ alone. Neither depends on $y_0$.",
+      table: {
+        head: ["Quantity", "Formula", "Comes from"],
+        rows: [
+          ["Rate constant", "$k = \\dfrac{1}{t_1}\\ln\\dfrac{y_1}{y_0}$", "$y(t_1) = y_1$, so $e^{kt_1} = \\dfrac{y_1}{y_0}$"],
+          ["Doubling time", "$t = \\dfrac{\\ln 2}{k}$", "$y = 2y_0$"],
+          ["Half-life", "$t = \\dfrac{\\ln 2}{|k|}$", "$y = \\frac12 y_0$"],
+        ],
+      },
       conditions: "To solve for time, isolate the exponential first and then take the natural logarithm of both sides.",
       commonTraps: [
         "Taking $\\ln$ before dividing by $y_0$: $\\ln\\left(y_0e^{kt}\\right) \\ne kt\\ln y_0$.",

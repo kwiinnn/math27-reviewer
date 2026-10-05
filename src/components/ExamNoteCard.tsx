@@ -1,6 +1,7 @@
 import type { ExamNote } from '../types/curriculum';
 import { FigureView, isCompact } from './figures/Figure';
-import { MathText } from './MathRenderer';
+import { MathRenderer, MathText } from './MathRenderer';
+import { NoteTable } from './NoteTable';
 import { card, label } from './ui';
 
 export function ExamNoteCard({ note, index }: { note: ExamNote; index: number }) {
@@ -16,6 +17,8 @@ export function ExamNoteCard({ note, index }: { note: ExamNote; index: number })
       <div className={beside ? 'mt-3 grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-[minmax(0,1fr)_minmax(0,19rem)]' : 'mt-3'}>
         <div className="min-w-0">
           <p className="text-sm leading-7"><MathText text={note.concept} /></p>
+          {note.display && <MathRenderer latex={note.display} display className="my-3" />}
+          {note.table && <NoteTable table={note.table} className="mt-3" />}
           <h4 className={`${label} mt-5`}>Conditions</h4>
           <p className="mt-1.5 text-sm leading-7 text-ink2"><MathText text={note.conditions} /></p>
         </div>

@@ -13,7 +13,7 @@ export const inverseTrigIntegrals: Topic = {
     {
       title: 'Only three forms',
       concept:
-        "$\\displaystyle\\int\\frac{du}{\\sqrt{a^2-u^2}} = \\sin^{-1}\\frac{u}{a} + C$, $\\;\\displaystyle\\int\\frac{du}{a^2+u^2} = \\frac1a\\tan^{-1}\\frac{u}{a} + C$, $\\;\\displaystyle\\int\\frac{du}{u\\sqrt{u^2-a^2}} = \\frac1a\\sec^{-1}\\left|\\frac{u}{a}\\right| + C$. The derivatives of $\\cos^{-1}$, $\\cot^{-1}$ and $\\csc^{-1}$ are the negatives of these three, so they produce no new integrals.",
+        "Every integral in this unit reduces to one of the three forms in the chart below, with $a > 0$. The derivatives of $\\cos^{-1}$, $\\cot^{-1}$ and $\\csc^{-1}$ are the negatives of these three, so they produce no new integrals.",
       conditions: "$u$ is a function of $x$ and $a$ is a positive constant. $\\sin^{-1}$ form: $|u| < a$. $\\sec^{-1}$ form: $|u| > a$.",
       commonTraps: [
         "Putting $\\frac1a$ in front of $\\sin^{-1}$. Only the other two forms have it.",

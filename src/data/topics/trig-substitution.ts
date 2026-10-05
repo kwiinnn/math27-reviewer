@@ -13,7 +13,7 @@ export const trigSubstitution: Topic = {
     {
       title: 'The three cases',
       concept:
-        "Case 1, $\\sqrt{a^2 - x^2}$: let $x = a\\sin\\theta$, $dx = a\\cos\\theta\\,d\\theta$; the root becomes $a\\cos\\theta$. Case 2, $\\sqrt{a^2 + x^2}$: let $x = a\\tan\\theta$, $dx = a\\sec^2\\theta\\,d\\theta$; the root becomes $a\\sec\\theta$. Case 3, $\\sqrt{x^2 - a^2}$: let $x = a\\sec\\theta$, $dx = a\\sec\\theta\\tan\\theta\\,d\\theta$; the root becomes $a\\tan\\theta$.",
+        "Each case uses one Pythagorean identity to turn the radicand into a perfect square, so the root disappears. The chart below gives the substitution, $dx$, and what the root becomes.",
       conditions: "$\\theta$ is restricted so that the substitution is one-to-one and the root is non-negative: $-\\frac\\pi2 \\le \\theta \\le \\frac\\pi2$ for sine, $-\\frac\\pi2 < \\theta < \\frac\\pi2$ for tangent, and $0 \\le \\theta < \\frac\\pi2$ for secant when $x \\ge a$.",
       commonTraps: [
         "Choosing by the letters instead of the signs. Constant minus variable: sine. Sum: tangent. Variable minus constant: secant.",
@@ -36,7 +36,7 @@ export const trigSubstitution: Topic = {
     {
       title: 'The reference triangle',
       concept:
-        "After integrating in $\\theta$, the answer must return to $x$. Draw a right triangle from the substitution. For $x = a\\sin\\theta$: opposite $x$, hypotenuse $a$, adjacent $\\sqrt{a^2 - x^2}$. For $x = a\\tan\\theta$: opposite $x$, adjacent $a$, hypotenuse $\\sqrt{a^2 + x^2}$. For $x = a\\sec\\theta$: hypotenuse $x$, adjacent $a$, opposite $\\sqrt{x^2 - a^2}$. Read every trig function of $\\theta$ off the triangle.",
+        "After integrating in $\\theta$, the answer must return to $x$. Draw the right triangle that matches the substitution, as below: two sides come straight from the substitution and the radical is the third side. Then read every trigonometric function of $\\theta$ off the triangle.",
       conditions: "A bare $\\theta$ in the answer is replaced by the inverse function: $\\theta = \\sin^{-1}\\frac xa$, $\\tan^{-1}\\frac xa$ or $\\sec^{-1}\\frac xa$.",
       commonTraps: [
         "Leaving the answer in terms of $\\theta$.",

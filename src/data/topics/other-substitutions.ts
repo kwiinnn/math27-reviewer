@@ -13,7 +13,7 @@ export const otherSubstitutions: Topic = {
     {
       title: 'Fractional powers of x',
       concept:
-        "If the integrand contains several fractional powers of $x$, let $x = z^n$, where $n$ is the lowest common denominator of the exponents. Then $dx = nz^{n-1}\\,dz$ and every root becomes a whole power of $z$. For $\\sqrt{x}$ and $\\sqrt[3]{x}$ the exponents are $\\frac12$ and $\\frac13$, so $n = 6$: $\\sqrt{x} = z^3$ and $\\sqrt[3]{x} = z^2$.",
+        "If the integrand contains several fractional powers of $x$, let $x = z^n$, where $n$ is the lowest common denominator of the exponents. Then $dx = nz^{n-1}\\,dz$ and every root becomes a whole power of $z$, as the chart below shows for $\\sqrt{x}$ and $\\sqrt[3]{x}$.",
       conditions: "After the substitution the integrand is rational in $z$. If it is improper, divide before integrating.",
       commonTraps: [
         "Choosing $n$ too small. With $n = 2$ the cube root is still a fractional power, $z^{2/3}$.",

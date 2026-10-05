@@ -43,9 +43,21 @@ export interface Formula {
   example: string;
 }
 
+/**
+ * Formulas that would crowd a paragraph, laid out as rows. Cells are prose
+ * with inline math; use \\dfrac and \\displaystyle so fractions stay legible.
+ */
+export interface NoteTable {
+  head?: string[];
+  rows: string[][];
+}
+
 export interface ExamNote {
   title: string;
   concept: string;
+  /** A derivation or key formula shown as display math under the concept (use aligned for several lines). */
+  display?: string;
+  table?: NoteTable;
   conditions: string;
   commonTraps: string[];
   tip: string;
