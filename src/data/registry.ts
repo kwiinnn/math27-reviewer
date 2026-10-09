@@ -13,6 +13,7 @@ import { partialFractions } from './topics/partial-fractions';
 import { otherSubstitutions } from './topics/other-substitutions';
 import { area } from './topics/area';
 import { diskMethod } from './topics/disk-method';
+import { washerMethod } from './topics/washer-method';
 
 /**
  * Central curriculum registry.
@@ -36,6 +37,7 @@ export const topics: Topic[] = [
   otherSubstitutions,
   area,
   diskMethod,
+  washerMethod,
 ];
 
 export const chapters: Chapter[] = [
