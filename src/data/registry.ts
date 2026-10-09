@@ -18,6 +18,7 @@ import { centerOfMassRod } from './topics/center-of-mass-rod';
 import { centroid } from './topics/centroid';
 import { arcLength } from './topics/arc-length';
 import { work } from './topics/work';
+import { surfaceArea } from './topics/surface-area';
 
 /**
  * Central curriculum registry.
@@ -46,6 +47,7 @@ export const topics: Topic[] = [
   centroid,
   arcLength,
   work,
+  surfaceArea,
 ];
 
 export const chapters: Chapter[] = [
