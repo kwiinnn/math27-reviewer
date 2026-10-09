@@ -1,6 +1,6 @@
 import { getChapterGroups } from '../data/registry';
 import { site } from '../data/site';
-import { formulaReferenceHref, homeHref, topicHref, type Route } from '../lib/router';
+import { aboutHref, formulaReferenceHref, homeHref, topicHref, type Route } from '../lib/router';
 import { CloseIcon } from './Icons';
 import { iconBtn, label } from './ui';
 
@@ -61,10 +61,18 @@ export function Sidebar({ route, onNavigate, onClose }: Props) {
             className={`${item} ${route.page === 'formula-reference' ? active : idle}`}>
             All formulas
           </a>
+          <a href={aboutHref} onClick={onNavigate}
+            aria-current={route.page === 'about' ? 'page' : undefined}
+            className={`${item} ${route.page === 'about' ? active : idle}`}>
+            About the developer
+          </a>
         </section>
       </div>
 
-      <p className="border-t border-line px-5 py-3 text-xs text-ink3">Reviewer by {site.author}</p>
+      <p className="border-t border-line px-5 py-3 text-xs text-ink3">
+        Reviewer by{' '}
+        <a href={aboutHref} onClick={onNavigate} className="rounded underline-offset-4 hover:text-ink hover:underline">{site.author}</a>
+      </p>
     </nav>
   );
 }
