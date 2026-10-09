@@ -3,6 +3,7 @@ import type { Anchor, PlotAnimation, PlotFigure, PlotItem, Tick, Tone, Vec } fro
 import { fmt, niceTicks } from '../../lib/plot';
 import { PauseIcon, PlayIcon } from '../Icons';
 import { MathRenderer, MathText } from '../MathRenderer';
+import { renderObject } from './objects';
 
 /** viewBox width; strokes use non-scaling-stroke so widths are screen pixels. */
 const W = 480;
@@ -127,7 +128,7 @@ const lastVisible = (pts: Vec[], fig: PlotFigure): Vec | undefined =>
 const dash = (d?: boolean) => (d ? '5 4' : undefined);
 
 /** Draw one item; labels are collected separately and rendered as HTML. */
-function renderItem(item: PlotItem, key: string, fig: PlotFigure, s: Scale, labels: Label[]): ReactNode {
+function renderItem(item: PlotItem, key: string, fig: PlotFigure, s: Scale, labels: Label[], uid: string): ReactNode {
   const stroke = (tone: Tone | undefined, width = 2, dashed?: boolean): SVGProps<SVGPathElement> => ({
     fill: 'none',
     stroke: colour(tone),
@@ -234,6 +235,8 @@ function renderItem(item: PlotItem, key: string, fig: PlotFigure, s: Scale, labe
           {...stroke(item.tone ?? 'ink', 1.5)} />
       );
     }
+    default:
+      return renderObject(item, key, s, `${uid}${key}`);
   }
 }
 
@@ -318,11 +321,16 @@ function usePlayback(anim: PlotAnimation | undefined, inView: boolean) {
       if (hold.current > 0) {
         hold.current -= dt;
       } else {
-        pos.current += dir.current * speed * dt;
-        if (pos.current >= hi || pos.current <= lo) {
-          pos.current = Math.min(hi, Math.max(lo, pos.current));
-          dir.current *= -1;
+        if (anim.restart && pos.current >= hi) {
+          pos.current = lo;
           hold.current = HOLD;
+        } else {
+          pos.current += (anim.restart ? 1 : dir.current) * speed * dt;
+          if (pos.current >= hi || pos.current <= lo) {
+            pos.current = Math.min(hi, Math.max(lo, pos.current));
+            if (!anim.restart) dir.current *= -1;
+            hold.current = HOLD;
+          }
         }
         const next = anim.step ? Math.round(pos.current / anim.step) * anim.step : pos.current;
         setT((cur) => (cur === next ? cur : next));
@@ -372,7 +380,7 @@ export function Plot({ fig }: { fig: PlotFigure }) {
   const items = fig.animate ? [...fig.items, ...fig.animate.frame(t)] : fig.items;
   const labels: Label[] = [];
   const axisNode = axes ? renderAxes(fig, s, labels) : null;
-  const nodes = items.map((it, i) => renderItem(it, `i${i}`, fig, s, labels));
+  const nodes = items.map((it, i) => renderItem(it, `i${i}`, fig, s, labels, clipId));
 
   // Hover readout: the value of every labelled graph at the pointer's x.
   const traced = axes ? items.filter((it): it is Extract<PlotItem, { type: 'fn' }> => it.type === 'fn' && !!it.label) : [];

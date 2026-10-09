@@ -8,21 +8,39 @@ const SPRING_L0 = 3.5;
 /** A spring fixed to a wall at x = 0, stretched s plot units, with a block on the end. */
 function spring(s: number): PlotItem[] {
   const end = SPRING_L0 + s;
-  const coil = (t: number) => 0.3 + ((end - 0.6) * t);
   return [
-    { type: 'curve', x: coil, y: (t) => 0.32 * Math.sin(2 * Math.PI * 9 * t), t: [0, 1], tone: 'ink', width: 1.5 },
-    { type: 'segment', from: [0, 0], to: [0.3, 0], tone: 'ink', width: 1.5 },
-    { type: 'segment', from: [end - 0.3, 0], to: [end, 0], tone: 'ink', width: 1.5 },
+    { type: 'spring', from: [0, 0], to: [end, 0] },
     { type: 'polygon', points: [[end, -0.5], [end + 0.8, -0.5], [end + 0.8, 0.5], [end, 0.5]], tone: 2, outline: true },
-    { type: 'segment', from: [SPRING_L0, -0.85], to: [end, -0.85], tone: 2, width: 2, label: 'x', anchor: 's' },
+    { type: 'segment', from: [SPRING_L0, -1.05], to: [end, -1.05], tone: 2, width: 2, label: 'x', anchor: 's' },
   ];
 }
 
-/** Cable hanging from a roof: 1 plot unit = 10 ft of cable. */
-function cable(caption: string, at?: number): PlotFigure {
+/** Windows on a building whose wall runs from x0 to x1 and from the roof at y = 0 down to y = bottom. */
+function windows(x0: number, x1: number, bottom: number, w: number, h: number, rows: number): PlotItem[] {
+  const cols = 2;
+  const items: PlotItem[] = [];
+  for (let r = 0; r < rows; r++) {
+    const top = bottom * ((r + 0.4) / rows);
+    for (let c = 0; c < cols; c++) {
+      const left = x0 + ((x1 - x0) * (c + 0.5)) / cols - w / 2;
+      items.push({ type: 'polygon', points: [[left, top], [left + w, top], [left + w, top - h], [left, top - h]], tone: 'muted' });
+    }
+  }
+  return items;
+}
+
+/** A chain or cable hanging from a beam on a roof: 1 plot unit = 10 ft. */
+function cable(caption: string, at?: number, kind: 'chain' | 'cable' = 'cable'): PlotFigure {
+  // The piece of length about 8 ft at depth x, as fractions of the 100 ft length.
+  const piece = (x: number): Vec => [(x - 4) / 100, (x + 4) / 100];
+  const hang = (x?: number): PlotItem =>
+    kind === 'chain'
+      ? { type: 'chain', from: [2, 0], to: [2, -10], mark: x === undefined ? undefined : piece(x) }
+      : { type: 'rope', from: [2, 0], to: [2, -10], mark: x === undefined ? undefined : piece(x) };
   const slice = (x: number): PlotItem[] => [
-    { type: 'segment', from: [2, -x / 10 - 0.25], to: [2, -x / 10 + 0.25], tone: 2, width: 7 },
+    hang(x),
     { type: 'segment', from: [2.8, -x / 10], to: [2.8, 0], tone: 2, width: 1.5, arrow: true, label: 'x', anchor: 'e' },
+    { type: 'segment', from: [2.25, -x / 10], to: [2.75, -x / 10], tone: 'muted', width: 1, dashed: true },
   ];
   return {
     kind: 'plot',
@@ -33,8 +51,8 @@ function cable(caption: string, at?: number): PlotFigure {
     y: [-11, 1.2],
     items: [
       { type: 'polygon', points: [[-0.4, 0], [1.6, 0], [1.6, -11], [-0.4, -11]], tone: 'muted' },
-      { type: 'segment', from: [1.6, 0], to: [2.3, 0], tone: 'ink', width: 3 },
-      { type: 'segment', from: [2, 0], to: [2, -10], tone: 'ink', width: 3 },
+      ...windows(-0.4, 1.6, -11, 0.36, 0.55, 7),
+      { type: 'support', from: [1.6, 0], to: [2.35, 0] },
       { type: 'label', at: [1.6, 0], text: '\\text{roof}', anchor: 'nw' },
       ...(at === undefined ? [] : slice(at)),
     ],
@@ -42,7 +60,7 @@ function cable(caption: string, at?: number): PlotFigure {
       ? {
           animate: {
             param: 'x',
-            range: [2, 98] as Vec,
+            range: [5, 95] as Vec,
             initial: 60,
             duration: 7,
             frame: slice,
@@ -70,16 +88,15 @@ function cone(caption: string, at?: number): PlotFigure {
     caption,
     axes: false,
     equal: true,
-    x: [-5.4, 6.6],
+    x: [-5.8, 6.6],
     y: [-0.8, 11],
     items: [
-      { type: 'polygon', points: [[0, 0], [3.2, 8], [-3.2, 8]], tone: 1 },
+      { type: 'liquid', points: [[0, 0], [3.2, 8], [-3.2, 8]] },
       { type: 'segment', from: [0, 0], to: [4, 10], tone: 'ink', width: 2 },
       { type: 'segment', from: [0, 0], to: [-4, 10], tone: 'ink', width: 2 },
       { type: 'segment', from: [-4, 10], to: [4, 10], tone: 'ink', width: 1.5, dashed: true, label: '8\\text{ m across}', anchor: 'n' },
-      { type: 'segment', from: [-3.2, 8], to: [3.2, 8], tone: 1, width: 2 },
-      { type: 'segment', from: [-4.6, 0], to: [-4.6, 10], tone: 'ink', width: 1.2, label: '10', anchor: 'w' },
-      { type: 'segment', from: [-5, 0], to: [-5, 8], tone: 1, width: 1.2, label: '8', anchor: 'w' },
+      { type: 'segment', from: [-5, 0], to: [-5, 10], tone: 'ink', width: 1.2, label: '10', anchor: 'w' },
+      { type: 'segment', from: [-4.5, 0], to: [-4.5, 8], tone: 1, width: 1.2, label: '8', anchor: 'e' },
       ...(at === undefined ? [] : slice(at)),
     ],
     ...(at === undefined
@@ -99,6 +116,91 @@ function cone(caption: string, at?: number): PlotFigure {
       : {}),
   };
 }
+
+/** Problem 5: a 50 ft rope over the edge of a roof, 1 plot unit = 10 ft. */
+const ropeOverEdge: PlotFigure = {
+  kind: 'plot',
+  caption: 'The rope hangs $50$ ft down the wall. Only the top half (highlighted) is pulled up onto the roof.',
+  axes: false,
+  aspect: 0.85,
+  x: [-2.6, 2.4],
+  y: [-5.8, 0.9],
+  items: [
+    { type: 'polygon', points: [[-2.6, 0], [0, 0], [0, -5.8], [-2.6, -5.8]], tone: 'muted' },
+    ...windows(-2.6, 0, -5.8, 0.4, 0.42, 5),
+    { type: 'label', at: [-1.3, 0], text: '\\text{roof}', anchor: 'n' },
+    // Each piece runs to the far edge of the other so the corner is filled.
+    { type: 'rope', kind: 'rope', from: [-0.9, 0.04], to: [0.103, 0.04] },
+    { type: 'rope', kind: 'rope', from: [0.07, 0.077], to: [0.07, -5], mark: [0, 2.577 / 5.077] },
+    { type: 'segment', from: [0.7, 0], to: [0.7, -2.5], tone: 2, width: 1.5, label: '25\\text{ ft, top half}', anchor: 'e' },
+    { type: 'segment', from: [0.7, -2.5], to: [0.7, -5], tone: 'ink', width: 1.5, label: '25\\text{ ft}', anchor: 'e' },
+    { type: 'segment', from: [0.55, -2.5], to: [0.85, -2.5], tone: 'ink', width: 1.5 },
+  ],
+};
+
+/** Problem 6: coal lifted up a 500 ft shaft by a winch, not to scale. */
+const mineShaft: PlotFigure = {
+  kind: 'plot',
+  caption: 'Not to scale: the shaft is $500$ ft deep. The cable runs over the pulley to a winch at the surface.',
+  axes: false,
+  aspect: 0.8,
+  x: [-3, 3],
+  y: [-5.5, 1.9],
+  items: [
+    { type: 'polygon', points: [[-3, 0], [-0.95, 0], [-0.95, -5.5], [-3, -5.5]], tone: 'muted' },
+    { type: 'polygon', points: [[0.95, 0], [3, 0], [3, -5.5], [0.95, -5.5]], tone: 'muted' },
+    { type: 'support', from: [-3, 0], to: [-0.95, 0], side: 'right' },
+    { type: 'support', from: [0.95, 0], to: [3, 0], side: 'right' },
+    { type: 'support', from: [-0.95, 0], to: [-0.95, -5.5], side: 'right' },
+    { type: 'support', from: [0.95, 0], to: [0.95, -5.5] },
+    { type: 'segment', from: [-1.15, 0], to: [-0.04, 1.3], tone: 'ink', width: 2.5 },
+    { type: 'segment', from: [1.15, 0], to: [0.04, 1.3], tone: 'ink', width: 2.5 },
+    { type: 'rope', from: [0.12, 1.41], to: [1.9, 0.32], width: 3 },
+    { type: 'rope', from: [-0.158, 1.3], to: [-0.158, -4.46], width: 3 },
+    { type: 'pulley', at: [0, 1.3] },
+    { type: 'pulley', at: [1.9, 0.2], radius: 9 },
+    { type: 'label', at: [2.05, 0.2], text: '\\text{winch}', anchor: 'e' },
+    { type: 'bucket', at: [-0.158, -5], size: 28, fill: 0.8, contents: 'coal' },
+    { type: 'label', at: [0.05, -4.8], text: '800\\text{ lb}', anchor: 'e' },
+    { type: 'segment', from: [-1.6, 0], to: [-1.6, -5], tone: 'ink', width: 1.2, label: '500\\text{ ft}', anchor: 'w' },
+  ],
+};
+
+/** Problem 7: a leaking bucket lifted 40 ft, 1 plot unit = 10 ft. */
+const leakyBucket: PlotFigure = {
+  kind: 'plot',
+  caption: 'The bucket is lifted $40$ ft while water drips out at a steady rate. It starts full and arrives empty. Drag $x$ to raise it.',
+  axes: false,
+  aspect: 0.8,
+  x: [-2.2, 2.2],
+  y: [-0.5, 5.5],
+  items: [
+    { type: 'support', from: [-1.6, 5.1], to: [1.6, 5.1] },
+    { type: 'segment', from: [0, 5.1], to: [0, 4.65], tone: 'ink', width: 2 },
+    { type: 'support', from: [-1.8, 0], to: [1.8, 0], side: 'right' },
+    { type: 'rope', kind: 'rope', from: [-0.1, 4.7], to: [-1.5, 0.29], width: 3 },
+    { type: 'pulley', at: [-1.5, 0.2], radius: 9 },
+    { type: 'label', at: [-1.62, 0.2], text: '\\text{winch}', anchor: 'w' },
+  ],
+  animate: {
+    param: 'x',
+    range: [0, 40],
+    initial: 15,
+    duration: 7,
+    restart: true,
+    frame: (x) => {
+      const y = x / 10;
+      const left = 1 - x / 40;
+      return [
+        { type: 'rope', kind: 'rope', from: [0.116, 4.65], to: [0.116, y + 0.46], width: 3 },
+        { type: 'pulley', at: [0, 4.65] },
+        { type: 'bucket', at: [0.116, y], fill: left, leak: left > 0.02 },
+        ...(x > 1.5 ? [{ type: 'segment' as const, from: [1.1, 0] as Vec, to: [1.1, y] as Vec, tone: 2 as const, width: 1.5, arrow: true, label: 'x', anchor: 'e' as const }] : []),
+      ];
+    },
+    readout: (x) => `The bucket is $${fmt(x, 0)}$ ft up and ${x < 0.5 ? 'full' : x > 39.5 ? 'empty' : `$${fmt(100 * (1 - x / 40), 0)}\\%$ full`}.`,
+  },
+};
 
 /** Unit 3.6 — Work. Source: lecture deck 3.6 (Examples 2 to 5 solved here). */
 export const work: Topic = {
@@ -183,9 +285,10 @@ export const work: Topic = {
         axes: false,
         equal: true,
         x: [-0.4, 7],
-        y: [-1.4, 1],
+        y: [-1.6, 1],
         items: [
-          { type: 'segment', from: [0, -0.9], to: [0, 0.9], tone: 'ink', width: 5 },
+          { type: 'support', from: [0, -0.5], to: [0, 0.9] },
+          { type: 'support', from: [0, -0.5], to: [6.9, -0.5], side: 'right' },
           { type: 'segment', from: [SPRING_L0, -1.1], to: [SPRING_L0, 0.8], tone: 'muted', dashed: true, width: 1, label: '\\text{natural length}', labelAt: [SPRING_L0, 0.8], anchor: 'n' },
         ],
         animate: {
@@ -213,7 +316,7 @@ export const work: Topic = {
         "Using the length of the cable as the distance for a load when the shaft is a different depth.",
       ],
       tip: "$\\frac{wL^2}{2}$ is the cable's weight $wL$ times $\\frac{L}{2}$: the work is the same as lifting the whole cable from its midpoint, its center of mass.",
-      figure: cable('A $100$ ft cable weighing $2$ lb/ft hanging from a roof. The piece $x$ ft down is lifted $x$ ft. (Not to scale horizontally.)'),
+      figure: cable('A $100$ ft chain weighing $2$ lb/ft hanging from a roof. The highlighted links, $x$ ft down, are lifted $x$ ft; links lower down travel farther. (Not to scale horizontally.)', undefined, 'chain'),
     },
     {
       title: 'Pumping liquid from a tank',
@@ -366,7 +469,7 @@ export const work: Topic = {
       prompt: "A 200-lb cable is 100 ft long and hangs vertically from the top of a tall building. How much work is required to lift the cable to the top of the building?",
       problemLatex: "\\text{weight } 200 \\text{ lb}, \\qquad L = 100 \\text{ ft}",
       keyIdea: "The cable weighs $2$ lb/ft. The piece $x$ ft below the top is lifted $x$ ft.",
-      figure: cable('The piece of cable $x$ ft below the roof has length $\\Delta x$, weighs $2\\,\\Delta x$ lb, and is lifted $x$ ft.', 60),
+      figure: cable('The piece of cable $x$ ft below the roof (highlighted) has length $\\Delta x$, weighs $2\\,\\Delta x$ lb, and is lifted $x$ ft.', 60),
       solutionSteps: [
         {
           stepNumber: 1,
@@ -535,6 +638,7 @@ export const work: Topic = {
       prompt: 'A rope 50 ft long weighing 0.5 lb/ft hangs over the edge of a tall building. How much work is done in pulling up only the top half of the rope?',
       questionLatex: "L = 50 \\text{ ft},\\; w = 0.5 \\text{ lb/ft}; \\qquad \\text{pull up } 25 \\text{ ft}",
       hint: "The top half is lifted piece by piece. The bottom half moves up as a whole, $25$ ft.",
+      figure: ropeOverEdge,
       steps: [
         {
           stepNumber: 1,
@@ -567,6 +671,7 @@ export const work: Topic = {
       prompt: 'A cable that weighs 2 lb/ft is used to lift 800 lb of coal up a mine shaft 500 ft deep. Find the work done.',
       questionLatex: "w = 2 \\text{ lb/ft}, \\quad \\text{load } 800 \\text{ lb}, \\quad 500 \\text{ ft}",
       hint: "Two parts: the coal (constant force) and the cable (integral).",
+      figure: mineShaft,
       steps: [
         {
           stepNumber: 1,
@@ -598,6 +703,7 @@ export const work: Topic = {
       prompt: 'A bucket weighing 5 lb is filled with 20 lb of water and lifted 40 ft at a constant speed. Water leaks out at a constant rate, and the bucket is just empty when it reaches the top. Find the work done.',
       questionLatex: "\\text{bucket } 5 \\text{ lb}, \\quad \\text{water } 20 \\text{ lb} \\to 0, \\quad 40 \\text{ ft}",
       hint: "At height $x$, how much water is left? The force depends on $x$.",
+      figure: leakyBucket,
       steps: [
         {
           stepNumber: 1,
@@ -655,14 +761,14 @@ export const work: Topic = {
         x: [-4.4, 5],
         y: [-0.6, 6.8],
         items: [
-          { type: 'polygon', points: [[-3, 0], [3, 0], [3, 5], [-3, 5]], tone: 1 },
+          { type: 'liquid', points: [[-3, 0], [3, 0], [3, 5], [-3, 5]] },
           { type: 'segment', from: [-3, 0], to: [-3, 5], tone: 'ink', width: 2 },
           { type: 'segment', from: [3, 0], to: [3, 5], tone: 'ink', width: 2 },
           { type: 'segment', from: [-3, 0], to: [3, 0], tone: 'ink', width: 2, label: '6', anchor: 's' },
-          { type: 'segment', from: [0, 5], to: [0, 6], tone: 'ink', width: 4 },
+          { type: 'polygon', points: [[-0.16, 5], [0.16, 5], [0.16, 6], [-0.16, 6]], tone: 'ink', outline: true },
           { type: 'label', at: [0, 6], text: '\\text{spout}', anchor: 'n' },
           { type: 'segment', from: [-3.7, 0], to: [-3.7, 5], tone: 'ink', width: 1.2, label: '5', anchor: 'w' },
-          { type: 'segment', from: [0.3, 5], to: [0.3, 6], tone: 'ink', width: 1.2, label: '1', anchor: 'e' },
+          { type: 'segment', from: [0.55, 5], to: [0.55, 6], tone: 'ink', width: 1.2, label: '1', anchor: 'e' },
         ],
       },
       steps: [
@@ -698,7 +804,7 @@ export const work: Topic = {
         x: [-2.8, 3.2],
         y: [-2.5, 0.7],
         items: [
-          { type: 'area', f: () => 0, g: (x) => -Math.sqrt(Math.max(0, 4 - x * x)), from: -2, to: 2 },
+          { type: 'liquid', points: Array.from({ length: 61 }, (_, i): Vec => [-2 * Math.cos((Math.PI * i) / 60), -2 * Math.sin((Math.PI * i) / 60)]) },
           { type: 'fn', f: (x) => -Math.sqrt(4 - x * x), from: -2, to: 2, tone: 'ink' },
           { type: 'segment', from: [-2, 0], to: [2, 0], tone: 'ink', width: 2 },
           { type: 'segment', from: [0, 0], to: [2, 0], tone: 'muted', width: 1, label: '2', anchor: 'n' },

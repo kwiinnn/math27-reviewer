@@ -44,7 +44,29 @@ export type PlotItem =
   | { type: 'point'; at: Vec; tone?: Tone; hollow?: boolean; label?: string; anchor?: Anchor }
   | { type: 'label'; at: Vec; text: string; anchor?: Anchor; tone?: Tone }
   /** An angle at `at` between the rays towards `a` and `b`; `right` draws the square mark. */
-  | { type: 'angle'; at: Vec; a: Vec; b: Vec; label?: string; right?: boolean; radius?: number; tone?: Tone };
+  | { type: 'angle'; at: Vec; a: Vec; b: Vec; label?: string; right?: boolean; radius?: number; tone?: Tone }
+  | ObjectItem;
+
+/**
+ * Drawn physical objects. Positions are plot coordinates; thickness and detail
+ * (`size`, `width`, `radius`, `link`) are in screen units, so an object keeps
+ * its look whatever the figure's aspect.
+ */
+export type ObjectItem =
+  /** A chain of links. `mark` colours the links between these fractions of its length (0 at `from`). */
+  | { type: 'chain'; from: Vec; to: Vec; link?: number; mark?: Vec }
+  /** A twisted steel cable, or a fibre rope. `mark` as for a chain. */
+  | { type: 'rope'; from: Vec; to: Vec; kind?: 'cable' | 'rope'; width?: number; mark?: Vec }
+  /** A coil spring from `from` to `to`. */
+  | { type: 'spring'; from: Vec; to: Vec; coils?: number; radius?: number }
+  /** A fixed wall, floor or beam: a line hatched on one side (left or right of the direction from `from` to `to`). */
+  | { type: 'support'; from: Vec; to: Vec; side?: 'left' | 'right' }
+  /** A pail standing with its bottom center at `at`, `fill` of it full (0 to 1). The handle's top is `size` × 1.5 above `at`. */
+  | { type: 'bucket'; at: Vec; size?: number; fill?: number; contents?: 'water' | 'coal'; leak?: boolean }
+  /** A pulley wheel. */
+  | { type: 'pulley'; at: Vec; radius?: number }
+  /** A body of liquid: the polygon filled as water, with its highest edge drawn as the surface. */
+  | { type: 'liquid'; points: Vec[] };
 
 export interface PlotAnimation {
   /** LaTeX name of the moving parameter, shown on the slider. */
@@ -56,6 +78,8 @@ export interface PlotAnimation {
   step?: number;
   /** Seconds for one sweep across the range (default 6). */
   duration?: number;
+  /** Play forward only, jumping back to the start after each sweep (default: back and forth). For processes that cannot run in reverse. */
+  restart?: boolean;
   /** Extra items drawn for the current parameter value. */
   frame: (t: number) => PlotItem[];
   /** One line under the plot describing the current state. */
