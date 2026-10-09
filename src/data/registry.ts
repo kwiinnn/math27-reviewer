@@ -11,6 +11,14 @@ import { trigIntegrals } from './topics/trig-integrals';
 import { trigSubstitution } from './topics/trig-substitution';
 import { partialFractions } from './topics/partial-fractions';
 import { otherSubstitutions } from './topics/other-substitutions';
+import { area } from './topics/area';
+import { diskMethod } from './topics/disk-method';
+import { washerMethod } from './topics/washer-method';
+import { centerOfMassRod } from './topics/center-of-mass-rod';
+import { centroid } from './topics/centroid';
+import { arcLength } from './topics/arc-length';
+import { work } from './topics/work';
+import { surfaceArea } from './topics/surface-area';
 
 /**
  * Central curriculum registry.
@@ -32,11 +40,20 @@ export const topics: Topic[] = [
   trigSubstitution,
   partialFractions,
   otherSubstitutions,
+  area,
+  diskMethod,
+  washerMethod,
+  centerOfMassRod,
+  centroid,
+  arcLength,
+  work,
+  surfaceArea,
 ];
 
 export const chapters: Chapter[] = [
   { number: '1', title: 'Transcendental Functions' },
   { number: '2', title: 'Techniques of Integration' },
+  { number: '3', title: 'Applications of Integration' },
 ];
 
 const byUnit = (a: Topic, b: Topic) =>
