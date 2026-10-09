@@ -14,6 +14,7 @@ import { otherSubstitutions } from './topics/other-substitutions';
 import { area } from './topics/area';
 import { diskMethod } from './topics/disk-method';
 import { washerMethod } from './topics/washer-method';
+import { centerOfMassRod } from './topics/center-of-mass-rod';
 
 /**
  * Central curriculum registry.
@@ -38,6 +39,7 @@ export const topics: Topic[] = [
   area,
   diskMethod,
   washerMethod,
+  centerOfMassRod,
 ];
 
 export const chapters: Chapter[] = [
