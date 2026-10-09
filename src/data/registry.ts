@@ -12,6 +12,7 @@ import { trigSubstitution } from './topics/trig-substitution';
 import { partialFractions } from './topics/partial-fractions';
 import { otherSubstitutions } from './topics/other-substitutions';
 import { area } from './topics/area';
+import { diskMethod } from './topics/disk-method';
 
 /**
  * Central curriculum registry.
@@ -34,6 +35,7 @@ export const topics: Topic[] = [
   partialFractions,
   otherSubstitutions,
   area,
+  diskMethod,
 ];
 
 export const chapters: Chapter[] = [
