@@ -15,6 +15,7 @@ import { area } from './topics/area';
 import { diskMethod } from './topics/disk-method';
 import { washerMethod } from './topics/washer-method';
 import { centerOfMassRod } from './topics/center-of-mass-rod';
+import { centroid } from './topics/centroid';
 
 /**
  * Central curriculum registry.
@@ -40,6 +41,7 @@ export const topics: Topic[] = [
   diskMethod,
   washerMethod,
   centerOfMassRod,
+  centroid,
 ];
 
 export const chapters: Chapter[] = [
