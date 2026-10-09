@@ -17,6 +17,7 @@ import { washerMethod } from './topics/washer-method';
 import { centerOfMassRod } from './topics/center-of-mass-rod';
 import { centroid } from './topics/centroid';
 import { arcLength } from './topics/arc-length';
+import { work } from './topics/work';
 
 /**
  * Central curriculum registry.
@@ -44,6 +45,7 @@ export const topics: Topic[] = [
   centerOfMassRod,
   centroid,
   arcLength,
+  work,
 ];
 
 export const chapters: Chapter[] = [
