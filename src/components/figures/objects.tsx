@@ -29,14 +29,30 @@ function frame(s: Scale, from: Vec, to: Vec) {
 
 const inMark = (mark: Vec | undefined, f: number) => !!mark && f >= Math.min(...mark) && f <= Math.max(...mark);
 
+/** Walks a screen-space polyline: the point and direction (in degrees) at a distance along it. */
+function walker(pts: Vec[]) {
+  const cum = [0];
+  for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+  const len = cum[cum.length - 1] || 1;
+  const at = (d: number): { p: Vec; deg: number } => {
+    let i = 1;
+    while (i < pts.length - 1 && cum[i] < d) i++;
+    const [a, b] = [pts[i - 1], pts[i]];
+    const seg = cum[i] - cum[i - 1] || 1;
+    const t = Math.min(1, Math.max(0, (d - cum[i - 1]) / seg));
+    return { p: [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t], deg: (Math.atan2(b[1] - a[1], b[0] - a[0]) * 180) / Math.PI };
+  };
+  return { len, at };
+}
+
 function chain(it: Extract<ObjectItem, { type: 'chain' }>, s: Scale): ReactNode {
-  const { len, at, deg } = frame(s, it.from, it.to);
+  const { len, at } = walker(it.points.map(([x, y]): Vec => [s.sx(x), s.sy(y)]));
   const L = it.link ?? 16;
   const w = L * 0.55;
   const pitch = L * 0.72;
   const links: ReactNode[] = [];
   for (let i = 0, d = 0; d + L <= len + 0.5; i++, d += pitch) {
-    const [cx, cy] = at(d + L / 2);
+    const { p: [cx, cy], deg } = at(d + L / 2);
     const colour = inMark(it.mark, (d + L / 2) / len) ? MARK : METAL;
     const t = `rotate(${deg.toFixed(2)} ${cx.toFixed(2)} ${cy.toFixed(2)})`;
     links.push(
@@ -224,6 +240,86 @@ function liquid(it: Extract<ObjectItem, { type: 'liquid' }>, s: Scale, uid: stri
   );
 }
 
+function bar(it: Extract<ObjectItem, { type: 'bar' }>, s: Scale, uid: string): ReactNode {
+  const { a, b, len, at } = frame(s, it.from, it.to);
+  const w = it.width ?? 10;
+  const body = [at(0, w / 2), at(len, w / 2), at(len, -w / 2), at(0, -w / 2)];
+  const d = body.map((p, i) => `${i ? 'L' : 'M'}${pt(p)}`).join('') + 'Z';
+  // Heavier shading where denser: the opacity of the metal follows the density.
+  const stops = it.density
+    ? Array.from({ length: 17 }, (_, i) => {
+        const u = i / 16;
+        const k = Math.min(1, Math.max(0, it.density!(u)));
+        return <stop key={i} offset={u} stopColor={METAL} stopOpacity={0.08 + 0.82 * k} />;
+      })
+    : null;
+  return (
+    <>
+      {stops && (
+        <defs>
+          <linearGradient id={uid} gradientUnits="userSpaceOnUse" x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]}>{stops}</linearGradient>
+        </defs>
+      )}
+      <path d={d} fill="var(--surface)" />
+      <path d={d} fill={stops ? `url(#${uid})` : METAL} fillOpacity={stops ? 1 : 0.85} stroke={METAL} strokeWidth={1.2} strokeLinejoin="round" />
+    </>
+  );
+}
+
+function weight(it: Extract<ObjectItem, { type: 'weight' }>, s: Scale): ReactNode {
+  const S = it.size ?? 24;
+  const cx = s.sx(it.at[0]);
+  const cy = s.sy(it.at[1]);
+  const h = S * 0.62;
+  const top = S * 0.68;
+  const knob = S * 0.3;
+  // A cast-iron weight: a trapezoid with a knob on top.
+  const d = `M${cx - S / 2},${cy}L${cx + S / 2},${cy}L${cx + top / 2},${cy - h}L${cx - top / 2},${cy - h}Z` +
+    `M${cx - knob / 2},${cy - h}L${cx - knob / 2},${cy - h - S * 0.16}L${cx + knob / 2},${cy - h - S * 0.16}L${cx + knob / 2},${cy - h}Z`;
+  return <path d={d} fill={METAL} fillOpacity={0.85} stroke={METAL} strokeWidth={1.2} strokeLinejoin="round" />;
+}
+
+function ladder(it: Extract<ObjectItem, { type: 'ladder' }>, s: Scale): ReactNode {
+  const { len, at } = frame(s, it.from, it.to);
+  const w = it.width ?? 12;
+  const rungs: string[] = [];
+  for (let d = 14; d < len - 6; d += 18) rungs.push(`M${pt(at(d, w / 2))}L${pt(at(d, -w / 2))}`);
+  return (
+    <>
+      <path d={rungs.join('')} stroke={METAL} strokeWidth={2} />
+      <path d={`M${pt(at(0, w / 2))}L${pt(at(len, w / 2))}M${pt(at(0, -w / 2))}L${pt(at(len, -w / 2))}`} stroke={METAL} strokeWidth={3} strokeLinecap="round" />
+    </>
+  );
+}
+
+function plate(it: Extract<ObjectItem, { type: 'plate' }>, s: Scale, uid: string): ReactNode {
+  const pts = it.points.map(([x, y]): Vec => [s.sx(x), s.sy(y)]);
+  return (
+    <>
+      <defs>
+        <linearGradient id={uid} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor={METAL} stopOpacity={0.1} />
+          <stop offset="0.55" stopColor={METAL} stopOpacity={0.24} />
+          <stop offset="1" stopColor={METAL} stopOpacity={0.14} />
+        </linearGradient>
+      </defs>
+      <path d={pts.map((p, i) => `${i ? 'L' : 'M'}${pt(p)}`).join('') + 'Z'} fill={`url(#${uid})`} stroke={METAL} strokeWidth={1.5} strokeLinejoin="round" />
+    </>
+  );
+}
+
+function pin(it: Extract<ObjectItem, { type: 'pin' }>, s: Scale): ReactNode {
+  const cx = s.sx(it.at[0]);
+  const cy = s.sy(it.at[1]);
+  return (
+    <>
+      <circle cx={cx + 1.6} cy={cy + 1.8} r={6.5} fill="#000" fillOpacity={0.22} />
+      <circle cx={cx} cy={cy} r={6.5} fill={MARK} stroke="var(--surface)" strokeWidth={1.2} />
+      <circle cx={cx - 2} cy={cy - 2} r={2} fill="var(--surface)" fillOpacity={0.75} />
+    </>
+  );
+}
+
 /** Draw one physical object. `uid` must be unique on the page, for gradients. */
 export function renderObject(it: ObjectItem, key: string, s: Scale, uid: string): ReactNode {
   let body: ReactNode;
@@ -235,6 +331,11 @@ export function renderObject(it: ObjectItem, key: string, s: Scale, uid: string)
     case 'bucket': body = bucket(it, s); break;
     case 'pulley': body = pulley(it, s); break;
     case 'liquid': body = liquid(it, s, uid); break;
+    case 'bar': body = bar(it, s, uid); break;
+    case 'weight': body = weight(it, s); break;
+    case 'ladder': body = ladder(it, s); break;
+    case 'plate': body = plate(it, s, uid); break;
+    case 'pin': body = pin(it, s); break;
   }
   return <g key={key} fill="none">{body}</g>;
 }

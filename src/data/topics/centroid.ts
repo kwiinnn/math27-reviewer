@@ -37,20 +37,32 @@ interface RegionSpec {
   centroid?: Vec;
 }
 
-/** A shaded region with its boundary curves and, when given, its centroid. */
+/** The outline of the region: along f from left to right, then back along g. */
+function outline(sp: RegionSpec, n = 120): Vec[] {
+  const xs = Array.from({ length: n + 1 }, (_, i) => sp.from + ((sp.to - sp.from) * i) / n);
+  const g = sp.g ?? (() => 0);
+  return [...xs.map((x): Vec => [x, sp.f(x)]), ...xs.reverse().map((x): Vec => [x, g(x)])];
+}
+
+/**
+ * A shaded region with its boundary curves. When the centroid is given, the
+ * region is drawn as a thin metal plate (a lamina) balanced on a pin there.
+ */
 function region(sp: RegionSpec): PlotFigure {
   return {
     kind: 'plot',
-    caption: sp.caption,
+    caption: sp.centroid ? `${sp.caption} A thin plate of this shape balances on a pin at that point.` : sp.caption,
     x: sp.x,
     y: sp.y,
     xTicks: sp.xTicks,
     yTicks: sp.yTicks,
     ...(sp.aspect ? { aspect: sp.aspect } : { equal: true }),
     items: [
-      { type: 'area', f: sp.f, g: sp.g, from: sp.from, to: sp.to },
+      sp.centroid ? { type: 'plate', points: outline(sp) } : { type: 'area', f: sp.f, g: sp.g, from: sp.from, to: sp.to },
       ...sp.boundary,
-      ...(sp.centroid ? [{ type: 'point' as const, at: sp.centroid, tone: 2 as const, label: '(\\bar{x}, \\bar{y})', anchor: 'ne' as const }] : []),
+      ...(sp.centroid
+        ? [{ type: 'pin' as const, at: sp.centroid }, { type: 'label' as const, at: sp.centroid, text: '(\\bar{x}, \\bar{y})', anchor: 'ne' as const }]
+        : []),
     ],
   };
 }
