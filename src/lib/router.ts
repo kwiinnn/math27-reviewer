@@ -11,11 +11,13 @@ export const TOPIC_VIEWS: { id: TopicView; label: string; short: string }[] = [
 export type Route =
   | { page: 'topic'; slug: string; view: TopicView }
   | { page: 'formula-reference' }
+  | { page: 'about' }
   | { page: 'home' };
 
 export function parseHash(hash: string): Route {
   const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean);
   if (parts[0] === 'formulas') return { page: 'formula-reference' };
+  if (parts[0] === 'about') return { page: 'about' };
   if (parts[0] === 'topic' && parts[1]) {
     const view = TOPIC_VIEWS.some((v) => v.id === parts[2]) ? (parts[2] as TopicView) : 'notes';
     return { page: 'topic', slug: parts[1], view };
@@ -26,6 +28,7 @@ export function parseHash(hash: string): Route {
 export const homeHref = '#/';
 export const topicHref = (slug: string, view: TopicView = 'notes') => `#/topic/${slug}/${view}`;
 export const formulaReferenceHref = '#/formulas';
+export const aboutHref = '#/about';
 
 /**
  * Minimal hash router: no server config needed, works from a static file.

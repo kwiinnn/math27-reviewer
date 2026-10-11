@@ -24,6 +24,7 @@ export function Header(p: HeaderProps) {
   const { route, topic } = p;
   const here =
     route.page === 'formula-reference' ? 'Formula Reference'
+    : route.page === 'about' ? 'About the Developer'
     : route.page === 'home' ? 'Overview'
     : topic ? `${topic.unitNumber} ${topic.title}` : 'Not found';
 
