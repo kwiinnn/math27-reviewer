@@ -1,6 +1,7 @@
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent, type ReactNode, type RefObject, type SVGProps } from 'react';
 import type { Anchor, PlotAnimation, PlotFigure, PlotItem, Tick, Tone, Vec } from '../../types/figure';
 import { fmt, niceTicks } from '../../lib/plot';
+import { useAutoplay } from '../../lib/settings';
 import { PauseIcon, PlayIcon } from '../Icons';
 import { MathRenderer, MathText } from '../MathRenderer';
 import { renderObject } from './objects';
@@ -279,11 +280,6 @@ function renderAxes(fig: PlotFigure, s: Scale, labels: Label[]) {
   );
 }
 
-function usePrefersReducedMotion() {
-  const [reduced] = useState(() => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false);
-  return reduced;
-}
-
 function useInView(ref: RefObject<Element>) {
   const [inView, setInView] = useState(false);
   useEffect(() => {
@@ -303,10 +299,12 @@ const HOLD = 0.7; // seconds to rest at each end of a sweep
 
 /** Drives an animation parameter back and forth while the figure is on screen. */
 function usePlayback(anim: PlotAnimation | undefined, inView: boolean) {
-  const reduced = usePrefersReducedMotion();
+  const autoplay = useAutoplay();
   const [lo, hi] = anim?.range ?? [0, 1];
   const [t, setT] = useState(anim?.initial ?? lo);
-  const [playing, setPlaying] = useState(!!anim && !reduced);
+  const [playing, setPlaying] = useState(!!anim && autoplay);
+  // Follow the Animations setting when it changes.
+  useEffect(() => setPlaying(!!anim && autoplay), [anim, autoplay]);
   const pos = useRef(t);
   const dir = useRef(1);
   const hold = useRef(0);

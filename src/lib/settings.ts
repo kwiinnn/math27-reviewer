@@ -28,13 +28,19 @@ export interface Settings {
   /** Text size as a percentage of the browser default. */
   scale: number;
   font: string;
+  /**
+   * Play figure animations as soon as they scroll into view. On by default in
+   * every browser: the system "reduce motion" setting is often switched on
+   * without people knowing, so it no longer pauses them; this switch does.
+   */
+  autoplay: boolean;
 }
 
 export const SCALE_MIN = 85;
 export const SCALE_MAX = 150;
 export const SCALE_STEP = 5;
 
-export const DEFAULT_SETTINGS: Settings = { theme: 'system', contrast: 'standard', scale: 100, font: 'inter' };
+export const DEFAULT_SETTINGS: Settings = { theme: 'system', contrast: 'standard', scale: 100, font: 'inter', autoplay: true };
 
 const KEY = 'math27-settings';
 // A host page (for example an embedding viewer) may already have chosen a theme.
@@ -48,6 +54,7 @@ function load(): Settings {
     const merged = { ...DEFAULT_SETTINGS, ...saved };
     if (!FONT_OPTIONS.some((f) => f.id === merged.font)) merged.font = DEFAULT_SETTINGS.font;
     merged.scale = Math.min(SCALE_MAX, Math.max(SCALE_MIN, Number(merged.scale) || 100));
+    if (typeof merged.autoplay !== 'boolean') merged.autoplay = DEFAULT_SETTINGS.autoplay;
     return merged;
   } catch {
     return DEFAULT_SETTINGS; // storage unavailable or corrupted
@@ -66,6 +73,29 @@ function apply(s: Settings) {
   root.style.fontSize = `${s.scale}%`; // every size in the app is in rem
   const font = FONT_OPTIONS.find((f) => f.id === s.font) ?? FONT_OPTIONS[0];
   root.style.setProperty('--font-ui', font.family);
+  if (root.getAttribute('data-autoplay') !== (s.autoplay ? 'on' : 'off')) {
+    root.setAttribute('data-autoplay', s.autoplay ? 'on' : 'off');
+    window.dispatchEvent(new Event(AUTOPLAY_EVENT));
+  }
+}
+
+const AUTOPLAY_EVENT = 'math27:autoplay';
+// Before the settings are first applied, read the saved choice directly so no figure starts and then stops.
+const autoplayOn = () => {
+  const attr = document.documentElement.getAttribute('data-autoplay');
+  return attr ? attr !== 'off' : load().autoplay;
+};
+
+/** Whether figure animations should start on their own; follows the setting live. */
+export function useAutoplay() {
+  const [on, setOn] = useState(autoplayOn);
+  useEffect(() => {
+    const sync = () => setOn(autoplayOn());
+    sync(); // the setting may have been applied after this component first rendered
+    window.addEventListener(AUTOPLAY_EVENT, sync);
+    return () => window.removeEventListener(AUTOPLAY_EVENT, sync);
+  }, []);
+  return on;
 }
 
 export function useSettings() {

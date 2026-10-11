@@ -83,6 +83,19 @@ export function SettingsPanel({ settings, update, reset, onClose }: Props) {
       </fieldset>
 
       <fieldset className="mt-5">
+        <legend className={label}>Animations</legend>
+        <div className={`${segGroup} mt-2`}>
+          {[{ on: true, text: 'Play automatically' }, { on: false, text: 'Start paused' }].map((o) => (
+            <button key={o.text} type="button" aria-pressed={settings.autoplay === o.on}
+              className={segItem(settings.autoplay === o.on)} onClick={() => update({ autoplay: o.on })}>
+              {o.text}
+            </button>
+          ))}
+        </div>
+        <p className="mt-1.5 text-xs text-ink3">Paused figures still play with their play button or slider.</p>
+      </fieldset>
+
+      <fieldset className="mt-5">
         <legend className={label}>Text size</legend>
         <div className="mt-2 flex items-center gap-2">
           <button type="button" className={`${btnQuiet} h-9 w-9 px-0`} onClick={() => step(-1)}
