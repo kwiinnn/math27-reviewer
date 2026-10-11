@@ -13,7 +13,7 @@ export function OverviewPage() {
       <p className="text-sm text-ink3">MATH 27</p>
       <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">Analytic and Geometric Calculus II</h1>
       <p className="mt-4 max-w-[70ch] text-sm leading-7 text-ink2">
-        A reviewer built from the course lecture decks. Each unit has exam notes with the common traps, a formula
+        A reviewer built from the course lecture decks. Each unit has notes with the common traps, a formula
         sheet, worked examples, and ten practice problems that reveal one step at a time with the reasoning behind it.
       </p>
       <p className="mt-3 text-sm tabular-nums text-ink3">

@@ -50,7 +50,7 @@ export function TopicPage({ topic, view }: { topic: Topic; view: TopicView }) {
 
       {view === 'notes' && (
         <>
-          <SectionTitle>Exam notes</SectionTitle>
+          <SectionTitle>Notes</SectionTitle>
           <div className="grid grid-cols-1 gap-4">
             {topic.examNotes.map((note, i) => <ExamNoteCard key={note.title} note={note} index={i} />)}
           </div>

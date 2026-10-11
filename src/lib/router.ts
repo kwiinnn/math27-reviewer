@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 export type TopicView = 'notes' | 'formulas' | 'problems';
 /** `short` is the tab label on phones, where the three tabs share the width. */
 export const TOPIC_VIEWS: { id: TopicView; label: string; short: string }[] = [
-  { id: 'notes', label: 'Exam Notes', short: 'Notes' },
+  { id: 'notes', label: 'Notes', short: 'Notes' },
   { id: 'formulas', label: 'Formulas', short: 'Formulas' },
   { id: 'problems', label: 'Practice Problems', short: 'Problems' },
 ];

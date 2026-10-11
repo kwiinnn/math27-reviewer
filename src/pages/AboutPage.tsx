@@ -59,7 +59,7 @@ export function AboutPage() {
         <section className="mt-10">
           <h2 className={`${label} mb-3`}>About this reviewer</h2>
           <p className="max-w-[70ch] text-sm leading-7 text-ink2">
-            The {site.courseCode} Reviewer is built from the course lecture decks: exam notes with the common traps,
+            The {site.courseCode} Reviewer is built from the course lecture decks: notes with the common traps,
             formula sheets, worked examples, and practice problems that reveal one step at a time. The source code is
             on{' '}
             <a href={site.repository} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-ink">
