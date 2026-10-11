@@ -320,6 +320,53 @@ function pin(it: Extract<ObjectItem, { type: 'pin' }>, s: Scale): ReactNode {
   );
 }
 
+function rocket(it: Extract<ObjectItem, { type: 'rocket' }>, s: Scale): ReactNode {
+  const L = it.size ?? 40;
+  const w = L * 0.28;
+  const cx = s.sx(it.at[0]);
+  const cy = s.sy(it.at[1]);
+  const top = cy - L / 2;
+  const bottom = cy + L / 2;
+  const shoulder = top + L * 0.3;
+  const body = `M${cx},${top}C${cx + w * 0.55},${top + L * 0.08} ${cx + w / 2},${shoulder - L * 0.06} ${cx + w / 2},${shoulder}` +
+    `L${cx + w / 2},${bottom}L${cx - w / 2},${bottom}L${cx - w / 2},${shoulder}` +
+    `C${cx - w / 2},${shoulder - L * 0.06} ${cx - w * 0.55},${top + L * 0.08} ${cx},${top}Z`;
+  const fin = (side: 1 | -1) =>
+    `M${cx + (side * w) / 2},${bottom - L * 0.28}L${cx + side * w * 1.05},${bottom + L * 0.02}L${cx + (side * w) / 2},${bottom}Z`;
+  const flame = `M${cx - w * 0.38},${bottom}Q${cx - w * 0.3},${bottom + L * 0.28} ${cx},${bottom + L * 0.48}Q${cx + w * 0.3},${bottom + L * 0.28} ${cx + w * 0.38},${bottom}Z`;
+  const core = `M${cx - w * 0.2},${bottom}Q${cx - w * 0.14},${bottom + L * 0.16} ${cx},${bottom + L * 0.28}Q${cx + w * 0.14},${bottom + L * 0.16} ${cx + w * 0.2},${bottom}Z`;
+  return (
+    <>
+      {it.flame && <path d={flame} fill={MARK} fillOpacity={0.85} />}
+      {it.flame && <path d={core} fill="#ffd54a" />}
+      <path d={fin(1) + fin(-1)} fill={MARK} stroke={METAL} strokeWidth={1.2} strokeLinejoin="round" />
+      <path d={body} fill="var(--surface)" stroke={METAL} strokeWidth={1.6} strokeLinejoin="round" />
+      <circle cx={cx} cy={shoulder + L * 0.12} r={w * 0.22} fill={WATER} fillOpacity={0.6} stroke={METAL} strokeWidth={1.1} />
+    </>
+  );
+}
+
+function camera(it: Extract<ObjectItem, { type: 'camera' }>, s: Scale): ReactNode {
+  const S = it.size ?? 24;
+  const { at, deg } = frame(s, it.at, it.aim);
+  // Drawn in its own frame, then turned to face the target: +x runs along the
+  // line of sight, which passes through the middle of the body and the lens.
+  const h = S * 0.3;
+  const box = [at(0, -h), at(S, -h), at(S, h), at(0, h)];
+  const lens = [at(S, -h * 0.55), at(S * 1.35, -h * 0.85), at(S * 1.35, h * 0.85), at(S, h * 0.55)];
+  const poly = (p: Vec[]) => p.map((q, i) => `${i ? 'L' : 'M'}${pt(q)}`).join('') + 'Z';
+  const [vx, vy] = at(S * 0.3, h * 1.25);
+  const [gx, gy] = at(S * 0.62, 0);
+  return (
+    <>
+      <path d={poly(box)} fill={METAL} fillOpacity={0.85} stroke={METAL} strokeWidth={1.2} strokeLinejoin="round" />
+      <path d={poly(lens)} fill={METAL} stroke={METAL} strokeWidth={1.2} strokeLinejoin="round" />
+      <rect x={vx - S * 0.13} y={vy - S * 0.08} width={S * 0.26} height={S * 0.16} transform={`rotate(${deg.toFixed(2)} ${vx.toFixed(2)} ${vy.toFixed(2)})`} fill={METAL} />
+      <circle cx={gx} cy={gy} r={S * 0.14} fill="var(--surface)" fillOpacity={0.35} />
+    </>
+  );
+}
+
 /** Draw one physical object. `uid` must be unique on the page, for gradients. */
 export function renderObject(it: ObjectItem, key: string, s: Scale, uid: string): ReactNode {
   let body: ReactNode;
@@ -336,6 +383,8 @@ export function renderObject(it: ObjectItem, key: string, s: Scale, uid: string)
     case 'ladder': body = ladder(it, s); break;
     case 'plate': body = plate(it, s, uid); break;
     case 'pin': body = pin(it, s); break;
+    case 'rocket': body = rocket(it, s); break;
+    case 'camera': body = camera(it, s); break;
   }
   return <g key={key} fill="none">{body}</g>;
 }

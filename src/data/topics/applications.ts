@@ -1,6 +1,9 @@
 import type { Topic } from '../../types/curriculum';
 import { fmt } from '../../lib/plot';
 
+/** Height of the camera lens (and of the launch pad's top) in Problem 8, in thousands of feet: half the camera's body. */
+const LENS = 0.09;
+
 /** Unit 1.7 — Applications. Source: lecture deck 1.7. */
 export const applications: Topic = {
   id: 'applications',
@@ -643,6 +646,7 @@ export const applications: Topic = {
         x: [-1.5, 10.5],
         y: [-1.4, 9.2],
         items: [
+          { type: 'angle', at: [0, 8], a: [0, 0], b: [6, 0], label: '\\theta', radius: 62, tone: 2 },
           // Shifted half the ladder's width (6 screen units, 0.158 here) so one rail
           // ends on the floor at (6, 0) and the other on the wall at (0, 8).
           { type: 'ladder', from: [6.126, 0.095], to: [0.126, 8.095] },
@@ -652,7 +656,6 @@ export const applications: Topic = {
           { type: 'segment', from: [0, -0.5], to: [6, -0.5], tone: 'ink', width: 1.5, label: 'x', anchor: 's' },
           { type: 'segment', from: [6.6, 0.5], to: [8.8, 0.5], tone: 2, width: 2, arrow: true, label: '2\\text{ ft/s}', anchor: 'n' },
           { type: 'angle', at: [0, 0], a: [1, 0], b: [0, 1], right: true },
-          { type: 'angle', at: [0, 8], a: [0, 0], b: [6, 0], label: '\\theta', radius: 62, tone: 2 },
         ],
       },
       hint: "The angle is at the top of the ladder. Which side of the triangle is opposite it?",
@@ -691,22 +694,39 @@ export const applications: Topic = {
       questionLatex: "\\theta = \\tan^{-1}\\frac{h}{3000}, \\qquad \\frac{dh}{dt} = 600, \\qquad h = 4000",
       figure: {
         kind: 'plot',
-        caption: 'The camera is fixed; only $h$ and $\\theta$ change.',
+        caption: 'The camera is fixed 3000 ft from the pad; only $h$ and $\\theta$ change. Drag $h$ to raise the rocket and watch the camera tilt.',
         axes: false,
         equal: true,
         x: [-0.8, 4.6],
-        y: [-0.7, 4.8],
+        y: [-0.7, 4.9],
+        // Plot units are thousands of feet.
         items: [
-          { type: 'segment', from: [-0.6, 0], to: [4.4, 0], tone: 'muted', width: 3 },
-          { type: 'segment', from: [0, -0.25], to: [3, -0.25], tone: 'ink', width: 1.5, label: '3000\\text{ ft}', anchor: 's' },
-          { type: 'segment', from: [3, 0], to: [3, 4], tone: 'muted', dashed: true, width: 1.5, label: 'h', anchor: 'e' },
-          { type: 'segment', from: [0, 0], to: [3, 4], tone: 'ink', width: 1.5 },
-          { type: 'segment', from: [3.6, 3.1], to: [3.6, 4.3], tone: 2, width: 2, arrow: true, label: '600\\text{ ft/s}', anchor: 'e' },
-          { type: 'angle', at: [3, 0], a: [0, 0], b: [3, 1], right: true },
-          { type: 'angle', at: [0, 0], a: [3, 0], b: [3, 4], label: '\\theta', radius: 34, tone: 2 },
-          { type: 'point', at: [3, 4], tone: 2, label: '\\text{rocket}', anchor: 'w' },
-          { type: 'point', at: [0, 0], tone: 'ink', label: '\\text{camera}', anchor: 'w' },
+          { type: 'support', from: [-0.6, 0], to: [4.4, 0], side: 'right' },
+          { type: 'polygon', points: [[2.62, 0], [3.38, 0], [3.3, LENS], [2.7, LENS]], tone: 'ink', outline: true },
+          { type: 'segment', from: [0, -0.3], to: [3, -0.3], tone: 'ink', width: 1.5, label: '3000\\text{ ft}', anchor: 's' },
+          { type: 'angle', at: [3, LENS], a: [0, LENS], b: [3, 1], right: true },
         ],
+        animate: {
+          param: 'h',
+          range: [1200, 4400],
+          initial: 4000,
+          step: 50,
+          duration: 7,
+          frame: (hf) => {
+            const h = hf / 1000;
+            return [
+              { type: 'segment', from: [3, LENS], to: [3, h], tone: 'muted', dashed: true, width: 1.5, label: 'h', labelAt: [3, h / 2], anchor: 'w' },
+              { type: 'angle', at: [0, LENS], a: [3, LENS], b: [3, h], label: '\\theta', radius: 40, tone: 2 },
+              // The line of sight leaves the middle of the lens, at the height of the pad's top.
+              { type: 'segment', from: [0, LENS], to: [3, LENS], tone: 'muted', width: 1, dashed: true },
+              { type: 'segment', from: [0, LENS], to: [3, h], tone: 'ink', width: 1.2, dashed: true },
+              { type: 'camera', at: [0, LENS], aim: [3, h] },
+              { type: 'rocket', at: [3, h], flame: true },
+              { type: 'segment', from: [3.5, h - 0.35], to: [3.5, h + 0.45], tone: 2, width: 2, arrow: true, label: '600\\text{ ft/s}', anchor: 'e' },
+            ];
+          },
+          readout: (hf) => `The rocket is $${fmt(hf, 0)}$ ft up, so $\\tan\\theta = \\frac{h}{3000}$ and the camera points $${fmt((Math.atan(hf / 3000) * 180) / Math.PI, 1)}^\\circ$ above the ground.`,
+        },
       },
       hint: "Differentiate with respect to $t$, then simplify the fraction before substituting.",
       steps: [

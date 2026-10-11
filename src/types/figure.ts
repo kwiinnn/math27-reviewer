@@ -76,7 +76,11 @@ export type ObjectItem =
   /** A thin metal plate: the polygon, shaded as sheet metal. */
   | { type: 'plate'; points: Vec[] }
   /** A pushpin seen from above, pinned at `at`. */
-  | { type: 'pin'; at: Vec };
+  | { type: 'pin'; at: Vec }
+  /** A rocket standing upright, centered on `at`, `size` long, with an exhaust flame when `flame` is set. */
+  | { type: 'rocket'; at: Vec; size?: number; flame?: boolean }
+  /** A camera whose back is centered on `at`, turned to look at `aim`; the line of sight runs through the middle of the lens. */
+  | { type: 'camera'; at: Vec; aim: Vec; size?: number };
 
 export interface PlotAnimation {
   /** LaTeX name of the moving parameter, shown on the slider. */
