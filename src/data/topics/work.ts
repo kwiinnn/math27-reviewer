@@ -35,7 +35,7 @@ function cable(caption: string, at?: number, kind: 'chain' | 'cable' = 'cable'):
   const piece = (x: number): Vec => [(x - 4) / 100, (x + 4) / 100];
   const hang = (x?: number): PlotItem =>
     kind === 'chain'
-      ? { type: 'chain', from: [2, 0], to: [2, -10], mark: x === undefined ? undefined : piece(x) }
+      ? { type: 'chain', points: [[2, 0], [2, -10]], mark: x === undefined ? undefined : piece(x) }
       : { type: 'rope', from: [2, 0], to: [2, -10], mark: x === undefined ? undefined : piece(x) };
   const slice = (x: number): PlotItem[] => [
     hang(x),

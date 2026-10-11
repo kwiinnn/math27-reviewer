@@ -643,13 +643,16 @@ export const applications: Topic = {
         x: [-1.5, 10.5],
         y: [-1.4, 9.2],
         items: [
-          { type: 'segment', from: [0, 0], to: [0, 9.2], tone: 'muted', width: 3 },
-          { type: 'segment', from: [-1, 0], to: [10.5, 0], tone: 'muted', width: 3 },
-          { type: 'segment', from: [6, 0], to: [0, 8], width: 3, label: '10', anchor: 'ne' },
+          // Shifted half the ladder's width (6 screen units, 0.158 here) so one rail
+          // ends on the floor at (6, 0) and the other on the wall at (0, 8).
+          { type: 'ladder', from: [6.126, 0.095], to: [0.126, 8.095] },
+          { type: 'support', from: [0, 0], to: [0, 9.2] },
+          { type: 'support', from: [-1, 0], to: [10.5, 0], side: 'right' },
+          { type: 'label', at: [3.3, 4], text: '10', anchor: 'ne' },
           { type: 'segment', from: [0, -0.5], to: [6, -0.5], tone: 'ink', width: 1.5, label: 'x', anchor: 's' },
           { type: 'segment', from: [6.6, 0.5], to: [8.8, 0.5], tone: 2, width: 2, arrow: true, label: '2\\text{ ft/s}', anchor: 'n' },
           { type: 'angle', at: [0, 0], a: [1, 0], b: [0, 1], right: true },
-          { type: 'angle', at: [0, 8], a: [0, 0], b: [6, 0], label: '\\theta', radius: 36, tone: 2 },
+          { type: 'angle', at: [0, 8], a: [0, 0], b: [6, 0], label: '\\theta', radius: 62, tone: 2 },
         ],
       },
       hint: "The angle is at the top of the ladder. Which side of the triangle is opposite it?",

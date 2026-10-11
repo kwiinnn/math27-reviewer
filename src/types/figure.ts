@@ -53,8 +53,8 @@ export type PlotItem =
  * its look whatever the figure's aspect.
  */
 export type ObjectItem =
-  /** A chain of links. `mark` colours the links between these fractions of its length (0 at `from`). */
-  | { type: 'chain'; from: Vec; to: Vec; link?: number; mark?: Vec }
+  /** A chain of links along a polyline (two points for a straight chain). `mark` colours the links between these fractions of its length (0 at the first point). */
+  | { type: 'chain'; points: Vec[]; link?: number; mark?: Vec }
   /** A twisted steel cable, or a fibre rope. `mark` as for a chain. */
   | { type: 'rope'; from: Vec; to: Vec; kind?: 'cable' | 'rope'; width?: number; mark?: Vec }
   /** A coil spring from `from` to `to`. */
@@ -66,7 +66,17 @@ export type ObjectItem =
   /** A pulley wheel. */
   | { type: 'pulley'; at: Vec; radius?: number }
   /** A body of liquid: the polygon filled as water, with its highest edge drawn as the surface. */
-  | { type: 'liquid'; points: Vec[] };
+  | { type: 'liquid'; points: Vec[] }
+  /** A metal bar or rod. With `density` (0 to 1 along the bar, from `from`) its shading is heavier where it is denser. */
+  | { type: 'bar'; from: Vec; to: Vec; width?: number; density?: (u: number) => number }
+  /** An iron weight standing with its bottom center at `at`, `size` wide. */
+  | { type: 'weight'; at: Vec; size?: number }
+  /** A ladder from its foot to its top. */
+  | { type: 'ladder'; from: Vec; to: Vec; width?: number }
+  /** A thin metal plate: the polygon, shaded as sheet metal. */
+  | { type: 'plate'; points: Vec[] }
+  /** A pushpin seen from above, pinned at `at`. */
+  | { type: 'pin'; at: Vec };
 
 export interface PlotAnimation {
   /** LaTeX name of the moving parameter, shown on the slider. */

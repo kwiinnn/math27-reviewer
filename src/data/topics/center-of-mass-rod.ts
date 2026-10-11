@@ -12,16 +12,19 @@ const fulcrum = (x: number, y = 0, label?: string): PlotItem[] => [
 ];
 
 /**
- * Particles as blocks on a weightless rod along the x-axis. With `at` the
+ * Particles as iron weights on a weightless rod along the x-axis. With `at` the
  * fulcrum is drawn there; without it the fulcrum slides along the rod and the
  * readout gives the net moment about it.
  */
 function seesaw(caption: string, ps: Particle[], x: Vec, at?: number): PlotFigure {
+  // Screen units per plot unit: the figure is 456 units wide inside its padding.
+  const k = 456 / (x[1] - x[0]);
   const block = ([m, px]: Particle): PlotItem[] => {
     const w = 0.17 * Math.sqrt(m);
+    // An iron weight 2w wide; with its knob it stands 0.78 of its width tall.
     return [
-      { type: 'polygon', points: [[px - w, 0.06], [px + w, 0.06], [px + w, 0.06 + 2 * w], [px - w, 0.06 + 2 * w]], tone: 2, outline: true },
-      { type: 'label', at: [px, 0.06 + 2 * w], text: `${m}`, anchor: 'n' },
+      { type: 'weight', at: [px, 0.06], size: 2 * w * k },
+      { type: 'label', at: [px, 0.06 + 1.56 * w], text: `${m}`, anchor: 'n' },
       // The fulcrum label takes this spot when the fulcrum sits right under the block.
       ...(at !== undefined && Math.abs(px - at) < 0.4 ? [] : [{ type: 'label' as const, at: [px, -0.05] as Vec, text: `${px}`, anchor: 's' as const }]),
     ];
@@ -65,7 +68,7 @@ function densityRod(caption: string, rho: (x: number) => number, L: number, top:
   const gap = 0.1 * top;
   return {
     kind: 'plot',
-    caption,
+    caption: `${caption} The shading is heavier where the rod is denser.`,
     axes: false,
     aspect: 1.6,
     x: [-0.12 * L, 1.12 * L],
@@ -74,7 +77,7 @@ function densityRod(caption: string, rho: (x: number) => number, L: number, top:
       { type: 'area', f: rho, from: 0, to: L },
       { type: 'fn', f: rho, from: 0, to: L, label, labelAt: [0.45 * L, rho(0.45 * L)], anchor: 'nw' },
       { type: 'segment', from: [0, 0], to: [L, 0], tone: 'muted', width: 1 },
-      { type: 'segment', from: [0, -gap], to: [L, -gap], tone: 'ink', width: 6 },
+      { type: 'bar', from: [0, -gap], to: [L, -gap], density: (u) => rho(u * L) / Math.max(rho(0), rho(L)) },
       { type: 'label', at: [0, -gap], text: '0', anchor: 'w' },
       { type: 'label', at: [L, -gap], text: `${L}`, anchor: 'e' },
       { type: 'polygon', points: [[xbar, -gap - 0.02 * top], [xbar - 0.05 * L, -gap - 0.2 * top], [xbar + 0.05 * L, -gap - 0.2 * top]], tone: 1, outline: true },
@@ -93,7 +96,8 @@ const rodWithPoint = (caption: string): PlotFigure => ({
   y: [-1.1, 0.9],
   items: [
     { type: 'segment', from: [-2.5, 0], to: [4.4, 0], tone: 'muted', width: 1, dashed: true },
-    { type: 'segment', from: [0, 0], to: [4, 0], tone: 'ink', width: 6 },
+    // Density proportional to the distance x + 2 from P: darker away from P.
+    { type: 'bar', from: [0, 0], to: [4, 0], density: (u) => (4 * u + 2) / 6 },
     { type: 'point', at: [-2, 0], tone: 2, label: 'P', anchor: 'n' },
     { type: 'label', at: [0, 0.12], text: '0', anchor: 'n' },
     { type: 'label', at: [4, 0.12], text: '4', anchor: 'n' },
@@ -175,7 +179,7 @@ export const centerOfMassRod: Topic = {
       tip: "By the mean-value theorem, $M = \\rho(c)\\,L$ for some $c$: the mass is the average density times the length. For a linear density the average is just the mean of the end values.",
       figure: {
         kind: 'plot',
-        caption: 'The mass of the rod is the area under the density graph. A short piece at $x$ contributes $\\rho(x)\\,\\Delta x$.',
+        caption: 'The mass of the rod is the area under the density graph. A short piece at $x$ contributes $\\rho(x)\\,\\Delta x$. The shading is heavier where the rod is denser.',
         x: [-0.4, 4.6],
         y: [-0.5, 3.6],
         aspect: 1.5,
@@ -184,7 +188,7 @@ export const centerOfMassRod: Topic = {
         items: [
           { type: 'area', f: (x) => 1 + x / 2, from: 0, to: 4 },
           { type: 'fn', f: (x) => 1 + x / 2, from: 0, to: 4, label: '\\rho(x)', labelAt: [4, 3], anchor: 'nw' },
-          { type: 'segment', from: [0, 0], to: [4, 0], tone: 'ink', width: 5 },
+          { type: 'bar', from: [0, 0], to: [4, 0], width: 9, density: (u) => (1 + 2 * u) / 3 },
         ],
         animate: {
           param: 'x',
@@ -210,7 +214,7 @@ export const centerOfMassRod: Topic = {
       tip: "If the density increases along the rod, $\\bar{x}$ is past the midpoint, toward the denser end. A density proportional to $x$ puts $\\bar{x}$ at $\\frac{2L}{3}$.",
       figure: {
         kind: 'plot',
-        caption: 'A rod of density $\\rho(x) = 1 + x$ on $[0, 4]$, with its density graph above. Slide the fulcrum: the net moment $M_0 - pM = \\frac{88}{3} - 12p$ vanishes at $\\bar{x} = \\frac{22}{9} \\approx 2.44$, past the midpoint toward the denser end.',
+        caption: 'A rod of density $\\rho(x) = 1 + x$ on $[0, 4]$, with its density graph above. Slide the fulcrum: the net moment $M_0 - pM = \\frac{88}{3} - 12p$ vanishes at $\\bar{x} = \\frac{22}{9} \\approx 2.44$, past the midpoint toward the denser, more heavily shaded end.',
         x: [-0.4, 4.6],
         y: [-1.3, 5.4],
         aspect: 1.4,
@@ -221,7 +225,7 @@ export const centerOfMassRod: Topic = {
           { type: 'area', f: (x) => 1 + x, from: 0, to: 4, tone: 1 },
           { type: 'fn', f: (x) => 1 + x, from: 0, to: 4, label: '\\rho(x) = 1 + x', labelAt: [2.6, 3.6], anchor: 'nw' },
           { type: 'segment', from: [0, 0], to: [4, 0], tone: 'muted', width: 1 },
-          { type: 'segment', from: [0, -0.35], to: [4, -0.35], tone: 'ink', width: 6 },
+          { type: 'bar', from: [0, -0.35], to: [4, -0.35], density: (u) => (1 + 4 * u) / 5 },
           { type: 'label', at: [0, -0.35], text: '0', anchor: 'w' },
           { type: 'label', at: [4, -0.35], text: '4', anchor: 'e' },
         ],
@@ -343,7 +347,7 @@ export const centerOfMassRod: Topic = {
       prompt: "The linear density at any point of a rod 4 m long varies directly as the distance from the point to an external point in the line of the rod 2 m from the end, where the linear density is 5 kg/m. Find the total mass of the rod.",
       problemLatex: "\\rho \\propto \\text{distance from } P, \\qquad L = 4, \\qquad \\rho = 5 \\text{ at the end nearer } P",
       keyIdea: "The external point $P$ lies on the line of the rod, 2 m beyond one end, and the density at that end is 5 kg/m. Put the rod on $[0, 4]$ with $P$ at $x = -2$.",
-      figure: rodWithPoint('The rod occupies $[0, 4]$. $P$ is $2$ m beyond the left end, so a point $x$ of the rod is $x + 2$ meters from $P$.'),
+      figure: rodWithPoint('The rod occupies $[0, 4]$. $P$ is $2$ m beyond the left end, so a point $x$ of the rod is $x + 2$ meters from $P$. The shading is heavier where the rod is denser, farther from $P$.'),
       solutionSteps: [
         {
           stepNumber: 1,

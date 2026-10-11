@@ -281,15 +281,25 @@ export const arcLength: Topic = {
       keyIdea: "$1 + \\sinh^2 = \\cosh^2$ makes the root disappear.",
       figure: {
         kind: 'plot',
-        caption: 'The catenary from $(0, 6)$ to $x = 6\\ln 6 \\approx 10.75$, where $y = 18.5$.',
-        x: [-1, 12],
+        caption: 'A chain hanging freely between two posts takes the shape of a catenary. The highlighted half, from $(0, 6)$ to $x = 6\\ln 6 \\approx 10.75$ where $y = 18.5$, is the arc being measured.',
+        x: [-12, 12],
         y: [0, 20.5],
         aspect: 1.2,
         xTicks: [[6 * Math.log(6), '6\\ln 6']],
-        yTicks: [6, 12, 18],
+        // No tick at 6: the chain's lowest point is labelled (0, 6) instead.
+        yTicks: [12, 18],
         items: [
-          { type: 'fn', f: (x) => 6 * Math.cosh(x / 6), tone: 'muted', width: 2, label: 'y = 6\\cosh\\tfrac{x}{6}', labelAt: [4, 7.4], anchor: 'se' },
-          { type: 'fn', f: (x) => 6 * Math.cosh(x / 6), from: 0, to: 6 * Math.log(6), tone: 2, width: 3 },
+          { type: 'bar', from: [-6 * Math.log(6), 0], to: [-6 * Math.log(6), 19.2], width: 6 },
+          { type: 'bar', from: [6 * Math.log(6), 0], to: [6 * Math.log(6), 19.2], width: 6 },
+          { type: 'fn', f: (x) => 6 * Math.cosh(x / 6), from: -6 * Math.log(6), to: 6 * Math.log(6), tone: 'muted', width: 1, label: 'y = 6\\cosh\\tfrac{x}{6}', labelAt: [-4, 7.4], anchor: 'sw' },
+          {
+            type: 'chain',
+            points: Array.from({ length: 161 }, (_, i): Vec => {
+              const x = 6 * Math.log(6) * (i / 80 - 1);
+              return [x, 6 * Math.cosh(x / 6)];
+            }),
+            mark: [0.5, 1],
+          },
           { type: 'point', at: [0, 6], tone: 'ink', label: '(0, 6)', anchor: 'ne' },
           { type: 'point', at: [6 * Math.log(6), 18.5], tone: 'ink' },
         ],
