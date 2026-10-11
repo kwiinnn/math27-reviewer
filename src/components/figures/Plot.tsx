@@ -375,7 +375,9 @@ export function Plot({ fig }: { fig: PlotFigure }) {
   const clipId = `clip${useId().replace(/:/g, '')}`;
   const axes = fig.axes ?? true;
 
-  const items = fig.animate ? [...fig.items, ...fig.animate.frame(t)] : fig.items;
+  // Angle marks go underneath everything else, so the lines they sit between cover the ends of their arcs.
+  const all = fig.animate ? [...fig.items, ...fig.animate.frame(t)] : fig.items;
+  const items = [...all.filter((it) => it.type === 'angle'), ...all.filter((it) => it.type !== 'angle')];
   const labels: Label[] = [];
   const axisNode = axes ? renderAxes(fig, s, labels) : null;
   const nodes = items.map((it, i) => renderItem(it, `i${i}`, fig, s, labels, clipId));
