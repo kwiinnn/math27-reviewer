@@ -64,7 +64,7 @@ export function Sidebar({ route, onNavigate, onClose }: Props) {
           <a href={aboutHref} onClick={onNavigate}
             aria-current={route.page === 'about' ? 'page' : undefined}
             className={`${item} ${route.page === 'about' ? active : idle}`}>
-            About the developer
+            About
           </a>
         </section>
       </div>

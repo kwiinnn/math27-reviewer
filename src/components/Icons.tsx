@@ -11,6 +11,8 @@ function Icon({ children }: { children: ReactNode }) {
   );
 }
 
+/** A head and shoulders, for a profile without a photo. */
+export const PersonIcon = () => <Icon><circle cx="8" cy="5.5" r="2.5" /><path d="M3 14c0-2.8 2.2-4.5 5-4.5s5 1.7 5 4.5" /></Icon>;
 export const MenuIcon = () => <Icon><path d="M2 4h12M2 8h12M2 12h12" /></Icon>;
 export const CloseIcon = () => <Icon><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" /></Icon>;
 export const ChevronIcon = () => <Icon><path d="M6 3.5L10.5 8 6 12.5" /></Icon>;
