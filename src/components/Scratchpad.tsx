@@ -9,6 +9,7 @@ import {
   EraserIcon, ExpandIcon, HighlighterIcon, PenIcon, RedoIcon, ShrinkIcon, TrashIcon, UndoIcon,
 } from './Icons';
 import { MathRenderer, MathText } from './MathRenderer';
+import { Panel } from './Panel';
 import { btnQuiet, segGroup, segItem } from './ui';
 
 type Mode = 'text' | 'draw';
@@ -328,13 +329,17 @@ function PenOptions({ pad }: { pad: Pad }) {
   );
 }
 
-/** The problem statement at the top left of the full-screen page. */
+/** The problem statement and its hint at the top left of the full-screen page. */
 function ProblemHeader({ problem }: { problem: Problem }) {
   return (
     <div className="max-w-2xl px-4 pb-3 pt-4 sm:px-6">
       <p className="text-xs font-semibold uppercase tracking-wider text-ink3">Problem {problem.problemNumber}</p>
       <p className="mt-1 text-sm leading-relaxed text-ink2"><MathText text={problem.prompt} /></p>
       <MathRenderer latex={problem.questionLatex} display className="!text-left" />
+      {/* The header lets drawing through; only the hint takes clicks. */}
+      <Panel title="Hint" className="pointer-events-auto mt-2 bg-surface">
+        <p className="text-sm leading-relaxed"><MathText text={problem.hint} /></p>
+      </Panel>
     </div>
   );
 }
@@ -693,7 +698,7 @@ function Surface({ pad, label, header, autoFocus }: SurfaceProps) {
   };
 
   const onKey = (e: KeyboardEvent) => {
-    if (!isPage) return;
+    if (!isPage || e.target !== e.currentTarget) return; // keys on the hint open and close it
     const step = { ArrowDown: 40, ArrowUp: -40, PageDown: viewH * 0.9, PageUp: -viewH * 0.9, ' ': viewH * 0.9 }[e.key];
     if (step !== undefined) {
       e.preventDefault();

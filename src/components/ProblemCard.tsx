@@ -1,24 +1,12 @@
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import type { Problem } from '../types/curriculum';
 import { DifficultyBadge } from './DifficultyBadge';
 import { FigureView } from './figures/Figure';
-import { ChevronIcon } from './Icons';
 import { MathRenderer, MathText } from './MathRenderer';
+import { Panel } from './Panel';
 import { Scratchpad } from './Scratchpad';
 import { StepView } from './StepView';
 import { btnPrimary, btnQuiet, card } from './ui';
-
-function Panel({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <details className="group rounded border border-line">
-      <summary className="flex cursor-pointer select-none list-none items-center gap-2 px-3 py-2 text-sm font-medium text-ink2 hover:text-ink">
-        <span className="transition-transform group-open:rotate-90"><ChevronIcon /></span>
-        {title}
-      </summary>
-      <div className="border-t border-line p-3">{children}</div>
-    </details>
-  );
-}
 
 /** Progressive disclosure: statement first, then one step at a time. */
 export function ProblemCard({ problem }: { problem: Problem }) {
