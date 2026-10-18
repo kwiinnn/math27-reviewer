@@ -713,4 +713,93 @@ export const naturalExpLog: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'natural-exp-log-quiz-1',
+      question: "What is $D_x\\left(e^2\\right)$?",
+      answer: "$0$",
+      distractors: ["$e^2$", "$2e$", "$e^2 \\ln 2$"],
+      explanation: "$e$ is a constant, so $e^2 \\approx 7.39$ is a constant too and its derivative is $0$.",
+    },
+    {
+      id: 'natural-exp-log-quiz-2',
+      question: "What is $D_x\\left(3^x\\right)$?",
+      answer: "$3^x \\ln 3$",
+      distractors: ["$x \\, 3^{x-1}$", "$3^x$", "$\\dfrac{3^x}{\\ln 3}$"],
+      explanation: "The variable is in the exponent, so the exponential rule applies: $D_x(a^u) = a^u \\ln a \\, D_x u$. $x\\,3^{x-1}$ wrongly uses the power rule, and dividing by $\\ln 3$ is what integration does.",
+    },
+    {
+      id: 'natural-exp-log-quiz-3',
+      question: "Where does the factor $\\ln a$ go in $D_x(a^u)$ and in $D_x(\\log_a u)$?",
+      answer: "It multiplies in $D_x(a^u)$ and divides in $D_x(\\log_a u)$",
+      distractors: [
+        "It multiplies in both",
+        "It divides in both",
+        "It appears only in $D_x(a^u)$",
+      ],
+      explanation: "$D_x(a^u) = a^u \\ln a \\, D_x u$, while $D_x(\\log_a u) = \\dfrac{D_x u}{u \\ln a}$ because $\\log_a u = \\frac{\\ln u}{\\ln a}$.",
+    },
+    {
+      id: 'natural-exp-log-quiz-4',
+      question: "Which method differentiates $y = x^x$?",
+      answer: "Logarithmic differentiation: take $\\ln$ of both sides, then differentiate implicitly",
+      distractors: [
+        "The power rule, giving $x \\cdot x^{x-1}$",
+        "The exponential rule, giving $x^x \\ln x$",
+        "The chain rule alone",
+      ],
+      explanation: "The variable is in both the base and the exponent, so neither the power rule nor the exponential rule applies. $\\ln y = x\\ln x$ gives $y' = x^x(\\ln x + 1)$.",
+    },
+    {
+      id: 'natural-exp-log-quiz-5',
+      question: "What is $\\displaystyle\\int \\frac{du}{u}$?",
+      answer: "$\\ln|u| + C$",
+      distractors: ["$-\\dfrac{1}{u^2} + C$", "$\\dfrac{u^0}{0} + C$", "$\\dfrac{1}{u^2} + C$"],
+      explanation: "This is the one power, $n = -1$, the power rule cannot handle: $\\frac{u^{n+1}}{n+1}$ would divide by zero. The natural logarithm fills that gap. $-\\frac{1}{u^2}$ is the derivative of $\\frac1u$, not its integral.",
+    },
+    {
+      id: 'natural-exp-log-quiz-6',
+      question: "What is $\\displaystyle\\int \\frac{dx}{x^2}$?",
+      answer: "$-\\dfrac{1}{x} + C$",
+      distractors: ["$\\ln|x| + C$", "$\\ln x^2 + C$", "$\\dfrac{1}{x}\\ln|x| + C$"],
+      explanation: "$\\frac{1}{x^2} = x^{-2}$ is an ordinary power, so the power rule applies. A logarithm only appears when the numerator is the derivative of the denominator.",
+    },
+    {
+      id: 'natural-exp-log-quiz-7',
+      question: "What is $\\displaystyle\\int a^u\\,du$ for $a > 0$, $a \\ne 1$?",
+      answer: "$\\dfrac{a^u}{\\ln a} + C$",
+      distractors: ["$a^u \\ln a + C$", "$\\dfrac{a^{u+1}}{u+1} + C$", "$a^u + C$"],
+      explanation: "Differentiation multiplies by $\\ln a$, so integration divides by it. $\\frac{a^{u+1}}{u+1}$ treats the exponential as a power.",
+    },
+    {
+      id: 'natural-exp-log-quiz-8',
+      question: "Why is $D_x\\left(e^x\\right) = e^x$, with no extra factor?",
+      answer: "Because $\\lim_{h\\to 0}\\frac{e^h - 1}{h} = 1$: the slope of $e^x$ at $0$ is exactly $1$",
+      distractors: [
+        "Because $e$ is irrational",
+        "Because $\\ln e = 0$",
+        "Because $e^x$ is its own inverse",
+      ],
+      explanation: "The general rule gives $a^x \\ln a$, and $e$ is the one base with $\\ln e = 1$. Equivalently, $e$ is the base whose graph crosses the $y$-axis with slope $1$.",
+    },
+    {
+      id: 'natural-exp-log-quiz-9',
+      question: "Simplify $e^{\\ln x + \\ln y}$ for $x, y > 0$.",
+      answer: "$xy$",
+      distractors: ["$x + y$", "$\\ln(xy)$", "$e^{xy}$"],
+      explanation: "$\\ln x + \\ln y = \\ln(xy)$, and $e^{\\ln(xy)} = xy$. Sums in the exponent become products.",
+    },
+    {
+      id: 'natural-exp-log-quiz-10',
+      question: "What is the best first step for $D_x\\left(\\ln\\left[(x^2+1)(x^3+2)^6\\right]\\right)$?",
+      answer: "Expand: $\\ln(x^2+1) + 6\\ln(x^3+2)$, then differentiate each term",
+      distractors: [
+        "Use the product rule inside the chain rule",
+        "Rewrite it as a logarithm to the base $10$",
+        "Exponentiate both sides first",
+      ],
+      explanation: "The laws of logarithms turn a product and a power into a sum of simple terms, so the derivative takes two lines: $\\frac{2x}{x^2+1} + \\frac{18x^2}{x^3+2}$.",
+    },
+  ],
 };

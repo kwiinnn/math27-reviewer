@@ -772,4 +772,101 @@ export const hyperbolic: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'hyperbolic-quiz-1',
+      question: "How are $\\sinh x$ and $\\cosh x$ related to $e^x$?",
+      answer: "They are its odd part and its even part: $\\cosh x + \\sinh x = e^x$",
+      distractors: [
+        "They are periodic functions with period $2\\pi$, like sine and cosine",
+        "They are inverses of each other",
+        "$\\sinh x = e^x$ and $\\cosh x = e^{-x}$",
+      ],
+      explanation: "$\\cosh x = \\frac{e^x + e^{-x}}{2}$ is even, $\\sinh x = \\frac{e^x - e^{-x}}{2}$ is odd, and they add to $e^x$. Neither is periodic: both grow like $\\frac12 e^x$.",
+    },
+    {
+      id: 'hyperbolic-quiz-2',
+      question: "What is the range of $\\cosh x$?",
+      answer: "$[1, +\\infty)$",
+      distractors: ["All real numbers", "$[-1, 1]$", "$(0, +\\infty)$"],
+      explanation: "$\\cosh 0 = 1$ is its minimum, and it grows in both directions. It is never zero or negative.",
+    },
+    {
+      id: 'hyperbolic-quiz-3',
+      question: "Which identity is correct?",
+      answer: "$\\cosh^2 x - \\sinh^2 x = 1$",
+      distractors: [
+        "$\\cosh^2 x + \\sinh^2 x = 1$",
+        "$1 + \\tanh^2 x = \\operatorname{sech}^2 x$",
+        "$\\sinh^2 x - \\cosh^2 x = 1$",
+      ],
+      explanation: "The sign changes wherever a product of two hyperbolic sines appears. The sum $\\cosh^2 x + \\sinh^2 x$ is $\\cosh 2x$, and the correct partner of the second is $1 - \\tanh^2 x = \\operatorname{sech}^2 x$. Test any identity at $x = 0$.",
+    },
+    {
+      id: 'hyperbolic-quiz-4',
+      question: "What is $D_x(\\cosh u)$?",
+      answer: "$\\sinh u \\, D_x u$",
+      distractors: ["$-\\sinh u \\, D_x u$", "$\\cosh u \\, D_x u$", "$-\\cosh u \\, D_x u$"],
+      explanation: "Unlike cosine, there is no minus sign: differentiating $\\frac{e^u + e^{-u}}{2}$ gives $\\frac{e^u - e^{-u}}{2}\\,D_x u$.",
+    },
+    {
+      id: 'hyperbolic-quiz-5',
+      question: "Which hyperbolic functions have derivatives with a minus sign?",
+      answer: "$\\coth$, $\\operatorname{sech}$ and $\\operatorname{csch}$",
+      distractors: [
+        "$\\cosh$, $\\operatorname{sech}$ and $\\operatorname{csch}$",
+        "Only $\\operatorname{sech}$",
+        "None of them",
+      ],
+      explanation: "The reciprocal group carries the minus signs. $\\sinh$, $\\cosh$ and $\\tanh$ all have positive derivatives.",
+    },
+    {
+      id: 'hyperbolic-quiz-6',
+      question: "Simplify $\\cosh(\\ln x)$ for $x > 0$.",
+      answer: "$\\dfrac{1}{2}\\left(x + \\dfrac{1}{x}\\right)$",
+      distractors: ["$x$", "$\\dfrac{1}{2}\\left(x - \\dfrac{1}{x}\\right)$", "$\\ln(\\cosh x)$"],
+      explanation: "Go back to the definition: $\\frac{e^{\\ln x} + e^{-\\ln x}}{2} = \\frac{x + \\frac1x}{2}$. The minus version is $\\sinh(\\ln x)$.",
+    },
+    {
+      id: 'hyperbolic-quiz-7',
+      question: "What is $\\displaystyle\\int \\frac{du}{\\sqrt{a^2 + u^2}}$ for $a > 0$?",
+      answer: "$\\sinh^{-1}\\dfrac{u}{a} + C$",
+      distractors: ["$\\dfrac{1}{a}\\tan^{-1}\\dfrac{u}{a} + C$", "$\\sin^{-1}\\dfrac{u}{a} + C$", "$\\cosh^{-1}\\dfrac{u}{a} + C$"],
+      explanation: "The root decides: $\\sqrt{a^2 + u^2}$ gives $\\sinh^{-1}$, while $a^2 + u^2$ with no root gives $\\tan^{-1}$. Forms with a root carry no $\\frac1a$.",
+    },
+    {
+      id: 'hyperbolic-quiz-8',
+      question: "For $\\displaystyle\\int \\frac{du}{a^2 - u^2}$ on an interval where $u^2 > a^2$, which inverse hyperbolic function appears?",
+      answer: "$\\coth^{-1}$: the result is $\\frac{1}{a}\\coth^{-1}\\frac{u}{a} + C$",
+      distractors: [
+        "$\\tanh^{-1}$: the result is $\\frac{1}{a}\\tanh^{-1}\\frac{u}{a} + C$",
+        "$\\sinh^{-1}$",
+        "$\\tan^{-1}$",
+      ],
+      explanation: "$\\tanh^{-1}$ and $\\coth^{-1}$ have the same derivative formula on different domains. $\\tanh^{-1}$ needs $|u| < a$; outside that, use $\\coth^{-1}$.",
+    },
+    {
+      id: 'hyperbolic-quiz-9',
+      question: "Why do $\\cosh$ and $\\operatorname{sech}$ need a restriction ($y \\ge 0$) before they can be inverted?",
+      answer: "They are even functions, so each value is taken at both $x$ and $-x$",
+      distractors: [
+        "They are periodic",
+        "They are unbounded",
+        "They are negative for $x < 0$",
+      ],
+      explanation: "Even functions fail the horizontal line test. Keeping $x \\ge 0$ makes them one-to-one, which is why $\\cosh^{-1} x \\ge 0$.",
+    },
+    {
+      id: 'hyperbolic-quiz-10',
+      question: "One student gets $\\frac{1}{2}\\sinh^2 x + C$ for $\\displaystyle\\int \\sinh x\\cosh x\\,dx$ and another gets $\\frac{1}{2}\\cosh^2 x + C$. Who is right?",
+      answer: "Both: the two answers differ by the constant $\\frac{1}{2}$",
+      distractors: [
+        "Only the first",
+        "Only the second",
+        "Neither: the answer is $\\frac{1}{2}\\sinh 2x + C$",
+      ],
+      explanation: "$\\cosh^2 x - \\sinh^2 x = 1$, so $\\frac12\\cosh^2 x = \\frac12\\sinh^2 x + \\frac12$. Antiderivatives that differ by a constant are equally correct.",
+    },
+  ],
 };

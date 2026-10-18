@@ -672,4 +672,105 @@ export const integrationByParts: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'integration-by-parts-quiz-1',
+      question: "Integration by parts is which differentiation rule read backwards?",
+      answer: "The product rule",
+      distractors: ["The chain rule", "The quotient rule", "The power rule"],
+      explanation: "Integrating $D_x[f g] = f'g + fg'$ and rearranging gives $\\int f g'\\,dx = fg - \\int f'g\\,dx$. Reversing the chain rule is $u$-substitution.",
+    },
+    {
+      id: 'integration-by-parts-quiz-2',
+      question: "Which is the integration by parts formula?",
+      answer: "$\\displaystyle\\int u\\,dv = uv - \\int v\\,du$",
+      distractors: [
+        "$\\displaystyle\\int u\\,dv = uv + \\int v\\,du$",
+        "$\\displaystyle\\int u\\,dv = uv - \\int u\\,dv$",
+        "$\\displaystyle\\int u\\,dv = \\int u\\,dx \\cdot \\int v\\,dx$",
+      ],
+      explanation: "The sign is minus and the new integrand is $v\\,du$: differentiate $u$, integrate $dv$. The integral of a product is never the product of the integrals.",
+    },
+    {
+      id: 'integration-by-parts-quiz-3',
+      question: "By LIATE, what should $u$ be in $\\displaystyle\\int x e^{3x}\\,dx$?",
+      answer: "$u = x$",
+      distractors: ["$u = e^{3x}$", "$u = x e^{3x}$", "$u = 3x$"],
+      explanation: "Algebraic comes before Exponential, so $u = x$ and $dv = e^{3x}dx$. Differentiating $x$ gives $1$, and the new integral $\\int \\frac13 e^{3x}dx$ is easy.",
+    },
+    {
+      id: 'integration-by-parts-quiz-4',
+      question: "In $\\displaystyle\\int y e^{3y}\\,dy$, what goes wrong with $u = e^{3y}$ and $dv = y\\,dy$?",
+      answer: "$v = \\frac{y^2}{2}$, so the new integral $\\int \\frac{3}{2}y^2 e^{3y}\\,dy$ is harder than the original",
+      distractors: [
+        "Nothing: both choices work equally well",
+        "The formula changes sign",
+        "The integral comes back and you get $0 = 0$",
+      ],
+      explanation: "The power of $y$ went up instead of down. If the new integral is worse, swap the roles of $u$ and $dv$. LIATE is a guide; the real test is whether $\\int v\\,du$ is simpler.",
+    },
+    {
+      id: 'integration-by-parts-quiz-5',
+      question: "How do you set up $\\displaystyle\\int \\ln x\\,dx$?",
+      answer: "$u = \\ln x$ and $dv = dx$",
+      distractors: [
+        "$u = 1$ and $dv = \\ln x\\,dx$",
+        "No parts needed: it is $\\frac{1}{x} + C$",
+        "$u = x$ and $dv = \\frac{1}{x}\\,dx$",
+      ],
+      explanation: "A single function is still a product with $1$. Differentiating $\\ln x$ gives $\\frac1x$, leaving $\\int x \\cdot \\frac1x\\,dx = x$, so the answer is $x\\ln x - x + C$. $\\frac1x$ is the derivative, not the integral.",
+    },
+    {
+      id: 'integration-by-parts-quiz-6',
+      question: "How many applications of integration by parts does $\\displaystyle\\int x^3 e^x\\,dx$ need?",
+      answer: "$3$",
+      distractors: ["$1$", "$2$", "It never ends, because $e^x$ never disappears"],
+      explanation: "With $u$ the polynomial each time, every application lowers the power by one: $x^3 \\to x^2 \\to x \\to 1$.",
+    },
+    {
+      id: 'integration-by-parts-quiz-7',
+      question: "After two applications on $\\displaystyle\\int e^x \\sin x\\,dx$, the original integral appears again. What next?",
+      answer: "Call it $I$, collect both copies on one side, and solve the equation for $I$",
+      distractors: [
+        "Conclude that integration by parts fails here",
+        "Swap $u$ and $dv$ and apply it a third time",
+        "Cancel the two copies, so the integral is $0$",
+      ],
+      explanation: "The reappearance is the goal: $I = e^x(\\ldots) - I$ gives $2I = e^x(\\ldots)$. Remember to divide by the coefficient and add $C$.",
+    },
+    {
+      id: 'integration-by-parts-quiz-8',
+      question: "Working on $\\displaystyle\\int e^x \\cos x\\,dx$, you end up with $0 = 0$. What happened?",
+      answer: "The roles of $u$ and $dv$ were switched in the second round, undoing the first",
+      distractors: [
+        "The integral equals $0$",
+        "The integral does not exist",
+        "That is the correct final step",
+      ],
+      explanation: "Make the same type of choice both times (for example the trigonometric factor as $u$ in both rounds), and the integral returns with a coefficient you can solve for.",
+    },
+    {
+      id: 'integration-by-parts-quiz-9',
+      question: "When you integrate $dv$ to find $v$, do you need to add a constant?",
+      answer: "No: any constant cancels out, so take the simplest antiderivative",
+      distractors: [
+        "Yes, otherwise the answer is wrong",
+        "Yes, and it must be carried into $\\int v\\,du$",
+        "Only when $u$ is a polynomial",
+      ],
+      explanation: "Using $v + K$ adds $Ku$ to $uv$ and subtracts $\\int K\\,du = Ku$ again. The single $+C$ goes at the very end.",
+    },
+    {
+      id: 'integration-by-parts-quiz-10',
+      question: "In $\\displaystyle\\int_a^b u\\,dv = \\Big[uv\\Big]_a^b - \\int_a^b v\\,du$, how is the $uv$ term handled?",
+      answer: "Evaluate it at both limits and subtract",
+      distractors: [
+        "Evaluate it at the upper limit only",
+        "Leave it as an indefinite expression",
+        "Multiply it by $b - a$",
+      ],
+      explanation: "$\\Big[uv\\Big]_a^b = u(b)v(b) - u(a)v(a)$. Forgetting the lower limit loses marks whenever $uv$ is not zero there.",
+    },
+  ],
 };

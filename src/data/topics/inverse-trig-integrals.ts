@@ -593,4 +593,93 @@ export const inverseTrigIntegrals: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'inverse-trig-integrals-quiz-1',
+      question: "Which of the three integral forms has no factor $\\frac{1}{a}$ in front?",
+      answer: "$\\displaystyle\\int \\frac{du}{\\sqrt{a^2 - u^2}} = \\sin^{-1}\\frac{u}{a} + C$",
+      distractors: [
+        "$\\displaystyle\\int \\frac{du}{a^2 + u^2}$, the $\\tan^{-1}$ form",
+        "$\\displaystyle\\int \\frac{du}{u\\sqrt{u^2 - a^2}}$, the $\\sec^{-1}$ form",
+        "None of them: all three carry $\\frac{1}{a}$",
+      ],
+      explanation: "Only the $\\tan^{-1}$ and $\\sec^{-1}$ forms have $\\frac1a$ in front. Putting it in front of $\\sin^{-1}$ is the most common slip in this unit.",
+    },
+    {
+      id: 'inverse-trig-integrals-quiz-2',
+      question: "In $\\displaystyle\\int \\frac{dx}{\\sqrt{81 - x^2}}$, what is $a$?",
+      answer: "$9$",
+      distractors: ["$81$", "$3$", "$\\dfrac{1}{9}$"],
+      explanation: "The form is $\\sqrt{a^2 - u^2}$, so $a^2 = 81$ and $a = 9$. The answer is $\\sin^{-1}\\frac{x}{9} + C$.",
+    },
+    {
+      id: 'inverse-trig-integrals-quiz-3',
+      question: "A square root of (variable squared minus a constant), with the same variable as a factor outside the root, points to which form?",
+      answer: "$\\sec^{-1}$",
+      distractors: ["$\\sin^{-1}$", "$\\tan^{-1}$", "A natural logarithm"],
+      explanation: "$\\displaystyle\\int \\frac{du}{u\\sqrt{u^2 - a^2}} = \\frac1a\\sec^{-1}\\left|\\frac ua\\right| + C$. A root with the constant first is $\\sin^{-1}$; a sum of squares with no root is $\\tan^{-1}$.",
+    },
+    {
+      id: 'inverse-trig-integrals-quiz-4',
+      question: "What is the first step for $\\displaystyle\\int \\frac{dx}{x^2 + 4x + 13}$?",
+      answer: "Complete the square: $x^2 + 4x + 13 = (x + 2)^2 + 9$",
+      distractors: [
+        "Factor the denominator into two real linear factors",
+        "Substitute $u = x^2 + 4x + 13$",
+        "Integrate by parts",
+      ],
+      explanation: "The quadratic has no real roots ($16 - 52 < 0$) and the numerator is not its derivative. Completing the square reveals the $\\tan^{-1}$ form.",
+    },
+    {
+      id: 'inverse-trig-integrals-quiz-5',
+      question: "After writing the denominator as $(x + 2)^2 + 9$, what are $u$ and $a$?",
+      answer: "$u = x + 2$ and $a = 3$",
+      distractors: ["$u = x$ and $a = 9$", "$u = x + 2$ and $a = 9$", "$u = (x + 2)^2$ and $a = 3$"],
+      explanation: "$u$ is the expression being squared and $a^2$ is the constant. The integral is $\\frac13\\tan^{-1}\\frac{x+2}{3} + C$.",
+    },
+    {
+      id: 'inverse-trig-integrals-quiz-6',
+      question: "What is $\\displaystyle\\int \\frac{x\\,dx}{x^2 + 9}$?",
+      answer: "$\\dfrac{1}{2}\\ln(x^2 + 9) + C$",
+      distractors: ["$\\dfrac{1}{3}\\tan^{-1}\\dfrac{x}{3} + C$", "$\\tan^{-1}\\dfrac{x}{3} + C$", "$\\dfrac{1}{9}\\tan^{-1}\\dfrac{x}{9} + C$"],
+      explanation: "The numerator is half the derivative of the denominator, so this is a logarithm. The inverse tangent belongs to $\\int\\frac{dx}{x^2+9}$, with no $x$ on top. Look at the numerator first.",
+    },
+    {
+      id: 'inverse-trig-integrals-quiz-7',
+      question: "For $\\displaystyle\\int \\frac{px + q}{x^2 + bx + c}\\,dx$ with a non-factorable quadratic, how is the numerator handled?",
+      answer: "Write it as a multiple of $2x + b$ plus a constant, and integrate the two parts separately",
+      distractors: [
+        "Split the denominator into $\\dfrac{1}{x^2} + \\dfrac{1}{bx} + \\dfrac{1}{c}$",
+        "Divide the numerator into the denominator",
+        "Ignore $q$, since constants integrate to zero",
+      ],
+      explanation: "The part that matches $2x + b$ integrates to a logarithm; the leftover constant over the quadratic is a $\\tan^{-1}$ form after completing the square. Splitting a denominator is never valid.",
+    },
+    {
+      id: 'inverse-trig-integrals-quiz-8',
+      question: "In $\\displaystyle\\int \\frac{dx}{\\sqrt{4 - 9x^2}}$, with $u = 3x$, what constant factor appears in front?",
+      answer: "$\\dfrac{1}{3}$, from $du = 3\\,dx$",
+      distractors: ["$3$", "$\\dfrac{1}{9}$", "$\\dfrac{1}{2}$, from $a = 2$"],
+      explanation: "$dx = \\frac13 du$, giving $\\frac13\\sin^{-1}\\frac{3x}{2} + C$. The $\\sin^{-1}$ form itself has no $\\frac1a$, so $\\frac12$ does not appear.",
+    },
+    {
+      id: 'inverse-trig-integrals-quiz-9',
+      question: "Why are there no separate integral forms for $\\cos^{-1}$, $\\cot^{-1}$ and $\\csc^{-1}$?",
+      answer: "Their derivatives are the negatives of those of $\\sin^{-1}$, $\\tan^{-1}$ and $\\sec^{-1}$, so they give nothing new",
+      distractors: [
+        "Those functions are not differentiable",
+        "Their integrals cannot be written in closed form",
+        "They are not one-to-one",
+      ],
+      explanation: "Any answer written with $-\\cos^{-1}$ differs from the $\\sin^{-1}$ answer only by a constant, which is absorbed into $C$.",
+    },
+    {
+      id: 'inverse-trig-integrals-quiz-10',
+      question: "For the form $\\displaystyle\\int \\frac{du}{\\sqrt{a^2 - u^2}} = \\sin^{-1}\\frac{u}{a} + C$, what must be true of $u$?",
+      answer: "$|u| < a$",
+      distractors: ["$|u| > a$", "Nothing: $u$ can be any real number", "$u > 0$"],
+      explanation: "The radicand $a^2 - u^2$ must be positive. The $\\sec^{-1}$ form needs $|u| > a$, and the $\\tan^{-1}$ form has no restriction.",
+    },
+  ],
 };

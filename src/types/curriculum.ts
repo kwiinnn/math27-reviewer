@@ -90,6 +90,25 @@ export interface Problem {
   steps: Step[];
 }
 
+/**
+ * A conceptual multiple-choice question. The answer and distractors are
+ * shuffled together when the quiz is taken, so no choice may refer to another
+ * ("both of the above").
+ */
+export interface QuizQuestion {
+  id: string;
+  /** Prose with inline math. */
+  question: string;
+  /** Optional display math shown under the question. */
+  questionLatex?: string;
+  /** The correct choice (prose). */
+  answer: string;
+  /** Three plausible wrong choices, each built on a common mistake (prose). */
+  distractors: string[];
+  /** Shown after answering: why the answer is right and where the others go wrong. */
+  explanation: string;
+}
+
 export interface Topic {
   id: string;
   title: string;
@@ -101,6 +120,8 @@ export interface Topic {
   examNotes: ExamNote[];
   workedExamples: WorkedExample[];
   problems: Problem[];
+  /** Ten conceptual questions; the unit and course quizzes draw from these too. */
+  quiz: QuizQuestion[];
 }
 
 /** A chapter groups topics in the sidebar ("1" -> 1.1, 1.2, ...). */

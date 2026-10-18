@@ -826,4 +826,105 @@ export const surfaceArea: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'surface-area-quiz-1',
+      question: "What do you get by revolving a curve, rather than a region, about an axis?",
+      answer: "A hollow surface, with an area but no inside volume",
+      distractors: [
+        "A solid whose volume is given by disks",
+        "A solid whose volume is given by washers",
+        "A flat region in the plane",
+      ],
+      explanation: "Only the curve moves, so it sweeps a shell. Read the question for 'curve' or 'arc' (surface) versus 'region' (solid).",
+    },
+    {
+      id: 'surface-area-quiz-2',
+      question: "What is the area of the surface formed by revolving $y = f(x) \\ge 0$, $a \\le x \\le b$, about the $x$-axis?",
+      answer: "$\\displaystyle\\int_a^b 2\\pi f(x)\\sqrt{1 + [f'(x)]^2}\\,dx$",
+      distractors: [
+        "$\\displaystyle\\int_a^b \\pi[f(x)]^2\\,dx$",
+        "$\\displaystyle\\int_a^b 2\\pi f(x)\\,dx$",
+        "$\\displaystyle\\int_a^b 2\\pi f'(x)\\sqrt{1 + [f(x)]^2}\\,dx$",
+      ],
+      explanation: "Circumference $2\\pi f(x)$ times the band's slant width $ds$. $\\pi f^2$ is the disk-method volume integrand.",
+    },
+    {
+      id: 'surface-area-quiz-3',
+      question: "Why is $\\displaystyle\\int_a^b 2\\pi f(x)\\,dx$, with $dx$ instead of $ds$, wrong for surface area?",
+      answer: "It uses the horizontal width of each band instead of its slanted width, so it is too small unless the curve is flat",
+      distractors: [
+        "It is too large, because $dx > ds$",
+        "It is correct whenever $f$ is positive",
+        "It gives the volume instead",
+      ],
+      explanation: "Each band's width along the curve is $ds = \\sqrt{1 + [f']^2}\\,dx \\ge dx$, with equality only where $f' = 0$.",
+    },
+    {
+      id: 'surface-area-quiz-4',
+      question: "A curve $y = f(x)$ is revolved about the $y$-axis and you integrate in $x$. What is the radius?",
+      answer: "$x$",
+      distractors: ["$f(x)$", "$f'(x)$", "$\\sqrt{1 + [f'(x)]^2}$"],
+      explanation: "The radius is the distance from the axis to the curve, and the distance from the $y$-axis is $x$. So $S = \\int 2\\pi x\\sqrt{1 + [f'(x)]^2}\\,dx$.",
+    },
+    {
+      id: 'surface-area-quiz-5',
+      question: "A sphere of radius $r$ is cut by two parallel planes a distance $h$ apart. What is the area of the band between them?",
+      answer: "$2\\pi r h$, whatever the position of the band",
+      distractors: [
+        "It depends on how close the band is to a pole",
+        "$\\pi r^2 h$",
+        "$4\\pi r^2 h$",
+      ],
+      explanation: "For $f(x) = \\sqrt{r^2 - x^2}$, $f\\sqrt{1 + [f']^2} = r$ exactly, so the integral is $2\\pi r(b - a)$. Bands of equal width have equal area.",
+    },
+    {
+      id: 'surface-area-quiz-6',
+      question: "What is the surface area of a sphere of radius $r$?",
+      answer: "$4\\pi r^2$",
+      distractors: ["$\\dfrac{4}{3}\\pi r^3$", "$2\\pi r^2$", "$\\pi r^2$"],
+      explanation: "$\\frac43\\pi r^3$ is the volume. Revolving a semicircle gives $2\\pi r \\cdot 2r = 4\\pi r^2$, a band of width $2r$.",
+    },
+    {
+      id: 'surface-area-quiz-7',
+      question: "What is the lateral area of a cone with base radius $r$ and slant height $\\ell$?",
+      answer: "$\\pi r \\ell$",
+      distractors: ["$\\pi r h$, using the vertical height", "$2\\pi r \\ell$", "$\\pi r^2 + \\pi r\\ell$"],
+      explanation: "It uses the slant height, not the vertical height, and the lateral area excludes the base $\\pi r^2$.",
+    },
+    {
+      id: 'surface-area-quiz-8',
+      question: "What shape is each thin band in the derivation of the surface area formula?",
+      answer: "A frustum of a cone, with lateral area about $2\\pi r\\,\\Delta s$",
+      distractors: [
+        "A disk, with area $\\pi r^2$",
+        "A washer, with area $\\pi(R^2 - r^2)$",
+        "A rectangle, with area $f(x)\\,\\Delta x$",
+      ],
+      explanation: "Revolving a short chord gives a slice of a cone. Its lateral area is $\\pi(r_1 + r_2)\\Delta s = 2\\pi\\bar{r}\\,\\Delta s$ with $\\bar{r}$ the average radius.",
+    },
+    {
+      id: 'surface-area-quiz-9',
+      question: "In $S = \\displaystyle\\int 2\\pi r\\,ds$, what must be true of $r$, $ds$ and the limits?",
+      answer: "All three must be written in the same variable",
+      distractors: [
+        "$r$ must be in $x$ and $ds$ in $y$",
+        "The limits are always $x$-values",
+        "Nothing: they can be mixed",
+      ],
+      explanation: "Choose the variable that gives the easier integral, then write the radius, the arc length element and the limits all in that variable.",
+    },
+    {
+      id: 'surface-area-quiz-10',
+      question: "A segment is revolved to form a cone. Does the surface area integral include the cone's circular base?",
+      answer: "No: it gives only the surface swept by the curve, the lateral area",
+      distractors: [
+        "Yes, the base is always included",
+        "Yes, if the axis is the $x$-axis",
+        "Only if the segment passes through the origin",
+      ],
+      explanation: "The integral measures what the curve sweeps out. Add end caps or a base separately, and only if the problem asks for them.",
+    },
+  ],
 };

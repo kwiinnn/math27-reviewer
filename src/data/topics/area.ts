@@ -866,4 +866,109 @@ export const area: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'area-quiz-1',
+      question: "$\\displaystyle\\int_0^{2\\pi}\\sin x\\,dx = 0$. What is the area of the region between $y = \\sin x$ and the $x$-axis on $[0, 2\\pi]$?",
+      answer: "$4$",
+      distractors: ["$0$", "$2$", "$2\\pi$"],
+      explanation: "The half below the axis counts as negative and cancels the half above. Split at the zero $x = \\pi$: each piece has area $2$, so the total is $4$.",
+    },
+    {
+      id: 'area-quiz-2',
+      question: "$\\displaystyle\\int_a^b f(x)\\,dx$ comes out negative. What does that tell you?",
+      answer: "More of the region lies below the $x$-axis than above it: the integral is a net, signed area",
+      distractors: [
+        "The area of the region is negative",
+        "There is an arithmetic error, since integrals of real functions are never negative",
+        "$f$ is decreasing on $[a, b]$",
+      ],
+      explanation: "Area is never negative, but a definite integral counts parts below the axis as negative. To get the area, split at the zeros and add the absolute values of the pieces.",
+    },
+    {
+      id: 'area-quiz-3',
+      question: "With vertical strips, what is the integrand for the area between two curves?",
+      answer: "Top curve minus bottom curve",
+      distractors: [
+        "Bottom curve minus top curve",
+        "The sum of the two curves",
+        "The difference of their squares",
+      ],
+      explanation: "A typical vertical strip has height top minus bottom and width $dx$. Bottom minus top gives the negative of the area.",
+    },
+    {
+      id: 'area-quiz-4',
+      question: "Two curves $f \\ge g$ both lie below the $x$-axis on $[a, b]$. How is the area between them computed?",
+      answer: "Still $\\displaystyle\\int_a^b (f - g)\\,dx$: only the order of the curves matters",
+      distractors: [
+        "$\\displaystyle-\\int_a^b (f - g)\\,dx$, because the region is below the axis",
+        "$\\displaystyle\\int_a^b (|f| - |g|)\\,dx$",
+        "$\\displaystyle\\int_a^b (f + g)\\,dx$",
+      ],
+      explanation: "Shifting both curves up by the same amount does not change the strip height $f - g$. The sign rules for regions below the axis are about a single curve and the axis.",
+    },
+    {
+      id: 'area-quiz-5',
+      question: "No lines $x = a$ and $x = b$ are given. Where do the limits of integration come from?",
+      answer: "The $x$-coordinates of the points where the curves meet",
+      distractors: [
+        "The $x$-intercepts of each curve",
+        "The $y$-coordinates of the intersection points",
+        "Always $0$ and $1$",
+      ],
+      explanation: "Set the two functions equal and solve. Between two curves, $x$-intercepts are irrelevant; only crossings matter.",
+    },
+    {
+      id: 'area-quiz-6',
+      question: "Two curves cross at $x = c$ inside $[a, b]$. How do you find the total area between them?",
+      answer: "Split at $c$ and integrate top minus bottom on each piece",
+      distractors: [
+        "Integrate $f - g$ straight across $[a, b]$",
+        "Integrate straight across, then take the absolute value of the result",
+        "Use only the larger of the two pieces",
+      ],
+      explanation: "The top curve changes at the crossing, so straight across the pieces partly cancel. Equivalently, integrate $|f - g|$.",
+    },
+    {
+      id: 'area-quiz-7',
+      question: "Solving $x^3 = x$ for intersection points, a student divides by $x$ and gets $x = \\pm 1$. What did they lose?",
+      answer: "The root $x = 0$",
+      distractors: ["Nothing: $\\pm 1$ are the only roots", "The root $x = 2$", "The root $x = -2$"],
+      explanation: "Dividing by $x$ assumes $x \\ne 0$. Factor instead: $x(x - 1)(x + 1) = 0$. Losing $x = 0$ here merges two separate pieces of the region.",
+    },
+    {
+      id: 'area-quiz-8',
+      question: "With horizontal strips, how is the area written?",
+      answer: "$\\displaystyle\\int_c^d [\\text{right} - \\text{left}]\\,dy$, with $y$-limits",
+      distractors: [
+        "$\\displaystyle\\int_c^d [\\text{top} - \\text{bottom}]\\,dy$",
+        "$\\displaystyle\\int_a^b [\\text{right} - \\text{left}]\\,dy$ with $x$-limits",
+        "$\\displaystyle\\int_c^d [\\text{right} - \\text{left}]\\,dx$",
+      ],
+      explanation: "A horizontal strip runs from the left boundary to the right one, each solved for $x$ in terms of $y$, and the limits are $y$-values.",
+    },
+    {
+      id: 'area-quiz-9',
+      question: "When are horizontal strips ($dy$) the better choice?",
+      answer: "When a vertical strip's top or bottom switches to a different curve partway across, but a horizontal strip's ends do not",
+      distractors: [
+        "Whenever the region lies above the $x$-axis",
+        "Whenever the curves are polynomials",
+        "Never: $dx$ always works with one integral",
+      ],
+      explanation: "If vertical strips would need two integrals and horizontal strips one, switch. Boundaries given as $x = g(y)$ also point to $dy$.",
+    },
+    {
+      id: 'area-quiz-10',
+      question: "Why does $\\displaystyle\\int_a^b f(x)\\,dx$ give the area under a curve with $f \\ge 0$?",
+      answer: "It is the limit of sums of rectangle areas $f(w_i)\\,\\Delta_i x$ as the strips get thinner",
+      distractors: [
+        "It adds up the lengths of chords along the curve",
+        "It is the average height of $f$",
+        "It counts the points under the curve",
+      ],
+      explanation: "Each rectangle approximates a strip of the region, and the approximation becomes exact in the limit. Chord lengths are the arc-length idea from Unit 3.5.",
+    },
+  ],
 };

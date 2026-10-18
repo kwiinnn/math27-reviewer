@@ -889,4 +889,97 @@ export const diskMethod: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'disk-method-quiz-1',
+      question: "In $V = \\displaystyle\\int_a^b A(x)\\,dx$, what is $A(x)$?",
+      answer: "The area of the cross-section of the solid at $x$, perpendicular to the axis",
+      distractors: [
+        "The area under the curve from $a$ to $x$",
+        "The length of the cross-section at $x$",
+        "The surface area of the solid up to $x$",
+      ],
+      explanation: "Each slice is a thin slab of volume about $A(x)\\,\\Delta x$, base area times thickness, and the integral adds the slabs.",
+    },
+    {
+      id: 'disk-method-quiz-2',
+      question: "What is the area of a disk-shaped cross-section of radius $R$?",
+      answer: "$\\pi R^2$",
+      distractors: ["$2\\pi R$", "$\\pi R$", "$2\\pi R^2$"],
+      explanation: "$2\\pi R$ is the circumference, which belongs to surface area, not volume.",
+    },
+    {
+      id: 'disk-method-quiz-3',
+      question: "When does the disk method apply rather than the washer method?",
+      answer: "When the region touches the axis of rotation across the whole interval",
+      distractors: [
+        "When the axis of rotation is the $x$-axis",
+        "When the region lies above the $x$-axis",
+        "When the curve is a polynomial",
+      ],
+      explanation: "If there is a gap between the region and the axis, every slice has a hole and is a washer. The position of the axis, not its name, decides.",
+    },
+    {
+      id: 'disk-method-quiz-4',
+      question: "A region is rotated about the $y$-axis. How do you slice it?",
+      answer: "Horizontally, with thickness $dy$, the curve solved for $x$, and $y$-limits",
+      distractors: [
+        "Vertically, with thickness $dx$, and the radius $f(x)$",
+        "Horizontally, with thickness $dx$",
+        "Vertically, with thickness $dy$",
+      ],
+      explanation: "Slices are always perpendicular to the axis of rotation. A vertical axis means horizontal disks of radius $g(y)$.",
+    },
+    {
+      id: 'disk-method-quiz-5',
+      question: "A region between $y = f(x)$ and the line $y = k$ is rotated about $y = k$. What is the radius?",
+      answer: "$|f(x) - k|$",
+      distractors: ["$f(x)$", "$f(x) + k$", "$k$"],
+      explanation: "The radius is the distance from the axis to the curve, not the height of the curve above the $x$-axis.",
+    },
+    {
+      id: 'disk-method-quiz-6',
+      question: "A right triangle with legs $r$ and $h$ is rotated about the leg of length $h$. What solid and volume result?",
+      answer: "A cone, $\\frac{1}{3}\\pi r^2 h$",
+      distractors: ["A cylinder, $\\pi r^2 h$", "A sphere, $\\frac43\\pi r^3$", "A cone, $\\pi r^2 h$"],
+      explanation: "The disk method reproduces the cone formula: with $R(x) = \\frac{r}{h}x$, $\\int_0^h \\pi\\frac{r^2}{h^2}x^2\\,dx = \\frac13\\pi r^2 h$.",
+    },
+    {
+      id: 'disk-method-quiz-7',
+      question: "Which region, rotated about a line, gives a sphere of radius $r$?",
+      answer: "A half-disk of radius $r$, rotated about its diameter",
+      distractors: [
+        "A whole disk of radius $r$, rotated about a diameter, which doubles the volume",
+        "A quarter-disk rotated about one straight edge, which gives half a sphere",
+        "A square of side $r$ rotated about one side",
+      ],
+      explanation: "A half-disk sweeps out the sphere once. Rotating the whole disk sweeps the same sphere twice; the volume does not double. A quarter-disk gives a hemisphere, and a square gives a cylinder.",
+    },
+    {
+      id: 'disk-method-quiz-8',
+      question: "Which quick check can catch a wrong volume?",
+      answer: "It cannot exceed the cylinder whose radius is the largest radius and whose length is $b - a$",
+      distractors: [
+        "It must be smaller than the area of the region",
+        "It must be a whole number times $\\pi$",
+        "It must equal $\\pi$ times the area of the region",
+      ],
+      explanation: "Every slice fits inside the largest disk, so the solid fits inside that cylinder. A negative volume, or one larger than this bound, is wrong.",
+    },
+    {
+      id: 'disk-method-quiz-9',
+      question: "The radius is $R(x) = \\sqrt{x} - 1$. What is $[R(x)]^2$?",
+      answer: "$x - 2\\sqrt{x} + 1$",
+      distractors: ["$x - 1$", "$x + 1$", "$x - \\sqrt{x} + 1$"],
+      explanation: "A binomial squares to three terms: $(a - b)^2 = a^2 - 2ab + b^2$. Squaring term by term is a common slip in disk problems.",
+    },
+    {
+      id: 'disk-method-quiz-10',
+      question: "A solid has square cross-sections perpendicular to the $x$-axis, with side $s(x)$. What is $A(x)$?",
+      answer: "$[s(x)]^2$",
+      distractors: ["$s(x)$", "$4s(x)$", "$\\pi[s(x)]^2$"],
+      explanation: "Volume by slicing integrates the area of the cross-section, not its side or its perimeter. Only circular slices bring in $\\pi$.",
+    },
+  ],
 };

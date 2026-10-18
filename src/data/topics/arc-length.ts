@@ -645,4 +645,113 @@ export const arcLength: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'arc-length-quiz-1',
+      question: "What is the length of $y = f(x)$ from $x = a$ to $x = b$?",
+      answer: "$\\displaystyle\\int_a^b \\sqrt{1 + [f'(x)]^2}\\,dx$",
+      distractors: [
+        "$\\displaystyle\\int_a^b \\sqrt{1 + [f(x)]^2}\\,dx$",
+        "$\\displaystyle\\int_a^b \\left(1 + f'(x)\\right)dx$",
+        "$\\displaystyle\\int_a^b f(x)\\,dx$",
+      ],
+      explanation: "The derivative is squared, not the function. The root does not split over the sum, and $\\int f\\,dx$ is an area.",
+    },
+    {
+      id: 'arc-length-quiz-2',
+      question: "What role does the mean-value theorem play in deriving the arc length formula?",
+      answer: "On each short piece, it turns the chord's slope $\\frac{\\Delta y}{\\Delta x}$ into $f'(c_i)$ for some $c_i$ in the piece",
+      distractors: [
+        "It gives the average height of the curve",
+        "It shows the arc is a straight line",
+        "It makes the integral easy to evaluate",
+      ],
+      explanation: "Each chord has length $\\sqrt{1 + (\\Delta y/\\Delta x)^2}\\,\\Delta x = \\sqrt{1 + [f'(c_i)]^2}\\,\\Delta x$, which is a Riemann sum for the integral.",
+    },
+    {
+      id: 'arc-length-quiz-3',
+      question: "How do the inscribed polygons compare with the curve?",
+      answer: "Each is shorter than the curve, and their lengths increase toward the arc length",
+      distractors: [
+        "Each is longer than the curve",
+        "They have exactly the same length as the curve",
+        "They have no relation to the arc length",
+      ],
+      explanation: "A straight segment is the shortest path between its ends, so every polygon underestimates, and refining it can only lengthen it.",
+    },
+    {
+      id: 'arc-length-quiz-4',
+      question: "Is $\\sqrt{1 + [f'(x)]^2} = 1 + f'(x)$?",
+      answer: "No: a square root does not split over a sum",
+      distractors: [
+        "Yes, always",
+        "Yes, whenever $f' > 0$",
+        "Yes, whenever $f$ is a polynomial",
+      ],
+      explanation: "$(1 + f')^2 = 1 + 2f' + (f')^2$, which has an extra middle term. Check with $f' = 1$: $\\sqrt2 \\ne 2$.",
+    },
+    {
+      id: 'arc-length-quiz-5',
+      question: "Which check must any arc length satisfy?",
+      answer: "It is at least the straight-line distance between the endpoints",
+      distractors: [
+        "It is at most the straight-line distance between the endpoints",
+        "It equals $b - a$",
+        "It is less than the area under the curve",
+      ],
+      explanation: "The straight segment is the shortest path. Equality holds only when the curve is that segment.",
+    },
+    {
+      id: 'arc-length-quiz-6',
+      question: "When should you switch to $\\displaystyle\\int_c^d \\sqrt{1 + [g'(y)]^2}\\,dy$?",
+      answer: "When the curve is given as $x = g(y)$, or $\\frac{dy}{dx}$ is undefined somewhere on the arc",
+      distractors: [
+        "Whenever the curve lies above the $x$-axis",
+        "Whenever $f$ is increasing",
+        "Never: the $x$-formula always works",
+      ],
+      explanation: "At a vertical tangent $f'$ is infinite and not continuous, so the $x$-formula fails there. Remember the limits become $y$-values.",
+    },
+    {
+      id: 'arc-length-quiz-7',
+      question: "Why do exam arc length problems usually have neat answers?",
+      answer: "The curves are chosen so that $1 + [f']^2$ is a perfect square",
+      distractors: [
+        "Because every arc length integral has an elementary antiderivative",
+        "Because arc length is always a whole number",
+        "Because $\\sqrt{1 + [f']^2}$ always simplifies to $1 + f'$",
+      ],
+      explanation: "In general $\\int\\sqrt{1 + [f']^2}\\,dx$ has no elementary antiderivative. If an exact length is asked for, look for the square.",
+    },
+    {
+      id: 'arc-length-quiz-8',
+      question: "If $f'(x) = \\frac{1}{2}\\left(u - \\frac{1}{u}\\right)$, what is $1 + [f'(x)]^2$?",
+      answer: "$\\left[\\dfrac{1}{2}\\left(u + \\dfrac{1}{u}\\right)\\right]^2$",
+      distractors: [
+        "$\\left[\\dfrac{1}{2}\\left(u - \\dfrac{1}{u}\\right)\\right]^2$",
+        "$1 + \\dfrac{1}{4}u^2$",
+        "$\\dfrac{1}{4}\\left(u^2 + \\dfrac{1}{u^2}\\right)$",
+      ],
+      explanation: "$1 + \\frac14\\left(u^2 - 2 + \\frac{1}{u^2}\\right) = \\frac14\\left(u^2 + 2 + \\frac{1}{u^2}\\right)$. Adding $1$ turns the minus inside the square into a plus.",
+    },
+    {
+      id: 'arc-length-quiz-9',
+      question: "For the catenary $y = \\cosh x$, what does the arc length integrand simplify to?",
+      answer: "$\\cosh x$",
+      distractors: ["$\\sinh x$", "$\\sqrt{1 + \\cosh^2 x}$", "$1 + \\sinh x$"],
+      explanation: "$f' = \\sinh x$ and $1 + \\sinh^2 x = \\cosh^2 x$. The root is $\\cosh x$, positive, so no absolute value is needed.",
+    },
+    {
+      id: 'arc-length-quiz-10',
+      question: "How does the mean-value theorem used here differ from the one in Unit 3.3?",
+      answer: "This one is about a slope, $f'(c) = \\frac{f(b) - f(a)}{b - a}$; Unit 3.3's is about an average value, $f(c)$",
+      distractors: [
+        "They are the same theorem",
+        "This one needs $f$ only continuous, not differentiable",
+        "This one gives $c$ outside $(a, b)$",
+      ],
+      explanation: "The derivative version needs $f$ differentiable on $(a, b)$ and finds a tangent parallel to the chord. The integral version gives a rectangle with the same area.",
+    },
+  ],
 };

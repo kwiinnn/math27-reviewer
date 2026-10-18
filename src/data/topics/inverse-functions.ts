@@ -730,4 +730,93 @@ export const inverseFunctions: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'inverse-functions-quiz-1',
+      question: "Which test tells you, from a graph, whether a function has an inverse?",
+      answer: "The horizontal line test: every horizontal line meets the graph at most once",
+      distractors: [
+        "The vertical line test: every vertical line meets the graph at most once",
+        "The graph passes through the origin",
+        "The graph is continuous with no breaks",
+      ],
+      explanation: "Only one-to-one functions have inverses, and a function is one-to-one exactly when no horizontal line meets its graph twice. The vertical line test only decides whether the graph is a function at all.",
+    },
+    {
+      id: 'inverse-functions-quiz-2',
+      question: "Which of these functions is not one-to-one on its whole domain?",
+      answer: "$f(x) = |x|$",
+      distractors: ["$f(x) = x^3$", "$f(x) = 2x + 1$", "$f(x) = \\sqrt{x}$"],
+      explanation: "$|{-2}| = |2| = 2$: two different inputs give the same output, and one such pair is enough to disprove one-to-one. The other three are increasing on their domains.",
+    },
+    {
+      id: 'inverse-functions-quiz-3',
+      question: "$g(x) = x^3$ has $g'(0) = 0$. What does that say about whether $g$ is one-to-one?",
+      answer: "Nothing against it: an isolated zero of $g'$ does not stop $g$ from increasing, so $g$ is still one-to-one",
+      distractors: [
+        "$g$ is not one-to-one, because its derivative vanishes",
+        "$g$ is one-to-one everywhere except at $x = 0$",
+        "$g$ is decreasing near $x = 0$",
+      ],
+      explanation: "The monotonic test needs the sign of $g'$ to be constant on the interval; isolated zeros are allowed. $g'(x) = 3x^2 > 0$ except at $0$, and $x^3$ is increasing on all of $\\mathbb{R}$.",
+    },
+    {
+      id: 'inverse-functions-quiz-4',
+      question: "For $f(x) = \\dfrac{2x+3}{x-1}$, $f'(x) < 0$ on $(-\\infty, 1)$ and on $(1, \\infty)$. What does the theorem 'monotonic implies one-to-one' let you conclude directly?",
+      answer: "$f$ is one-to-one on each of the two intervals separately",
+      distractors: [
+        "$f$ is one-to-one on the union of the two intervals, because $f' < 0$ wherever it exists",
+        "Nothing, because $f'$ is never zero",
+        "$f$ is one-to-one only on $(1, \\infty)$",
+      ],
+      explanation: "The theorem speaks about a single interval. A function decreasing on two separate intervals can still repeat a value across the gap, so the union needs a separate argument.",
+    },
+    {
+      id: 'inverse-functions-quiz-5',
+      question: "What does $f^{-1}(x)$ mean?",
+      answer: "The function that undoes $f$: $f^{-1}(y) = x$ exactly when $f(x) = y$",
+      distractors: ["$\\dfrac{1}{f(x)}$", "$-f(x)$", "$f(x)$ raised to the power $-1$"],
+      explanation: "The $-1$ is notation for the inverse function, not an exponent. $\\frac{1}{f(x)}$ is the reciprocal, a different function altogether.",
+    },
+    {
+      id: 'inverse-functions-quiz-6',
+      question: "A one-to-one function $f$ has domain $[0, \\infty)$ and range $[2, \\infty)$. What is the domain of $f^{-1}$?",
+      answer: "$[2, \\infty)$",
+      distractors: ["$[0, \\infty)$", "$(-\\infty, 2]$", "All real numbers"],
+      explanation: "Domain and range swap: the inputs of $f^{-1}$ are the outputs of $f$. Giving an inverse formula without this domain is a common lost mark.",
+    },
+    {
+      id: 'inverse-functions-quiz-7',
+      question: "How is the graph of $f^{-1}$ related to the graph of $f$?",
+      answer: "It is the reflection of the graph of $f$ in the line $y = x$",
+      distractors: [
+        "It is the reflection in the $y$-axis",
+        "It is the reflection in the $x$-axis",
+        "It is the graph of $f$ rotated by $90^\\circ$",
+      ],
+      explanation: "Every point $(a, b)$ on $f$ becomes $(b, a)$ on $f^{-1}$, and swapping coordinates is reflection in $y = x$.",
+    },
+    {
+      id: 'inverse-functions-quiz-8',
+      question: "$f(2) = 5$ and $f'(2) = 4$. What is $(f^{-1})'(5)$?",
+      answer: "$\\dfrac{1}{4}$",
+      distractors: ["$\\dfrac{1}{f'(5)}$", "$4$", "$\\dfrac{1}{5}$"],
+      explanation: "$(f^{-1})'(b) = \\dfrac{1}{f'(a)}$ where $f(a) = b$. Here $a = 2$, so the answer is $\\frac{1}{f'(2)}$. Evaluating $f'$ at $b = 5$ is the most common error, and $\\frac15$ takes the reciprocal of $f$ instead of $f'$.",
+    },
+    {
+      id: 'inverse-functions-quiz-9',
+      question: "The tangent to $f$ at $(a, b)$ has slope $m \\ne 0$. What is the slope of the tangent to $f^{-1}$ at $(b, a)$?",
+      answer: "$\\dfrac{1}{m}$",
+      distractors: ["$m$", "$-m$", "$-\\dfrac{1}{m}$"],
+      explanation: "Reflecting in $y = x$ swaps rise and run, so the slope is inverted. $-\\frac1m$ is the slope of a perpendicular line, which is a different idea.",
+    },
+    {
+      id: 'inverse-functions-quiz-10',
+      question: "You are asked for $(f^{-1})'(10)$ where $f(x) = x^3 + x$, without finding a formula for $f^{-1}$. What do you find first?",
+      answer: "The number $a$ with $f(a) = 10$, by inspection",
+      distractors: ["A formula for $f^{-1}(x)$", "The value $f'(10)$", "The value $f(10)$"],
+      explanation: "$a = 2$ works, since $8 + 2 = 10$. Then $(f^{-1})'(10) = \\frac{1}{f'(2)} = \\frac{1}{13}$. Solving the cubic for $f^{-1}$ is never needed.",
+    },
+  ],
 };

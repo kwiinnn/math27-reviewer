@@ -632,4 +632,105 @@ export const trigSubstitution: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'trig-substitution-quiz-1',
+      question: "Which substitution removes the root in $\\sqrt{a^2 - x^2}$?",
+      answer: "$x = a\\sin\\theta$",
+      distractors: ["$x = a\\tan\\theta$", "$x = a\\sec\\theta$", "$x = a^2\\sin\\theta$"],
+      explanation: "$a^2 - a^2\\sin^2\\theta = a^2\\cos^2\\theta$. Constant minus variable means sine; a sum means tangent; variable minus constant means secant.",
+    },
+    {
+      id: 'trig-substitution-quiz-2',
+      question: "Which substitution fits $\\sqrt{x^2 + 5}$?",
+      answer: "$x = \\sqrt{5}\\tan\\theta$",
+      distractors: ["$x = 5\\tan\\theta$", "$x = \\sqrt{5}\\sec\\theta$", "$x = \\sqrt{5}\\sin\\theta$"],
+      explanation: "A sum of squares calls for tangent, and $a^2 = 5$ means $a = \\sqrt5$, not $5$.",
+    },
+    {
+      id: 'trig-substitution-quiz-3',
+      question: "With $x = a\\sec\\theta$ and $0 \\le \\theta < \\frac{\\pi}{2}$, what does $\\sqrt{x^2 - a^2}$ become?",
+      answer: "$a\\tan\\theta$",
+      distractors: ["$a\\sec\\theta$", "$a\\cos\\theta$", "$a\\sin\\theta$"],
+      explanation: "$a^2\\sec^2\\theta - a^2 = a^2\\tan^2\\theta$, and $\\tan\\theta \\ge 0$ on that interval, so the root is $a\\tan\\theta$.",
+    },
+    {
+      id: 'trig-substitution-quiz-4',
+      question: "Why does $\\displaystyle\\int x\\sqrt{9 - x^2}\\,dx$ not need a trigonometric substitution?",
+      answer: "The factor $x$ is a constant multiple of the derivative of $9 - x^2$, so $u = 9 - x^2$ works",
+      distractors: [
+        "Because the root is $\\sqrt{9 - x^2}$, which only sine can handle",
+        "Because $x\\sqrt{9 - x^2}$ has no antiderivative",
+        "It does need $x = 3\\sin\\theta$",
+      ],
+      explanation: "$du = -2x\\,dx$, so the integral is $-\\frac13(9 - x^2)^{3/2} + C$. Always check for an ordinary substitution first.",
+    },
+    {
+      id: 'trig-substitution-quiz-5',
+      question: "For $x = a\\sin\\theta$, how is the reference triangle labelled?",
+      answer: "Opposite $x$, hypotenuse $a$, adjacent $\\sqrt{a^2 - x^2}$",
+      distractors: [
+        "Opposite $a$, hypotenuse $x$, adjacent $\\sqrt{x^2 - a^2}$",
+        "Opposite $x$, adjacent $a$, hypotenuse $\\sqrt{a^2 + x^2}$",
+        "Adjacent $x$, hypotenuse $a$, opposite $\\sqrt{a^2 - x^2}$",
+      ],
+      explanation: "$\\sin\\theta = \\frac{x}{a}$ is opposite over hypotenuse, and the third side is the root from the original integral, a built-in check.",
+    },
+    {
+      id: 'trig-substitution-quiz-6',
+      question: "Your $\\theta$-answer contains $\\sin 2\\theta$. How do you return to $x$?",
+      answer: "Write $\\sin 2\\theta = 2\\sin\\theta\\cos\\theta$, then read each factor off the triangle",
+      distractors: [
+        "Replace $\\sin 2\\theta$ by $\\dfrac{2x}{a}$",
+        "Replace $\\sin 2\\theta$ by $2x$",
+        "Leave it in terms of $\\theta$",
+      ],
+      explanation: "The triangle gives functions of $\\theta$, not of $2\\theta$. With $x = a\\sin\\theta$, $\\sin 2\\theta = \\frac{2x\\sqrt{a^2 - x^2}}{a^2}$.",
+    },
+    {
+      id: 'trig-substitution-quiz-7',
+      question: "How should you treat $\\displaystyle\\int \\frac{dx}{(6 - x^2)^{3/2}}$?",
+      answer: "As the sine case with $a = \\sqrt{6}$: the power $\\frac32$ just cubes the root",
+      distractors: [
+        "As a new case that needs its own substitution",
+        "As the tangent case with $a = 6$",
+        "As the secant case with $a = \\sqrt{6}$",
+      ],
+      explanation: "$(6 - x^2)^{3/2} = \\left(\\sqrt{6 - x^2}\\right)^3 = 6\\sqrt6\\cos^3\\theta$. Remember to raise the constant to the power too.",
+    },
+    {
+      id: 'trig-substitution-quiz-8',
+      question: "How do you handle $\\sqrt{x^2 - 6x + 18}$?",
+      answer: "Complete the square to $(x - 3)^2 + 9$, let $u = x - 3$, and use the tangent case with $a = 3$",
+      distractors: [
+        "Use the secant case with $a = \\sqrt{18}$",
+        "Use the sine case with $a = \\sqrt{18}$",
+        "Factor it into two real linear factors",
+      ],
+      explanation: "A quadratic with a linear term is first rewritten as a square plus a constant. A positive constant added to a square is a sum of squares: tangent.",
+    },
+    {
+      id: 'trig-substitution-quiz-9',
+      question: "For a definite integral done by trigonometric substitution, what should you do with the limits?",
+      answer: "Either change them to $\\theta$ and stay in $\\theta$, or return to $x$ and use the original limits, but not both",
+      distractors: [
+        "Change them to $\\theta$ and also convert the antiderivative back to $x$",
+        "Keep the $x$-limits and evaluate the $\\theta$-antiderivative at them",
+        "Limits do not change under a substitution",
+      ],
+      explanation: "The limits must match the variable of the antiderivative. Changing the limits to $\\theta$ is usually faster because the triangle is then not needed.",
+    },
+    {
+      id: 'trig-substitution-quiz-10',
+      question: "With $x = a\\sin\\theta$, why may you write $\\sqrt{a^2\\cos^2\\theta} = a\\cos\\theta$ with no absolute value?",
+      answer: "Because $\\theta$ is restricted to $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$, where $\\cos\\theta \\ge 0$",
+      distractors: [
+        "Because a square root always cancels a square",
+        "Because cosine is always positive",
+        "Because $a > 0$, which is enough on its own",
+      ],
+      explanation: "$\\sqrt{u^2} = |u|$ in general. The restriction on $\\theta$ that makes the substitution one-to-one also makes $\\cos\\theta$ non-negative.",
+    },
+  ],
 };

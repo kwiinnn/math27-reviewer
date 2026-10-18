@@ -835,4 +835,101 @@ export const centroid: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'centroid-quiz-1',
+      question: "Which moment gives $\\bar{x}$?",
+      answer: "$M_y$, the moment about the $y$-axis, built from $x$-coordinates",
+      distractors: [
+        "$M_x$, the moment about the $x$-axis",
+        "The sum $M_x + M_y$",
+        "Either one: they are equal",
+      ],
+      explanation: "A moment uses the distance from its axis, and the distance from the $y$-axis is $x$. So $\\bar{x} = \\frac{M_y}{M}$ and $\\bar{y} = \\frac{M_x}{M}$.",
+    },
+    {
+      id: 'centroid-quiz-2',
+      question: "Why is the center of mass of a homogeneous lamina the same as the centroid of its shape?",
+      answer: "The constant density $\\rho$ appears in the mass and in both moments, so it cancels",
+      distractors: [
+        "Because a homogeneous lamina has no mass",
+        "Because the centroid is always at the origin",
+        "They are not the same; the density shifts the center of mass",
+      ],
+      explanation: "Mass $\\rho A$ and moments $\\rho M_x$, $\\rho M_y$ give $\\bar{x} = \\frac{\\rho M_y}{\\rho A} = \\frac{M_y}{A}$. Only the shape matters.",
+    },
+    {
+      id: 'centroid-quiz-3',
+      question: "For a region under $y = f(x)$, why does $M_x = \\dfrac{1}{2}\\displaystyle\\int_a^b [f(x)]^2\\,dx$ have a $\\frac{1}{2}$?",
+      answer: "Each vertical strip's own center is halfway up, at height $\\frac{f(x)}{2}$",
+      distractors: [
+        "It averages the moments about the two axes",
+        "It comes from integrating $x$",
+        "It corrects for counting each strip twice",
+      ],
+      explanation: "The strip has area $f(x)\\,dx$ and its center at height $\\frac{f(x)}{2}$, so its moment about the $x$-axis is $\\frac{f(x)}{2}\\cdot f(x)\\,dx$.",
+    },
+    {
+      id: 'centroid-quiz-4',
+      question: "A region is symmetric about the $y$-axis. What can you say without integrating?",
+      answer: "$\\bar{x} = 0$",
+      distractors: ["$\\bar{y} = 0$", "$\\bar{x} = \\bar{y}$", "The centroid is the origin"],
+      explanation: "The centroid lies on every axis of symmetry. That fixes $\\bar{x}$; $\\bar{y}$ still has to be computed.",
+    },
+    {
+      id: 'centroid-quiz-5',
+      question: "For a region between $y = f(x)$ above and $y = g(x)$ below, what is $M_x$?",
+      answer: "$\\dfrac{1}{2}\\displaystyle\\int_a^b \\left(f^2 - g^2\\right)dx$",
+      distractors: [
+        "$\\dfrac{1}{2}\\displaystyle\\int_a^b (f - g)^2\\,dx$",
+        "$\\displaystyle\\int_a^b x(f - g)\\,dx$",
+        "$\\dfrac{1}{2}\\displaystyle\\int_a^b (f - g)\\,dx$",
+      ],
+      explanation: "A strip of length $f - g$ has its center at height $\\frac{f + g}{2}$, and $\\frac{f + g}{2}(f - g) = \\frac12(f^2 - g^2)$. Square each function, then subtract, as with washers. $\\int x(f - g)\\,dx$ is $M_y$.",
+    },
+    {
+      id: 'centroid-quiz-6',
+      question: "For the centroid of a plane region, what do you divide $M_x$ and $M_y$ by?",
+      answer: "The area $A$ of the region",
+      distractors: ["The length $b - a$", "The total moment $M_x + M_y$", "$2\\pi$"],
+      explanation: "$(\\bar{x}, \\bar{y}) = \\left(\\frac{M_y}{A}, \\frac{M_x}{A}\\right)$. Compute $A$ first; both coordinates need it.",
+    },
+    {
+      id: 'centroid-quiz-7',
+      question: "Where is the centroid of a triangle, measured from its base?",
+      answer: "At one third of its height",
+      distractors: ["At half its height", "At two thirds of its height", "At the vertex opposite the base"],
+      explanation: "The triangle is wider near the base, so more area sits low and the centroid is below the midpoint, at $\\frac{h}{3}$.",
+    },
+    {
+      id: 'centroid-quiz-8',
+      question: "A half-disk of radius $r$ sits on the $x$-axis. Where is its centroid?",
+      answer: "At $\\left(0, \\dfrac{4r}{3\\pi}\\right)$",
+      distractors: ["At $\\left(0, \\dfrac{r}{2}\\right)$", "At the origin", "At $\\left(0, \\dfrac{2r}{3}\\right)$"],
+      explanation: "Symmetry gives $\\bar{x} = 0$. $\\frac{4r}{3\\pi} \\approx 0.42r$, below $\\frac{r}{2}$ because the half-disk is widest at its base.",
+    },
+    {
+      id: 'centroid-quiz-9',
+      question: "Can $\\bar{y}$ be negative?",
+      answer: "Yes, when enough of the region lies below the $x$-axis",
+      distractors: [
+        "No, coordinates of a centroid are always positive",
+        "No, because $M_x$ involves squares",
+        "Only if the area is negative",
+      ],
+      explanation: "With $M_x = \\frac12\\int(f^2 - g^2)\\,dx$, a region mostly below the axis has $|g| > |f|$ and a negative moment. Coordinates are signed.",
+    },
+    {
+      id: 'centroid-quiz-10',
+      question: "A region has two axes of symmetry. Where is its centroid?",
+      answer: "At the point where the two axes cross",
+      distractors: [
+        "Halfway between the two axes",
+        "On one axis, but its position still needs an integral",
+        "At the origin, whatever the axes are",
+      ],
+      explanation: "The centroid lies on each axis of symmetry, so it is at their intersection. A rectangle's centroid is its center, with no integration.",
+    },
+  ],
 };

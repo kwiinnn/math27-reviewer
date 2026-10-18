@@ -664,4 +664,105 @@ export const trigIntegrals: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'trig-integrals-quiz-1',
+      question: "For $\\displaystyle\\int \\sin^3 x \\cos^2 x\\,dx$, which factor do you set aside?",
+      answer: "One $\\sin x\\,dx$, with $u = \\cos x$",
+      distractors: [
+        "One $\\cos x\\,dx$, with $u = \\sin x$",
+        "None: use the half-angle identities",
+        "Use integration by parts with $u = \\sin^3 x$",
+      ],
+      explanation: "Split the odd power: $\\sin^3 x = \\sin^2 x \\cdot \\sin x = (1 - \\cos^2 x)\\sin x$, and $du = -\\sin x\\,dx$. Leave the even power alone.",
+    },
+    {
+      id: 'trig-integrals-quiz-2',
+      question: "How do you start $\\displaystyle\\int \\sin^2 x \\cos^2 x\\,dx$?",
+      answer: "Lower the powers with half-angle identities, or use $\\sin x\\cos x = \\frac12\\sin 2x$",
+      distractors: [
+        "Substitute $u = \\sin x$",
+        "Substitute $u = \\cos x$",
+        "Write $\\sin^2 x = 1 - \\cos^2 x$ and integrate term by term",
+      ],
+      explanation: "With every power even, there is no spare factor to become $du$. Here it becomes $\\frac14\\int \\sin^2 2x\\,dx$, then one more half-angle step.",
+    },
+    {
+      id: 'trig-integrals-quiz-3',
+      question: "Which power-reducing identity is correct?",
+      answer: "$\\sin^2 x = \\dfrac{1 - \\cos 2x}{2}$",
+      distractors: ["$\\sin^2 x = \\dfrac{1 + \\cos 2x}{2}$", "$\\sin^2 x = \\dfrac{1 - \\cos x}{2}$", "$\\sin^2 x = 1 - \\cos 2x$"],
+      explanation: "Sine takes the minus, cosine the plus, and the angle doubles. Check at $x = 0$: $\\sin^2 0 = 0 = \\frac{1 - 1}{2}$.",
+    },
+    {
+      id: 'trig-integrals-quiz-4',
+      question: "In $\\displaystyle\\int \\sin^m x \\cos^n x\\,dx$ with both powers odd, which one do you split?",
+      answer: "The smaller one, because the polynomial left to integrate is shorter",
+      distractors: ["The larger one", "Always the sine", "Always the cosine"],
+      explanation: "Either choice works. Splitting the smaller power leaves less to expand after the Pythagorean identity.",
+    },
+    {
+      id: 'trig-integrals-quiz-5',
+      question: "How do you reduce $\\displaystyle\\int \\tan^n x\\,dx$?",
+      answer: "Factor out one $\\tan^2 x$ and replace it with $\\sec^2 x - 1$",
+      distractors: [
+        "Replace $\\tan^2 x$ with $1 - \\sec^2 x$",
+        "Replace every $\\tan^2 x$ with $\\sec^2 x - 1$ at once",
+        "Substitute $u = \\tan x$ directly",
+      ],
+      explanation: "$\\tan^{n-2}x(\\sec^2 x - 1)$ splits into a direct substitution and a lower power of the same integral. The power drops by two each round.",
+    },
+    {
+      id: 'trig-integrals-quiz-6',
+      question: "For $\\displaystyle\\int \\tan^n x\\sec^m x\\,dx$ with $m$ even, which factor do you save for $du$?",
+      answer: "$\\sec^2 x\\,dx$, with $u = \\tan x$",
+      distractors: [
+        "$\\sec x\\tan x\\,dx$, with $u = \\sec x$",
+        "$\\tan x\\,dx$, with $u = \\ln|\\sec x|$",
+        "No factor: use half-angle identities",
+      ],
+      explanation: "An even power of secant can pay for $\\sec^2 x$, and the remaining even power converts with $\\sec^2 x = 1 + \\tan^2 x$.",
+    },
+    {
+      id: 'trig-integrals-quiz-7',
+      question: "For $\\displaystyle\\int \\tan^n x\\sec^m x\\,dx$ with $n$ odd and $m \\ge 1$, which factor do you save for $du$?",
+      answer: "$\\sec x\\tan x\\,dx$, with $u = \\sec x$",
+      distractors: [
+        "$\\sec^2 x\\,dx$, with $u = \\tan x$",
+        "$\\tan^2 x$, replaced by $\\sec^2 x + 1$",
+        "No factor: integrate by parts",
+      ],
+      explanation: "After saving $\\sec x\\tan x$, the remaining tangent power is even and converts with $\\tan^2 x = \\sec^2 x - 1$, leaving only powers of $\\sec x$.",
+    },
+    {
+      id: 'trig-integrals-quiz-8',
+      question: "How is $\\displaystyle\\int \\sec^3 x\\,dx$ found?",
+      answer: "Integration by parts with $dv = \\sec^2 x\\,dx$, then solve for the integral when it reappears",
+      distractors: [
+        "Substitute $u = \\sec x$",
+        "Substitute $u = \\tan x$",
+        "Use a half-angle identity",
+      ],
+      explanation: "An odd power of secant alone has no $\\tan x$ to complete $du$. Parts gives $\\sec x\\tan x - \\int \\sec x\\tan^2 x\\,dx$, and $\\tan^2 x = \\sec^2 x - 1$ brings the original back.",
+    },
+    {
+      id: 'trig-integrals-quiz-9',
+      question: "Why is $\\displaystyle\\int \\cos^3 x\\,dx \\ne \\frac{\\cos^4 x}{4} + C$?",
+      answer: "The power rule needs $du = -\\sin x\\,dx$ in the integrand, and it is not there",
+      distractors: [
+        "Because $\\cos^3 x$ has no antiderivative",
+        "Because the answer should be $\\frac{\\sin^4 x}{4} + C$",
+        "It is equal: the power rule applies",
+      ],
+      explanation: "Differentiating $\\frac{\\cos^4 x}{4}$ gives $-\\cos^3 x\\sin x$, not $\\cos^3 x$. Save one $\\cos x$ instead: $\\int(1 - \\sin^2 x)\\cos x\\,dx = \\sin x - \\frac{\\sin^3 x}{3} + C$.",
+    },
+    {
+      id: 'trig-integrals-quiz-10',
+      question: "What is $\\displaystyle\\int \\tan x\\,dx$?",
+      answer: "$\\ln|\\sec x| + C$",
+      distractors: ["$\\sec^2 x + C$", "$\\dfrac{\\tan^2 x}{2} + C$", "$\\ln|\\cos x| + C$"],
+      explanation: "$\\tan x = \\frac{\\sin x}{\\cos x}$ and $u = \\cos x$ give $-\\ln|\\cos x| = \\ln|\\sec x|$. $\\sec^2 x$ is the derivative of $\\tan x$, not its integral.",
+    },
+  ],
 };

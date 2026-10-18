@@ -620,4 +620,93 @@ export const expLog: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'exp-log-quiz-1',
+      question: "What is the range of $f(x) = a^x$ for $a > 0$, $a \\ne 1$?",
+      answer: "$(0, +\\infty)$",
+      distractors: ["All real numbers", "$[0, +\\infty)$", "$(1, +\\infty)$"],
+      explanation: "An exponential with a positive base is always positive and never reaches $0$; it approaches $0$ on one side and grows without bound on the other.",
+    },
+    {
+      id: 'exp-log-quiz-2',
+      question: "How many real solutions does $2^x = -4$ have?",
+      answer: "None, because $2^x$ is always positive",
+      distractors: ["One: $x = -2$", "One: $x = 2$", "Two: $x = \\pm 2$"],
+      explanation: "The range of $2^x$ is $(0, +\\infty)$, so no exponent gives a negative value. $2^{-2} = \\frac14$, not $-4$.",
+    },
+    {
+      id: 'exp-log-quiz-3',
+      question: "Why is the base $a = 1$ excluded from $\\log_a x$?",
+      answer: "$1^x = 1$ is constant, so it is not one-to-one and has no inverse",
+      distractors: [
+        "Because $\\log 1 = 0$",
+        "Because $1$ is not a positive number",
+        "Because logarithms to the base $1$ are always negative",
+      ],
+      explanation: "$\\log_a$ is defined as the inverse of $a^x$. When $a = 1$ every input gives the output $1$, so there is nothing to invert.",
+    },
+    {
+      id: 'exp-log-quiz-4',
+      question: "The statement $\\log_a x = y$ means the same as which statement?",
+      answer: "$a^y = x$",
+      distractors: ["$x^y = a$", "$y^a = x$", "$a^x = y$"],
+      explanation: "A logarithm is an exponent: $\\log_a x$ is the power you raise $a$ to in order to get $x$. Translating to exponential form is the standard way out when you are stuck.",
+    },
+    {
+      id: 'exp-log-quiz-5',
+      question: "Which of these is a valid law of logarithms (for $u, v > 0$)?",
+      answer: "$\\log_a(uv) = \\log_a u + \\log_a v$",
+      distractors: [
+        "$\\log_a(u + v) = \\log_a u + \\log_a v$",
+        "$\\dfrac{\\log_a u}{\\log_a v} = \\log_a \\dfrac{u}{v}$",
+        "$(\\log_a u)^b = b\\log_a u$",
+      ],
+      explanation: "Products become sums. There is no law for the logarithm of a sum, the quotient law is about the logarithm of a quotient, and the power law needs the exponent on the argument.",
+    },
+    {
+      id: 'exp-log-quiz-6',
+      question: "Which expression equals $a^{x+y}$?",
+      answer: "$a^x a^y$",
+      distractors: ["$a^x + a^y$", "$a^{xy}$", "$(a^x)^y$"],
+      explanation: "Adding exponents corresponds to multiplying powers of the same base. $(a^x)^y = a^{xy}$ is the power-of-a-power law, a different rule.",
+    },
+    {
+      id: 'exp-log-quiz-7',
+      question: "Which expression equals $(a^x)^2$?",
+      answer: "$a^{2x}$",
+      distractors: ["$a^{x^2}$", "$2a^x$", "$a^{x+2}$"],
+      explanation: "$(a^x)^y = a^{xy}$, so $(a^x)^2 = a^{2x}$. This is what lets you read $9^x$ as $(3^x)^2$.",
+    },
+    {
+      id: 'exp-log-quiz-8',
+      question: "Solving $\\log_2 x + \\log_2(x - 2) = 3$ gives the candidates $x = 4$ and $x = -2$. Why is $x = -2$ rejected?",
+      answer: "The original logarithms need positive arguments; combining them into $\\log_2[x(x-2)]$ enlarged the domain",
+      distractors: [
+        "Negative solutions are never allowed in any equation with exponents",
+        "$-2$ does not satisfy $x(x - 2) = 8$",
+        "It is not rejected: both values are solutions",
+      ],
+      explanation: "$\\log_2(-2)$ is undefined, so $-2$ is extraneous even though $(-2)(-4) = 8$. Every candidate must be checked in the original equation.",
+    },
+    {
+      id: 'exp-log-quiz-9',
+      question: "What is the best first move for $9^x - 4\\cdot 3^x + 3 = 0$?",
+      answer: "Let $u = 3^x$, so $9^x = u^2$ and the equation is a quadratic in $u$",
+      distractors: [
+        "Take the logarithm of each term separately",
+        "Divide every term by $3$",
+        "Write $9^x - 4 \\cdot 3^x$ as $5^x$",
+      ],
+      explanation: "$u^2 - 4u + 3 = 0$ gives $u = 1$ or $u = 3$, so $x = 0$ or $x = 1$. Taking logs term by term is invalid because there is no law for the logarithm of a sum.",
+    },
+    {
+      id: 'exp-log-quiz-10',
+      question: "Which logarithm equals the constant $2$?",
+      answer: "$\\log_3 9$",
+      distractors: ["$\\log_3 6$", "$\\log_9 3$", "$\\log_3 8$"],
+      explanation: "$c = \\log_a a^c$, so $2 = \\log_3 3^2 = \\log_3 9$. This is how a constant is turned into a logarithm when condensing an equation. $\\log_9 3 = \\frac12$.",
+    },
+  ],
 };

@@ -124,7 +124,20 @@ for (const t of topics) {
     math(p.questionLatex, p.id, true); figure(p.figure, p.id); prose(p.prompt, p.id); prose(p.hint, p.id); steps(p.steps, p.id);
   });
   if (new Set(t.problems.map((p) => p.questionLatex)).size !== t.problems.length) errors.push(`${t.id}: repeated problem`);
-  console.log(`${t.unitNumber} ${t.title}: ${t.examNotes.length} notes, ${t.keyFormulas.length} formulas, ${t.workedExamples.length} examples, ${t.problems.length} problems`);
+  if (t.quiz.length !== 10) errors.push(`${t.id}: quiz has ${t.quiz.length} questions, expected 10`);
+  t.quiz.forEach((q, i) => {
+    uniq(q.id);
+    if (q.id !== `${t.id}-quiz-${i + 1}`) errors.push(`${q.id}: quiz numbering`);
+    prose(q.question, q.id); prose(q.answer, q.id); prose(q.explanation, q.id);
+    if (q.questionLatex) math(q.questionLatex, q.id, true);
+    q.distractors.forEach((d) => prose(d, q.id));
+    // Choices are shuffled, so they must be distinct and must not point at each other.
+    const choices = [q.answer, ...q.distractors];
+    if (q.distractors.length !== 3) errors.push(`${q.id}: ${q.distractors.length} distractors, expected 3`);
+    if (new Set(choices).size !== choices.length) errors.push(`${q.id}: repeated choice`);
+    if (choices.some((c) => /\b(all|none|both|either|neither) of the (above|choices|options)\b|\bthe above\b/i.test(c))) errors.push(`${q.id}: choice refers to other choices`);
+  });
+  console.log(`${t.unitNumber} ${t.title}: ${t.examNotes.length} notes, ${t.keyFormulas.length} formulas, ${t.workedExamples.length} examples, ${t.problems.length} problems, ${t.quiz.length} quiz questions`);
 }
 
 // A single backslash before a letter silently drops the backslash ("\pm" -> "pm"),

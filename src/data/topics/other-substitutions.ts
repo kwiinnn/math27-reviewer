@@ -537,4 +537,93 @@ export const otherSubstitutions: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'other-substitutions-quiz-1',
+      question: "An integrand contains $\\sqrt{x}$ and $\\sqrt[3]{x}$. Which substitution removes both roots?",
+      answer: "$x = z^6$",
+      distractors: ["$x = z^2$", "$x = z^3$", "$x = z^5$"],
+      explanation: "$n$ is the lowest common denominator of the exponents $\\frac12$ and $\\frac13$. With $n = 2$ the cube root would still be $z^{2/3}$.",
+    },
+    {
+      id: 'other-substitutions-quiz-2',
+      question: "With $x = z^6$, what do $\\sqrt{x}$ and $\\sqrt[3]{x}$ become?",
+      answer: "$\\sqrt{x} = z^3$ and $\\sqrt[3]{x} = z^2$",
+      distractors: [
+        "$\\sqrt{x} = z^2$ and $\\sqrt[3]{x} = z^3$",
+        "$\\sqrt{x} = z^{1/2}$ and $\\sqrt[3]{x} = z^{1/3}$",
+        "$\\sqrt{x} = z^{12}$ and $\\sqrt[3]{x} = z^{18}$",
+      ],
+      explanation: "$(z^6)^{1/2} = z^3$ and $(z^6)^{1/3} = z^2$. Writing this small dictionary before substituting avoids the mix-up.",
+    },
+    {
+      id: 'other-substitutions-quiz-3',
+      question: "If $x = z^n$, what is $dx$?",
+      answer: "$nz^{n-1}\\,dz$",
+      distractors: ["$dz$", "$z^n\\,dz$", "$n\\,dz$"],
+      explanation: "Differentiate $x = z^n$. Writing $dx = dz$ is the most common slip and loses the factor that makes the answer right.",
+    },
+    {
+      id: 'other-substitutions-quiz-4',
+      question: "The only radical in an integrand is $\\sqrt[3]{2x + 1}$. Which substitution fits?",
+      answer: "$z = \\sqrt[3]{2x + 1}$, so $z^3 = 2x + 1$",
+      distractors: [
+        "$u = 2x + 1$, leaving $u^{1/3}$ in the integrand",
+        "$x = z^3$",
+        "A trigonometric substitution",
+      ],
+      explanation: "Substituting for the whole root removes it completely: $x = \\frac{z^3 - 1}{2}$ and $dx = \\frac32 z^2\\,dz$, which usually leaves a polynomial.",
+    },
+    {
+      id: 'other-substitutions-quiz-5',
+      question: "With $z = \\sqrt{x + 1}$, what is the cleanest way to find $dx$?",
+      answer: "Square first: $z^2 = x + 1$, so $2z\\,dz = dx$",
+      distractors: [
+        "Differentiate the root: $dz = \\dfrac{dx}{2\\sqrt{x + 1}}$, then solve",
+        "$dx = dz$",
+        "$dx = z\\,dz$",
+      ],
+      explanation: "Squaring before differentiating avoids fractional exponents entirely, and the result is already in terms of $z$.",
+    },
+    {
+      id: 'other-substitutions-quiz-6',
+      question: "Which substitution is most efficient for $\\displaystyle\\int x^5\\sqrt{x^2 + 4}\\,dx$?",
+      answer: "$z = \\sqrt{x^2 + 4}$",
+      distractors: ["$x = 2\\tan\\theta$", "$x = z^6$", "$u = x^5$"],
+      explanation: "The outside power is odd, so one $x$ joins $dx$ and the rest is $(x^2)^2 = (z^2 - 4)^2$. Trigonometric substitution also works but leads to $\\tan^5\\theta\\sec^3\\theta$.",
+    },
+    {
+      id: 'other-substitutions-quiz-7',
+      question: "With $z = \\sqrt{x^2 + 4}$, what replaces $dx$?",
+      answer: "$x\\,dx = z\\,dz$",
+      distractors: ["$dx = z\\,dz$", "$x\\,dx = 2z\\,dz$", "$dx = 2z\\,dz$"],
+      explanation: "$z^2 = x^2 + 4$ gives $2z\\,dz = 2x\\,dx$. It is $x\\,dx$, not $dx$, that converts, which is why one spare factor of $x$ is needed.",
+    },
+    {
+      id: 'other-substitutions-quiz-8',
+      question: "If the power of $x$ outside $\\sqrt{x^2 + 4}$ is even, as in $x^2\\sqrt{x^2 + 4}$, what should you use instead?",
+      answer: "Trigonometric substitution",
+      distractors: ["$z = \\sqrt{x^2 + 4}$ anyway", "$x = z^2$", "Partial fractions"],
+      explanation: "With an even power there is no spare $x$ to pair with $dx$, so $x\\,dx = z\\,dz$ cannot be used. $x = 2\\tan\\theta$ handles it.",
+    },
+    {
+      id: 'other-substitutions-quiz-9',
+      question: "After a substitution you have $\\displaystyle\\int \\frac{z^2}{1 + z^2}\\,dz$. How do you finish?",
+      answer: "Divide: $1 - \\dfrac{1}{1 + z^2}$, so the integral is $z - \\tan^{-1} z + C$",
+      distractors: [
+        "It is $\\ln(1 + z^2) + C$",
+        "Cancel to get $\\int z^0\\,dz = z + C$",
+        "It is $\\dfrac{z^3}{3}\\tan^{-1} z + C$",
+      ],
+      explanation: "The fraction is improper (equal degrees), so divide first. A logarithm would need $2z$ on top.",
+    },
+    {
+      id: 'other-substitutions-quiz-10',
+      question: "In a definite integral with $x = z^6$ and $x$ running from $0$ to $64$, what are the new limits for $z$?",
+      answer: "$0$ to $2$",
+      distractors: ["$0$ to $64$", "$0$ to $8$", "$0$ to $4$"],
+      explanation: "$z = x^{1/6}$, and $64^{1/6} = 2$. Converting the limits means you never have to return to $x$.",
+    },
+  ],
 };

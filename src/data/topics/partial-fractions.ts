@@ -634,4 +634,101 @@ export const partialFractions: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'partial-fractions-quiz-1',
+      question: "When must you do polynomial long division before using partial fractions?",
+      answer: "When the degree of the numerator is greater than or equal to the degree of the denominator",
+      distractors: [
+        "Only when the numerator has the larger degree",
+        "Whenever the denominator has a repeated factor",
+        "Always, before any decomposition",
+      ],
+      explanation: "Partial fractions apply only to proper fractions. Equal degrees also count as improper.",
+    },
+    {
+      id: 'partial-fractions-quiz-2',
+      question: "What is the first step for $\\displaystyle\\int \\frac{x^2}{x^2 + x - 6}\\,dx$?",
+      answer: "Divide, because the degrees are equal and the fraction is improper",
+      distractors: [
+        "Write $\\dfrac{A}{x - 2} + \\dfrac{B}{x + 3}$ directly",
+        "Substitute $u = x^2 + x - 6$",
+        "Treat $x^2 + x - 6$ as an irreducible quadratic",
+      ],
+      explanation: "$\\frac{x^2}{x^2 + x - 6} = 1 + \\frac{6 - x}{x^2 + x - 6}$. Decomposing without dividing gives constants that can be solved for but a result that is wrong.",
+    },
+    {
+      id: 'partial-fractions-quiz-3',
+      question: "What is the form of the decomposition of $\\dfrac{P(x)}{(x - 1)(x + 3)}$, with $P$ of degree at most $1$?",
+      answer: "$\\dfrac{A}{x - 1} + \\dfrac{B}{x + 3}$",
+      distractors: [
+        "$\\dfrac{Ax + B}{(x - 1)(x + 3)}$",
+        "$\\dfrac{A}{x - 1} + \\dfrac{B}{(x - 1)^2}$",
+        "$\\dfrac{A}{x - 1} \\cdot \\dfrac{B}{x + 3}$",
+      ],
+      explanation: "Distinct linear factors each get one constant over that factor, and the terms are added.",
+    },
+    {
+      id: 'partial-fractions-quiz-4',
+      question: "How many terms does the factor $(x - 2)^3$ contribute to a decomposition?",
+      answer: "Three: $\\dfrac{A}{x - 2} + \\dfrac{B}{(x - 2)^2} + \\dfrac{C}{(x - 2)^3}$",
+      distractors: [
+        "One: $\\dfrac{C}{(x - 2)^3}$",
+        "Two: $\\dfrac{A}{x - 2} + \\dfrac{B}{(x - 2)^3}$",
+        "Three, each over $(x - 2)^3$",
+      ],
+      explanation: "A repeated linear factor needs one term for every power from $1$ up to its multiplicity.",
+    },
+    {
+      id: 'partial-fractions-quiz-5',
+      question: "What numerator does the irreducible factor $x^2 + 4$ get?",
+      answer: "A linear one, $Ax + B$",
+      distractors: ["A constant $A$", "$Ax^2$", "$A(x^2 + 4)$"],
+      explanation: "The numerator's degree is one less than the factor's. The $Ax$ part integrates to a logarithm and the $B$ part to an inverse tangent.",
+    },
+    {
+      id: 'partial-fractions-quiz-6',
+      question: "Is $x^2 - 4$ an irreducible quadratic?",
+      answer: "No: it factors as $(x - 2)(x + 2)$, two distinct linear factors",
+      distractors: [
+        "Yes, because it has no linear term",
+        "Yes, because it cannot be factored over the reals",
+        "No, but it should still get $\\dfrac{Ax + B}{x^2 - 4}$",
+      ],
+      explanation: "A difference of squares always factors. Only a quadratic with $b^2 - 4ac < 0$, such as $x^2 + 4$, is irreducible.",
+    },
+    {
+      id: 'partial-fractions-quiz-7',
+      question: "When is $ax^2 + bx + c$ irreducible over the reals?",
+      answer: "When $b^2 - 4ac < 0$",
+      distractors: ["When $b^2 - 4ac > 0$", "When $b^2 - 4ac = 0$", "When $c < 0$"],
+      explanation: "A negative discriminant means no real roots, so no real linear factors. $b^2 - 4ac = 0$ is a repeated linear factor.",
+    },
+    {
+      id: 'partial-fractions-quiz-8',
+      question: "What is $\\displaystyle\\int \\frac{dx}{(x - r)^2}$?",
+      answer: "$-\\dfrac{1}{x - r} + C$",
+      distractors: ["$\\ln|x - r| + C$", "$\\ln(x - r)^2 + C$", "$2\\ln|x - r| + C$"],
+      explanation: "It is a power, $(x - r)^{-2}$, not a reciprocal of a linear factor. Only the first power integrates to a logarithm.",
+    },
+    {
+      id: 'partial-fractions-quiz-9',
+      question: "What is the fastest way to find the constants for distinct linear factors?",
+      answer: "Clear the denominators, then substitute the root of each factor into the resulting equation",
+      distractors: [
+        "Substitute each root into the original fraction",
+        "Differentiate both sides",
+        "Guess values and check by recombining",
+      ],
+      explanation: "Each root kills every term but one. The original fraction is undefined at those roots, so the substitution must go into the cleared equation.",
+    },
+    {
+      id: 'partial-fractions-quiz-10',
+      question: "In a correct decomposition, the number of unknown constants always equals what?",
+      answer: "The degree of the denominator",
+      distractors: ["The degree of the numerator", "The number of distinct factors", "Two"],
+      explanation: "For example $(x - 1)^2(x^2 + 1)$ has degree $4$ and needs $A$, $B$, $C$, $D$. Counting is a quick check on the set-up.",
+    },
+  ],
 };

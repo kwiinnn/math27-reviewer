@@ -836,4 +836,101 @@ export const work: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'work-quiz-1',
+      question: "An object weighs $50$ lb. To find the work done lifting it, do you multiply by $g$?",
+      answer: "No: pounds are already a force",
+      distractors: [
+        "Yes, by $32$ ft/s²",
+        "Yes, by $9.8$ m/s²",
+        "Only if it is lifted more than $1$ foot",
+      ],
+      explanation: "$W = Fd$ with $F = 50$ lb. Only a mass (kg, slug, g) needs to be multiplied by $g$ to give its weight.",
+    },
+    {
+      id: 'work-quiz-2',
+      question: "A $5$ kg box is lifted $2$ m. Which expression gives the work in joules?",
+      answer: "$5 \\cdot 9.8 \\cdot 2$",
+      distractors: ["$5 \\cdot 2$", "$\\dfrac{5 \\cdot 2}{9.8}$", "$5 \\cdot 32 \\cdot 2$"],
+      explanation: "Kilograms are a mass, so the lifting force is the weight $mg$. $32$ ft/s² is the BES value of $g$.",
+    },
+    {
+      id: 'work-quiz-3',
+      question: "A force $f(x)$ varies with position from $x = a$ to $x = b$. What is the work done?",
+      answer: "$\\displaystyle\\int_a^b f(x)\\,dx$, the area under the force-position graph",
+      distractors: [
+        "$f(b)(b - a)$",
+        "$\\dfrac{f(a) + f(b)}{2}$",
+        "$f'(x)(b - a)$",
+      ],
+      explanation: "On each short piece the force is nearly constant, so the work there is about $f(x_i^*)\\,\\Delta x$. Multiplying one force value by the whole distance is wrong unless $f$ is constant.",
+    },
+    {
+      id: 'work-quiz-4',
+      question: "In Hooke's law $f(x) = kx$, what is $x$?",
+      answer: "The stretch beyond the spring's natural length",
+      distractors: ["The total length of the spring", "The natural length of the spring", "The mass on the spring"],
+      explanation: "The force depends only on how far the spring is stretched (or compressed) from rest, never on its total length.",
+    },
+    {
+      id: 'work-quiz-5',
+      question: "A spring has natural length $10$ cm. What are the limits for stretching it from $15$ cm to $18$ cm, in meters?",
+      answer: "$x = 0.05$ to $x = 0.08$",
+      distractors: ["$x = 0.15$ to $x = 0.18$", "$x = 5$ to $x = 8$", "$x = 0$ to $x = 0.03$"],
+      explanation: "Subtract the natural length to get stretches of $5$ and $8$ cm, then convert to meters for $k$ in N/m. Starting from $0$ would assume the spring began at rest.",
+    },
+    {
+      id: 'work-quiz-6',
+      question: "Why is the work to wind up a hanging cable not its total weight times its length?",
+      answer: "Each piece is lifted a different distance; only the bottom piece travels the full length",
+      distractors: [
+        "Because the cable's weight changes as it is lifted",
+        "Because work does not depend on distance",
+        "It is: $W = wL \\cdot L$",
+      ],
+      explanation: "Measuring $x$ down from the top, the piece at depth $x$ rises $x$, giving $\\int_0^L wx\\,dx = \\frac{wL^2}{2}$. $wL\\cdot L$ is twice the right answer.",
+    },
+    {
+      id: 'work-quiz-7',
+      question: "The work to lift a uniform hanging cable is $\\frac{wL^2}{2}$. How can this be read?",
+      answer: "As lifting the cable's whole weight $wL$ the distance $\\frac{L}{2}$ from its midpoint, its center of mass",
+      distractors: [
+        "As lifting half the cable the full length",
+        "As the area of a triangle with no physical meaning",
+        "As lifting the whole weight the full length $L$",
+      ],
+      explanation: "For a uniform object, work against gravity equals its weight times the distance its center of mass rises.",
+    },
+    {
+      id: 'work-quiz-8',
+      question: "When pumping liquid out of a tank, what is the lifting distance $D(x)$ of a layer?",
+      answer: "The distance from the layer up to the outlet, including any spout above the tank",
+      distractors: [
+        "The distance from the layer down to the bottom of the tank",
+        "The depth of the liquid",
+        "The height of the tank, the same for every layer",
+      ],
+      explanation: "Every layer must reach the point it is pumped to. Putting $x = 0$ at the outlet and measuring down makes $D(x) = x$ (plus the spout).",
+    },
+    {
+      id: 'work-quiz-9',
+      question: "A tank is only partly full. Over what range do you integrate?",
+      answer: "Only over the depths where there is liquid",
+      distractors: [
+        "Over the whole height of the tank",
+        "From the surface of the liquid to the top of the tank",
+        "Over the height of the outlet only",
+      ],
+      explanation: "Empty space needs no work. The lifting distance is still measured to the outlet, which may be above the surface.",
+    },
+    {
+      id: 'work-quiz-10',
+      question: "What is the weight density $\\rho g$ of water in SI units?",
+      answer: "$9800$ N/m³",
+      distractors: ["$1000$ N/m³", "$62.5$ N/m³", "$9.8$ N/m³"],
+      explanation: "$\\rho = 1000$ kg/m³ times $g = 9.8$ m/s². $1000$ kg/m³ is the mass density, and $62.5$ lb/ft³ is the BES weight density.",
+    },
+  ],
 };

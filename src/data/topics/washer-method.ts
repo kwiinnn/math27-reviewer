@@ -808,4 +808,101 @@ export const washerMethod: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'washer-method-quiz-1',
+      question: "What is the area of a washer with outer radius $R$ and inner radius $r$?",
+      answer: "$\\pi\\left(R^2 - r^2\\right)$",
+      distractors: ["$\\pi(R - r)^2$", "$2\\pi(R - r)$", "$\\pi\\left(R^2 + r^2\\right)$"],
+      explanation: "Square each radius, then subtract: a disk of radius $R$ minus a disk of radius $r$. With $R = 5$, $r = 2$: $25 - 4 = 21$, not $(5 - 2)^2 = 9$.",
+    },
+    {
+      id: 'washer-method-quiz-2',
+      question: "What is the outer radius $R$?",
+      answer: "The distance from the axis of rotation to the boundary farther from it",
+      distractors: [
+        "The height of the upper curve",
+        "The distance between the two curves",
+        "The larger $x$-coordinate of the intersection points",
+      ],
+      explanation: "Both radii are measured from the axis. Which boundary is farther depends on where the axis is, not on which curve is on top.",
+    },
+    {
+      id: 'washer-method-quiz-3',
+      question: "A region is rotated about a line $y = k$ above it. What is the outer radius?",
+      answer: "$k - y_{\\text{bottom}}$",
+      distractors: ["$y_{\\text{top}} - k$", "$k - y_{\\text{top}}$", "$y_{\\text{top}}$"],
+      explanation: "With the axis above, the lower boundary is farther away. $k - y_{\\text{top}}$ is the inner radius.",
+    },
+    {
+      id: 'washer-method-quiz-4',
+      question: "What happens to the washer method when the region touches the axis of rotation?",
+      answer: "The inner radius is $0$ and it is just the disk method",
+      distractors: [
+        "It cannot be used at all",
+        "The outer radius becomes $0$",
+        "You must add the two radii instead",
+      ],
+      explanation: "A washer with $r = 0$ has no hole. The disk method is the special case of the washer method.",
+    },
+    {
+      id: 'washer-method-quiz-5',
+      question: "A washer computation gives a negative volume. What is the most likely error?",
+      answer: "$R$ and $r$ were swapped",
+      distractors: [
+        "The region is below the $x$-axis",
+        "The limits should be $y$-values",
+        "Nothing: volumes can be negative",
+      ],
+      explanation: "With $R \\ge r \\ge 0$, $R^2 - r^2 \\ge 0$ and the volume is positive. Draw both radii from the axis; the longer one is $R$.",
+    },
+    {
+      id: 'washer-method-quiz-6',
+      question: "A region above the $x$-axis is rotated about $y = -1$. What is the inner radius?",
+      answer: "$y_{\\text{bottom}} + 1$",
+      distractors: ["$y_{\\text{bottom}}$", "$0$", "$1$"],
+      explanation: "Every radius is measured from the axis at $y = -1$, so even the bottom boundary is at distance $y_{\\text{bottom}} - (-1)$. A shifted axis changes both radii.",
+    },
+    {
+      id: 'washer-method-quiz-7',
+      question: "For washers about a vertical axis, what are the variable and the limits?",
+      answer: "$dy$, with the $y$-values where the curves meet",
+      distractors: [
+        "$dx$, with the $x$-values where the curves meet",
+        "$dy$, with the $x$-values where the curves meet",
+        "$dx$, with the $y$-values where the curves meet",
+      ],
+      explanation: "Slices are perpendicular to the axis, so they are horizontal. Solve both curves for $x$ and measure both radii horizontally.",
+    },
+    {
+      id: 'washer-method-quiz-8',
+      question: "What does splitting $\\pi\\displaystyle\\int_a^b (R^2 - r^2)\\,dx$ into two integrals show?",
+      answer: "The solid is the outer solid minus the hole, both over the same limits",
+      distractors: [
+        "The solid is the sum of two disk solids",
+        "The two integrals need different limits",
+        "The volume equals the area of the region times $\\pi$",
+      ],
+      explanation: "$\\pi\\int R^2\\,dx$ is the solid swept by the outer boundary and $\\pi\\int r^2\\,dx$ the hole swept by the inner one. The answer must be positive and smaller than $V_{\\text{outer}}$.",
+    },
+    {
+      id: 'washer-method-quiz-9',
+      question: "The same region is rotated about the $x$-axis and then about the $y$-axis. What may change?",
+      answer: "Which curve gives the outer radius",
+      distractors: [
+        "Nothing: the same curve is always outer",
+        "Only the value of $\\pi$ in front",
+        "Only the sign of the answer",
+      ],
+      explanation: "The outer curve is the one farther from the axis. The curve that is farther from the $x$-axis is often nearer to the $y$-axis.",
+    },
+    {
+      id: 'washer-method-quiz-10',
+      question: "The outer radius is $x^2 + 1$. What is $R^2$?",
+      answer: "$x^4 + 2x^2 + 1$",
+      distractors: ["$x^4 + 1$", "$x^4 + x^2 + 1$", "$x^2 + 1$"],
+      explanation: "Expand the square fully; the middle term $2x^2$ is easy to lose. Then subtract the whole of $r^2$, in brackets.",
+    },
+  ],
 };

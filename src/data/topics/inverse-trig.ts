@@ -963,4 +963,93 @@ export const inverseTrig: Topic = {
       ],
     },
   ],
+
+  quiz: [
+    {
+      id: 'inverse-trig-quiz-1',
+      question: "Why is $\\sin t$ restricted to $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$ before it is inverted?",
+      answer: "On that interval it is increasing, so one-to-one, and still takes every value in $[-1, 1]$",
+      distractors: [
+        "Sine is undefined outside that interval",
+        "It is the only interval on which sine is continuous",
+        "It is the interval on which sine is positive",
+      ],
+      explanation: "Sine is periodic, so it fails the horizontal line test. Keeping one increasing piece that covers all of $[-1, 1]$ makes it invertible without losing any outputs.",
+    },
+    {
+      id: 'inverse-trig-quiz-2',
+      question: "What is $\\sin^{-1}\\left(-\\frac{1}{2}\\right)$?",
+      answer: "$-\\dfrac{\\pi}{6}$",
+      distractors: ["$\\dfrac{7\\pi}{6}$", "$\\dfrac{11\\pi}{6}$", "$-\\dfrac{\\pi}{3}$"],
+      explanation: "The answer must be an angle in $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$. $\\frac{7\\pi}{6}$ and $\\frac{11\\pi}{6}$ have the right sine but lie outside the principal range.",
+    },
+    {
+      id: 'inverse-trig-quiz-3',
+      question: "What does $\\sin^{-1} x$ mean?",
+      answer: "The angle in $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$ whose sine is $x$",
+      distractors: ["$\\dfrac{1}{\\sin x}$", "$\\csc x$", "$-\\sin x$"],
+      explanation: "The $-1$ means inverse, not reciprocal. $(\\sin x)^{-1} = \\csc x$ is a ratio; $\\sin^{-1} x$ is an angle.",
+    },
+    {
+      id: 'inverse-trig-quiz-4',
+      question: "What is the principal range of $\\cos^{-1} x$?",
+      answer: "$[0, \\pi]$",
+      distractors: ["$\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$", "$(0, \\pi)$", "$[0, 2\\pi)$"],
+      explanation: "Cosine-type inverses live in quadrants I and II. Cosine is decreasing on $[0, \\pi]$ and takes every value in $[-1, 1]$ there; both endpoints are included.",
+    },
+    {
+      id: 'inverse-trig-quiz-5',
+      question: "Can $\\tan^{-1} x$ ever equal $\\frac{\\pi}{2}$?",
+      answer: "No: $y = \\pm\\frac{\\pi}{2}$ are horizontal asymptotes, approached but never reached",
+      distractors: ["Yes, when $x = 1$", "Yes, when $x = 0$", "Only for negative values of $x$"],
+      explanation: "$\\tan\\frac{\\pi}{2}$ is undefined, so the range of $\\tan^{-1}$ is the open interval $\\left(-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right)$. $\\tan^{-1} 1 = \\frac{\\pi}{4}$.",
+    },
+    {
+      id: 'inverse-trig-quiz-6',
+      question: "What is $\\sin^{-1}\\left(\\sin\\frac{3\\pi}{4}\\right)$?",
+      answer: "$\\dfrac{\\pi}{4}$",
+      distractors: ["$\\dfrac{3\\pi}{4}$", "$-\\dfrac{\\pi}{4}$", "$\\dfrac{5\\pi}{4}$"],
+      explanation: "$\\sin^{-1}(\\sin x) = x$ only when $x$ is already in $\\left[-\\frac{\\pi}{2}, \\frac{\\pi}{2}\\right]$. $\\sin\\frac{3\\pi}{4} = \\frac{\\sqrt2}{2}$, and the principal angle with that sine is $\\frac{\\pi}{4}$.",
+    },
+    {
+      id: 'inverse-trig-quiz-7',
+      question: "On which set is $\\sin^{-1} x$ differentiable?",
+      answer: "The open interval $(-1, 1)$",
+      distractors: ["The closed interval $[-1, 1]$", "All real numbers", "$[0, 1]$"],
+      explanation: "$D_x(\\sin^{-1} x) = \\frac{1}{\\sqrt{1 - x^2}}$ has a zero denominator at $x = \\pm 1$, where the tangent is vertical. The function is continuous on $[-1, 1]$ but differentiable only inside.",
+    },
+    {
+      id: 'inverse-trig-quiz-8',
+      question: "Why is the derivative of $\\cos^{-1} x$ exactly the negative of the derivative of $\\sin^{-1} x$?",
+      answer: "Because $\\sin^{-1} x + \\cos^{-1} x = \\frac{\\pi}{2}$, a constant",
+      distractors: [
+        "Because $\\cos x$ is the derivative of $\\sin x$",
+        "Because cosine is an even function",
+        "Because $\\cos^{-1} x = \\dfrac{1}{\\sin^{-1} x}$",
+      ],
+      explanation: "If two functions add to a constant, their derivatives add to $0$. The same holds for $\\tan^{-1}$ and $\\cot^{-1}$, and for $\\sec^{-1}$ and $\\csc^{-1}$.",
+    },
+    {
+      id: 'inverse-trig-quiz-9',
+      question: "With this course's range for $\\sec^{-1}$, why does $D_x(\\sec^{-1} u)$ contain $|u|$?",
+      answer: "With the range $\\left[0, \\frac{\\pi}{2}\\right) \\cup \\left(\\frac{\\pi}{2}, \\pi\\right]$, $\\sec^{-1}$ increases on both branches, so its derivative must be positive even when $u < 0$",
+      distractors: [
+        "To make $\\sec^{-1} u$ defined for negative $u$",
+        "Because $\\sqrt{u^2 - 1}$ can be negative",
+        "It is optional notation; $u$ and $|u|$ give the same result",
+      ],
+      explanation: "For $u \\le -1$ the values run from $\\frac{\\pi}{2}$ up to $\\pi$, so the slope is positive there too. Writing $|u|$ keeps the denominator positive. Books with a different range drop it.",
+    },
+    {
+      id: 'inverse-trig-quiz-10',
+      question: "Which method fits $\\displaystyle\\int \\frac{x\\,dx}{\\sqrt{1 - x^2}}$?",
+      answer: "The substitution $u = 1 - x^2$; no inverse trigonometric function appears",
+      distractors: [
+        "The $\\sin^{-1}$ form, giving $\\sin^{-1} x + C$",
+        "The $\\tan^{-1}$ form",
+        "The $\\sec^{-1}$ form",
+      ],
+      explanation: "The $x$ on top is a constant multiple of $du = -2x\\,dx$, so the answer is $-\\sqrt{1 - x^2} + C$. The $\\sin^{-1}$ form needs a constant numerator.",
+    },
+  ],
 };
