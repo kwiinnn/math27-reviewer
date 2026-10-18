@@ -25,6 +25,11 @@ answering. Choices are shuffled on every attempt, so no choice may refer to anot
 - Unit quiz (`#/quiz/unit/<n>`) and course quiz (`#/quiz`): ten questions drawn from the
   lessons' banks, spread across as many lessons as possible (`src/lib/quiz.ts`).
 
+Questions can be skipped (and come round again before the end) or jumped to from the question
+map; Submit Quiz ends the attempt at any time, counting unanswered questions as skipped, and shows
+a results board: score, correct / incorrect / skipped counts, every question's status, and for
+unit and course quizzes a breakdown by lesson.
+
 `npm run check:math` checks that every topic has ten questions with three distinct distractors.
 
 ## Data conventions
