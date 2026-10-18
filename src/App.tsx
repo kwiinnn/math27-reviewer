@@ -4,6 +4,7 @@ import { Layout } from './components/Layout';
 import { AboutPage } from './pages/AboutPage';
 import { FormulaReferencePage } from './pages/FormulaReferencePage';
 import { OverviewPage } from './pages/OverviewPage';
+import { QuizPage } from './pages/QuizPage';
 import { TopicPage } from './pages/TopicPage';
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
       {route.page === 'home' && <OverviewPage />}
       {route.page === 'formula-reference' && <FormulaReferencePage />}
       {route.page === 'about' && <AboutPage />}
+      {route.page === 'quiz' && <QuizPage key={route.unit ?? 'course'} unit={route.unit} />}
       {route.page === 'topic' && topic && <TopicPage key={`${topic.id}-${route.view}`} topic={topic} view={route.view} />}
       {route.page === 'topic' && !topic && (
         <p className="text-sm">

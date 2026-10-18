@@ -1,12 +1,13 @@
 import { getChapterGroups, sortedTopics } from '../data/registry';
-import { formulaReferenceHref, topicHref } from '../lib/router';
+import { formulaReferenceHref, quizHref, topicHref } from '../lib/router';
 import { MathText } from '../components/MathRenderer';
-import { label } from '../components/ui';
+import { btnPrimary, label } from '../components/ui';
 
 export function OverviewPage() {
   const groups = getChapterGroups();
   const problems = sortedTopics.reduce((n, t) => n + t.problems.length, 0);
   const formulas = sortedTopics.reduce((n, t) => n + t.keyFormulas.length, 0);
+  const questions = sortedTopics.reduce((n, t) => n + t.quiz.length, 0);
 
   return (
     <>
@@ -14,16 +15,24 @@ export function OverviewPage() {
       <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">Analytic and Geometric Calculus II</h1>
       <p className="mt-4 max-w-[70ch] text-sm leading-7 text-ink2">
         A reviewer built from the course lecture decks. Each unit has notes with the common traps, a formula
-        sheet, worked examples, and ten practice problems that reveal one step at a time with the reasoning behind it.
+        sheet, worked examples, ten practice problems that reveal one step at a time with the reasoning behind it,
+        and a ten-question conceptual quiz. Each unit and the whole course have a quiz of their own as well.
       </p>
       <p className="mt-3 text-sm tabular-nums text-ink3">
         {sortedTopics.length} units · {problems} practice problems ·{' '}
-        <a href={formulaReferenceHref} className="underline underline-offset-4 hover:text-ink">{formulas} formulas</a>
+        <a href={formulaReferenceHref} className="underline underline-offset-4 hover:text-ink">{formulas} formulas</a> ·{' '}
+        {questions} quiz questions
       </p>
+      <a href={quizHref()} className={`${btnPrimary} mt-5`}>Take the Course Quiz</a>
 
       {groups.map(({ chapter, topics }) => (
         <section key={chapter.number} className="mt-10">
-          <h2 className={`${label} mb-3`}>Unit {chapter.number} · {chapter.title}</h2>
+          <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+            <h2 className={label}>Unit {chapter.number} · {chapter.title}</h2>
+            <a href={quizHref(chapter.number)} className="text-xs text-ink3 underline underline-offset-4 hover:text-ink">
+              Unit {chapter.number} quiz
+            </a>
+          </div>
           <ol className="divide-y divide-line rounded-md border border-line bg-surface">
             {topics.map((t) => (
               <li key={t.id}>
@@ -33,7 +42,7 @@ export function OverviewPage() {
                     <span className="block text-sm font-semibold">{t.title}</span>
                     <span className="mt-1 line-clamp-2 block text-sm leading-relaxed text-ink2"><MathText text={t.summary} /></span>
                     <span className="mt-2 block text-xs tabular-nums text-ink3">
-                      {t.examNotes.length} notes · {t.keyFormulas.length} formulas · {t.workedExamples.length} examples · {t.problems.length} problems
+                      {t.examNotes.length} notes · {t.keyFormulas.length} formulas · {t.workedExamples.length} examples · {t.problems.length} problems · {t.quiz.length} quiz questions
                     </span>
                   </span>
                 </a>

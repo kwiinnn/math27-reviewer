@@ -1,6 +1,6 @@
 import { getChapterGroups } from '../data/registry';
 import { site } from '../data/site';
-import { aboutHref, formulaReferenceHref, homeHref, topicHref, type Route } from '../lib/router';
+import { aboutHref, formulaReferenceHref, homeHref, quizHref, topicHref, type Route } from '../lib/router';
 import { CloseIcon } from './Icons';
 import { iconBtn, label } from './ui';
 
@@ -53,6 +53,19 @@ export function Sidebar({ route, onNavigate, onClose }: Props) {
             </ul>
           </section>
         ))}
+
+        <section>
+          <h2 className={`${label} px-3 pb-2`}>Quizzes</h2>
+          {[...groups.map((g) => g.chapter.number), undefined].map((unit) => {
+            const isActive = route.page === 'quiz' && route.unit === unit;
+            return (
+              <a key={unit ?? 'course'} href={quizHref(unit)} onClick={onNavigate} aria-current={isActive ? 'page' : undefined}
+                className={`${item} ${isActive ? active : idle}`}>
+                {unit ? `Unit ${unit} quiz` : 'Course quiz'}
+              </a>
+            );
+          })}
+        </section>
 
         <section>
           <h2 className={`${label} px-3 pb-2`}>Reference</h2>
