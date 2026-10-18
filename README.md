@@ -13,7 +13,19 @@ Exam-preparation app for MATH 27 (Analytic and Geometric Calculus II), built fro
 1. Create `src/data/topics/<slug>.ts` exporting a typed `Topic` (see `src/types/curriculum.ts`).
 2. Import it in `src/data/registry.ts` and add it to the `topics` array.
 
-The sidebar, topic pages and the Formula Reference page are generated from the registry.
+The sidebar, topic pages, the Formula Reference page and the quizzes are generated from the registry.
+
+## Quizzes
+
+Each topic has a `quiz` of ten conceptual multiple-choice questions (`QuizQuestion`): an
+`answer`, three `distractors` built on common mistakes, and an `explanation` shown after
+answering. Choices are shuffled on every attempt, so no choice may refer to another.
+
+- Lesson quiz: the Quiz tab of a topic (`#/topic/<slug>/quiz`), its own ten questions.
+- Unit quiz (`#/quiz/unit/<n>`) and course quiz (`#/quiz`): ten questions drawn from the
+  lessons' banks, spread across as many lessons as possible (`src/lib/quiz.ts`).
+
+`npm run check:math` checks that every topic has ten questions with three distinct distractors.
 
 ## Data conventions
 
