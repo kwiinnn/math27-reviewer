@@ -1,23 +1,27 @@
 import { useEffect, useState } from 'react';
 
-export type TopicView = 'notes' | 'formulas' | 'problems';
-/** `short` is the tab label on phones, where the three tabs share the width. */
+export type TopicView = 'notes' | 'formulas' | 'problems' | 'quiz';
+/** `short` is the tab label on phones, where the four tabs share the width. */
 export const TOPIC_VIEWS: { id: TopicView; label: string; short: string }[] = [
   { id: 'notes', label: 'Notes', short: 'Notes' },
   { id: 'formulas', label: 'Formulas', short: 'Formulas' },
   { id: 'problems', label: 'Practice Problems', short: 'Problems' },
+  { id: 'quiz', label: 'Quiz', short: 'Quiz' },
 ];
 
 export type Route =
   | { page: 'topic'; slug: string; view: TopicView }
   | { page: 'formula-reference' }
   | { page: 'about' }
+  /** `unit` is a chapter number; without it the quiz covers the whole course. */
+  | { page: 'quiz'; unit?: string }
   | { page: 'home' };
 
 export function parseHash(hash: string): Route {
   const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean);
   if (parts[0] === 'formulas') return { page: 'formula-reference' };
   if (parts[0] === 'about') return { page: 'about' };
+  if (parts[0] === 'quiz') return parts[1] === 'unit' && parts[2] ? { page: 'quiz', unit: parts[2] } : { page: 'quiz' };
   if (parts[0] === 'topic' && parts[1]) {
     const view = TOPIC_VIEWS.some((v) => v.id === parts[2]) ? (parts[2] as TopicView) : 'notes';
     return { page: 'topic', slug: parts[1], view };
@@ -29,6 +33,7 @@ export const homeHref = '#/';
 export const topicHref = (slug: string, view: TopicView = 'notes') => `#/topic/${slug}/${view}`;
 export const formulaReferenceHref = '#/formulas';
 export const aboutHref = '#/about';
+export const quizHref = (unit?: string) => (unit ? `#/quiz/unit/${unit}` : '#/quiz');
 
 /**
  * Minimal hash router: no server config needed, works from a static file.

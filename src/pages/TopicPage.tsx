@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import type { Difficulty, Topic } from '../types/curriculum';
 import { sortedTopics } from '../data/registry';
+import { drawQuiz } from '../lib/quiz';
 import { topicHref, type TopicView } from '../lib/router';
 import { ExamNoteCard } from '../components/ExamNoteCard';
 import { FormulaCard } from '../components/FormulaCard';
 import { MathText } from '../components/MathRenderer';
+import { ArrowIcon } from '../components/Icons';
 import { ProblemCard } from '../components/ProblemCard';
+import { Quiz } from '../components/Quiz';
 import { WorkedExampleCard } from '../components/WorkedExampleCard';
-import { label, segGroup, segItem } from '../components/ui';
+import { btnPrimary, card, label, segGroup, segItem } from '../components/ui';
 
 const DIFFICULTIES: Difficulty[] = ['Basic', 'Exam-Level', 'Challenge'];
 
@@ -58,6 +61,16 @@ export function TopicPage({ topic, view }: { topic: Topic; view: TopicView }) {
           <div className="grid grid-cols-1 gap-4">
             {topic.workedExamples.map((ex, i) => <WorkedExampleCard key={ex.id} example={ex} index={i} />)}
           </div>
+          <a href={topicHref(topic.slug, 'quiz')}
+            className={`${card} mt-10 flex flex-wrap items-center justify-between gap-4 p-5 transition-colors hover:border-strong sm:p-6`}>
+            <span className="min-w-0">
+              <span className="block text-sm font-semibold">Check your understanding</span>
+              <span className="mt-1 block text-sm leading-relaxed text-ink2">
+                {topic.quiz.length} conceptual questions on this lesson, each explained after you answer.
+              </span>
+            </span>
+            <span className={btnPrimary}>Start the Quiz <ArrowIcon /></span>
+          </a>
         </>
       )}
 
@@ -90,6 +103,13 @@ export function TopicPage({ topic, view }: { topic: Topic; view: TopicView }) {
           <div className="grid grid-cols-1 gap-4">
             {problems.map((p) => <ProblemCard key={p.id} problem={p} />)}
           </div>
+        </>
+      )}
+
+      {view === 'quiz' && (
+        <>
+          <SectionTitle>Quiz</SectionTitle>
+          <Quiz draw={() => drawQuiz([topic])} />
         </>
       )}
 

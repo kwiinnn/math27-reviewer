@@ -18,13 +18,17 @@ interface HeaderProps {
 }
 
 const count = (topic: Topic, view: TopicView) =>
-  view === 'notes' ? topic.examNotes.length : view === 'formulas' ? topic.keyFormulas.length : topic.problems.length;
+  view === 'notes' ? topic.examNotes.length
+  : view === 'formulas' ? topic.keyFormulas.length
+  : view === 'problems' ? topic.problems.length
+  : topic.quiz.length;
 
 export function Header(p: HeaderProps) {
   const { route, topic } = p;
   const here =
     route.page === 'formula-reference' ? 'Formula Reference'
     : route.page === 'about' ? 'About'
+    : route.page === 'quiz' ? (route.unit ? `Unit ${route.unit} Quiz` : 'Course Quiz')
     : route.page === 'home' ? 'Overview'
     : topic ? `${topic.unitNumber} ${topic.title}` : 'Not found';
 

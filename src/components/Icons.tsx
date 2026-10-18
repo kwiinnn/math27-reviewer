@@ -41,3 +41,4 @@ export const MailIcon = () => <Icon><rect x="2" y="3.5" width="12" height="9" rx
 export const HighlighterIcon = () => (
   <Icon><path d="M9.5 3.5l3 3-5.5 5.5H4v-3z" /><path d="M2.5 13.5h4" /></Icon>
 );
+export const CheckIcon = () => <Icon><path d="M3 8.5l3.2 3.2L13 4.8" /></Icon>;
