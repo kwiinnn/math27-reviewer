@@ -19,6 +19,10 @@ import { centroid } from './topics/centroid';
 import { arcLength } from './topics/arc-length';
 import { work } from './topics/work';
 import { surfaceArea } from './topics/surface-area';
+import { lhopitalsRule } from './topics/lhopitals-rule';
+import { otherIndeterminateForms } from './topics/other-indeterminate-forms';
+import { improperIntegrals } from './topics/improper-integrals';
+import { otherImproperIntegrals } from './topics/other-improper-integrals';
 
 /**
  * Central curriculum registry.
@@ -48,12 +52,17 @@ export const topics: Topic[] = [
   arcLength,
   work,
   surfaceArea,
+  lhopitalsRule,
+  otherIndeterminateForms,
+  improperIntegrals,
+  otherImproperIntegrals,
 ];
 
 export const chapters: Chapter[] = [
   { number: '1', title: 'Transcendental Functions' },
   { number: '2', title: 'Techniques of Integration' },
   { number: '3', title: 'Applications of Integration' },
+  { number: '4', title: 'Indeterminate Forms and Improper Integrals' },
 ];
 
 const byUnit = (a: Topic, b: Topic) =>
